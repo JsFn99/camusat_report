@@ -6,7 +6,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomePageState extends State<Home> {
-  final List<String> _elements = ['Apple', 'Banana', 'Cherry', 'Date', 'Elderberry'];
+  final List<String> _elements = ['Apple', 'Banana', 'Cherry', 'Date', 'Elderberry', 'Fig', 'Grape', 'Honeydew', 'Jackfruit', 'Kiwi', 'Lemon', 'Mango', 'Nectarine', 'Orange', 'Papaya', 'Quince', 'Raspberry', 'Strawberry', 'Tangerine', 'Ugli fruit', 'Vanilla bean', 'Watermelon', 'Xigua', 'Yuzu', 'Zucchini'];
   List<String> _filteredElements = [];
 
   @override
