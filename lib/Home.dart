@@ -2,23 +2,31 @@ import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
   @override
-  _HomePageState createState() => _HomePageState();
+  _HomeState createState() => _HomeState();
 }
 
-class _HomePageState extends State<Home> {
-  final List<String> _elements = ['Apple', 'Banana', 'Cherry', 'Date', 'Elderberry', 'Fig', 'Grape', 'Honeydew', 'Jackfruit', 'Kiwi', 'Lemon', 'Mango', 'Nectarine', 'Orange', 'Papaya', 'Quince', 'Raspberry', 'Strawberry', 'Tangerine', 'Ugli fruit', 'Vanilla bean', 'Watermelon', 'Xigua', 'Yuzu', 'Zucchini'];
-  List<String> _filteredElements = [];
+class _HomeState extends State<Home> {
+  List<Map<String, String>> data = [];
+  List<Map<String, String>> filteredData = [];
 
   @override
-  void initState() {
-    super.initState();
-    _filteredElements = _elements;
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Move the logic to didChangeDependencies
+    data = ModalRoute.of(context)!.settings.arguments as List<Map<String, String>>;
+    filteredData = data;
   }
 
-  void _filterElements(String query) {
-    final filtered = _elements.where((element) => element.toLowerCase().contains(query.toLowerCase())).toList();
+  void _filterData(String query) {
     setState(() {
-      _filteredElements = filtered;
+      if (query.isEmpty) {
+        filteredData = data;
+      } else {
+        filteredData = data.where((item) {
+          return item['name']!.toLowerCase().contains(query.toLowerCase()) ||
+              item['id']!.toLowerCase().contains(query.toLowerCase());
+        }).toList();
+      }
     });
   }
 
@@ -34,15 +42,16 @@ class _HomePageState extends State<Home> {
             padding: EdgeInsets.all(16.0),
             child: TextField(
               decoration: InputDecoration(labelText: 'Search'),
-              onChanged: _filterElements,
+              onChanged: _filterData,
             ),
           ),
           Expanded(
             child: ListView.builder(
-              itemCount: _filteredElements.length,
+              itemCount: filteredData.length,
               itemBuilder: (context, index) {
                 return ListTile(
-                  title: Text(_filteredElements[index]),
+                  title: Text(filteredData[index]['name']!),
+                  subtitle: Text('ID: ${filteredData[index]['id']}'),
                 );
               },
             ),
