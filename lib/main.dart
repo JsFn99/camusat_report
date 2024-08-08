@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
           primaryColor: Colors.black
       ),
       routes: {
-        "/home" : (context)=> Home(),
+        "/home" : (context) => Home(),
       },
       home: HomePage(),
     );
@@ -47,7 +47,7 @@ class HomePage extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image(image: AssetImage("images/orange.png"), height: 100, width: 100,),
+                    Image(image: AssetImage("assets/images/orange.png"), height: 100, width: 100,),
                     SizedBox(
                       height: 30,
                     ),
@@ -86,7 +86,7 @@ class HomePage extends StatelessWidget {
                       onPressed: () {
                         String username = loginController.text;
                         String pwd = pwdController.text;
-                        if(username=="admin" && pwd=="1234"){
+                        if (username=="admin" && pwd=="1234"){
                           Navigator.of(context).pop();
                           Navigator.pushNamed(context, "/home");
                         }
@@ -108,4 +108,3 @@ class HomePage extends StatelessWidget {
     );
   }
 }
-
