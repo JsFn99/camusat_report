@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'Excels.dart';
 import 'Home.dart';
 
-void main(){
+void main() {
   runApp(MyApp());
 }
 
@@ -12,12 +12,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(
-          primaryColor: Colors.black
-      ),
+      theme: ThemeData(primaryColor: Colors.black),
       routes: {
-        "/home" : (context)=> Home(),
-        "/Excels" : (context)=> Excels(),
+        "/home": (context) => Home(),
+        "/Excels": (context) => Excels(),
       },
       home: HomePage(),
     );
@@ -34,7 +32,10 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Login Page", style: TextStyle(color: Theme.of(context).indicatorColor),),
+          title: Text(
+            "Login Page",
+            style: TextStyle(color: Theme.of(context).indicatorColor),
+          ),
           backgroundColor: Theme.of(context).primaryColor,
         ),
         body: Center(
@@ -49,7 +50,11 @@ class HomePage extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image(image: AssetImage("images/orange.png"), height: 100, width: 100,),
+                    Image(
+                      image: AssetImage("assets/images/orange.png"),
+                      height: 100,
+                      width: 100,
+                    ),
                     SizedBox(
                       height: 30,
                     ),
@@ -58,12 +63,9 @@ class HomePage extends StatelessWidget {
                       decoration: InputDecoration(
                           suffixIcon: const Icon(Icons.mail),
                           border: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                                width: 1
-                            ),
+                            borderSide: const BorderSide(width: 1),
                             borderRadius: BorderRadius.circular(10),
-                          )
-                      ),
+                          )),
                     ),
                     SizedBox(
                       height: 30,
@@ -74,12 +76,9 @@ class HomePage extends StatelessWidget {
                       decoration: InputDecoration(
                           suffixIcon: const Icon(Icons.lock),
                           border: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                                width: 1
-                            ),
+                            borderSide: const BorderSide(width: 1),
                             borderRadius: BorderRadius.circular(10),
-                          )
-                      ),
+                          )),
                     ),
                     SizedBox(
                       height: 30,
@@ -88,15 +87,17 @@ class HomePage extends StatelessWidget {
                       onPressed: () {
                         String username = loginController.text;
                         String pwd = pwdController.text;
-                        if (username=="admin" && pwd=="1234"){
+                        if (username == "admin" && pwd == "1234") {
                           Navigator.of(context).pop();
                           Navigator.pushNamed(context, "/Excels");
                         }
                       },
-                      child: Text("Log In", style: TextStyle(
-                          fontSize: 20,
-                          color: Theme.of(context).indicatorColor
-                      ),),
+                      child: Text(
+                        "Log In",
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: Theme.of(context).indicatorColor),
+                      ),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Theme.of(context).primaryColor,
                       ),
@@ -106,8 +107,6 @@ class HomePage extends StatelessWidget {
               ),
             ),
           ),
-        )
-    );
+        ));
   }
 }
-
