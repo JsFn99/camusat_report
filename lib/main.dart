@@ -51,7 +51,7 @@ class HomePage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image(
-                      image: AssetImage("assets/images/orange.png"),
+                      image: AssetImage("images/orange.png"),
                       height: 100,
                       width: 100,
                     ),
