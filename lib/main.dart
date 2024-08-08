@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'Excels.dart';
 import 'Home.dart';
 
 void main(){
@@ -16,6 +17,7 @@ class MyApp extends StatelessWidget {
       ),
       routes: {
         "/home" : (context)=> Home(),
+        "/Excels" : (context)=> Excels(),
       },
       home: HomePage(),
     );
@@ -86,9 +88,9 @@ class HomePage extends StatelessWidget {
                       onPressed: () {
                         String username = loginController.text;
                         String pwd = pwdController.text;
-                        if(username=="admin" && pwd=="1234"){
+                        if (username=="admin" && pwd=="1234"){
                           Navigator.of(context).pop();
-                          Navigator.pushNamed(context, "/home");
+                          Navigator.pushNamed(context, "/Excels");
                         }
                       },
                       child: Text("Log In", style: TextStyle(
