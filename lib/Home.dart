@@ -12,7 +12,6 @@ class _HomeState extends State<Home> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // Move the logic to didChangeDependencies
     data = ModalRoute.of(context)!.settings.arguments as List<Map<String, String>>;
     filteredData = data;
   }
@@ -34,14 +33,15 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home'),
+        title: Text('Immeubles', style: TextStyle(color: Theme.of(context).indicatorColor)),
+        backgroundColor: Theme.of(context).primaryColor,
       ),
       body: Column(
         children: [
           Padding(
             padding: EdgeInsets.all(16.0),
             child: TextField(
-              decoration: InputDecoration(labelText: 'Search'),
+              decoration: InputDecoration(labelText: 'Rechercher'),
               onChanged: _filterData,
             ),
           ),
@@ -52,6 +52,13 @@ class _HomeState extends State<Home> {
                 return ListTile(
                   title: Text(filteredData[index]['name']!),
                   subtitle: Text('ID: ${filteredData[index]['id']}'),
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      '/building',
+                      arguments: filteredData[index],
+                    );
+                  },
                 );
               },
             ),

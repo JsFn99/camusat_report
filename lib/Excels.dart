@@ -23,6 +23,10 @@ class Excels extends StatelessWidget {
         parsedData.add({
           'name': row[5]?.value?.toString() ?? 'Unknown',
           'id': row[11]?.value?.toString() ?? 'Unknown',
+          'nomPlaque': row[9]?.value?.toString() ?? 'Unknown',
+          'adresse': "${row[2]?.value?.toString() ?? ''} ${row[5]?.value?.toString() ?? ''}",
+          'lat': row[6]?.value?.toString() ?? 'Unknown',
+          'long': row[7]?.value?.toString() ?? 'Unknown',
         });
       }
     }

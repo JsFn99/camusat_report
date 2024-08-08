@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'Building.dart';
 import 'Excels.dart';
 import 'Home.dart';
 
@@ -16,6 +17,7 @@ class MyApp extends StatelessWidget {
       routes: {
         "/home": (context) => Home(),
         "/Excels": (context) => Excels(),
+        "/building": (context) => Building(),
       },
       home: HomePage(),
     );
@@ -51,7 +53,7 @@ class HomePage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image(
-                      image: AssetImage("images/orange.png"),
+                      image: AssetImage("images/camusat.png"),
                       height: 100,
                       width: 100,
                     ),
