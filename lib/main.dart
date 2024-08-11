@@ -42,7 +42,7 @@ class HomePage extends StatelessWidget {
             "Login Page",
             style: TextStyle(color: Theme.of(context).indicatorColor),
           ),
-          backgroundColor: Theme.of(context).primaryColor,
+          backgroundColor: Colors.orange[800]
         ),
         body: Center(
           child: Container(

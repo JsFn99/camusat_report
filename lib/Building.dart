@@ -22,7 +22,7 @@ class _BuildingState extends State<Building> {
           'Details de l immeuble',
           style: TextStyle(color: Theme.of(context).indicatorColor),
         ),
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: Colors.orange[800],
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),

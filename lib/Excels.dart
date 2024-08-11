@@ -42,7 +42,7 @@ class Excels extends StatelessWidget {
           "Regions",
           style: TextStyle(color: Theme.of(context).indicatorColor),
         ),
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: Colors.orange[800],
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
@@ -65,7 +65,10 @@ class Excels extends StatelessWidget {
               },
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.orange,
+                  image: DecorationImage(
+                    image: AssetImage('images/excel.png'),
+                    fit: BoxFit.cover,
+                  ),
                   borderRadius: BorderRadius.circular(8.0),
                 ),
                 child: Center(

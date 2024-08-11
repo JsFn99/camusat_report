@@ -9,7 +9,7 @@ class LoadImages extends StatelessWidget {
           'Ajouter des Photos',
           style: TextStyle(color: Theme.of(context).indicatorColor),
         ),
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: Colors.orange[800],
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
