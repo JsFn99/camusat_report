@@ -18,7 +18,11 @@ class _BuildingState extends State<Building> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Details de l immeuble'),
+        title: Text(
+          'Details de l immeuble',
+          style: TextStyle(color: Theme.of(context).indicatorColor),
+        ),
+        backgroundColor: Theme.of(context).primaryColor,
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
@@ -33,29 +37,29 @@ class _BuildingState extends State<Building> {
             SizedBox(height: 8.0),
             Text('Adresse: ${buildingData['adresse']}'),
             SizedBox(height: 8.0),
-            Text('Coordonnées: ${buildingData['lat']}, ${buildingData['long']}'),
+            Text('Coordonnées: ${buildingData['lat']} , ${buildingData['long']}'),
             SizedBox(height: 16.0),
             ElevatedButton.icon(
               onPressed: () {
-                // Add photos functionality
+                Navigator.pushNamed(context, '/loadImages');
               },
-              icon: Icon(Icons.add_a_photo), // Icon for adding photos
+              icon: Icon(Icons.add_a_photo),
               label: Text('Ajouter Photos'),
             ),
-            SizedBox(height: 10), // Add some space between buttons
+            SizedBox(height: 10),
             ElevatedButton.icon(
               onPressed: () {
                 // Open map functionality
               },
-              icon: Icon(Icons.map), // Icon for opening the map
+              icon: Icon(Icons.map),
               label: Text('Ouvrir Plan'),
             ),
-            SizedBox(height: 10), // Add some space between buttons
+            SizedBox(height: 10),
             ElevatedButton.icon(
               onPressed: () {
-                // Make schema functionality
+                Navigator.pushNamed(context, '/generateSchema');
               },
-              icon: Icon(Icons.view_agenda), // Icon for making schema
+              icon: Icon(Icons.view_agenda),
               label: Text('Generer Schema'),
             ),
             Row(
@@ -63,7 +67,7 @@ class _BuildingState extends State<Building> {
               children: [
                 Text('PBO:'),
                 Switch(
-                  value: false, // Update with the actual state
+                  value: false,
                   onChanged: (value) {
                     setState(() {
                       // Toggle functionality
@@ -99,6 +103,7 @@ class _BuildingState extends State<Building> {
                 ),
                 ElevatedButton.icon(
                   onPressed: () {
+                    // Load from gallery functionality
                   },
                   icon: Icon(Icons.photo_library),
                   label: Text('Charger Image'),

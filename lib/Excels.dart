@@ -38,7 +38,11 @@ class Excels extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Regions'),
+        title: Text(
+          "Regions",
+          style: TextStyle(color: Theme.of(context).indicatorColor),
+        ),
+        backgroundColor: Theme.of(context).primaryColor,
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
@@ -61,7 +65,7 @@ class Excels extends StatelessWidget {
               },
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.blueAccent,
+                  color: Colors.orange,
                   borderRadius: BorderRadius.circular(8.0),
                 ),
                 child: Center(

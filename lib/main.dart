@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'Building.dart';
 import 'Excels.dart';
 import 'Home.dart';
+import 'LoadImages.dart';
+import 'generateSchema.dart';
 
 void main() {
   runApp(MyApp());
@@ -18,6 +20,8 @@ class MyApp extends StatelessWidget {
         "/home": (context) => Home(),
         "/Excels": (context) => Excels(),
         "/building": (context) => Building(),
+        "/loadImages": (context) => LoadImages(),
+        "/generateSchema": (context) => GenerateSchema(),
       },
       home: HomePage(),
     );
