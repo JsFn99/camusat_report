@@ -55,7 +55,7 @@ class _GenerateSchemaState extends State<GenerateSchema> {
             SizedBox(height: 16.0),
 
             // PBI Location (Multiple selection)
-            Text('PBI Location:'),
+            Text('PBO Location:'),
             Wrap(
               children: pbiOptions.map((option) {
                 bool isSelected = pbiLocations.contains(option);
@@ -77,7 +77,7 @@ class _GenerateSchemaState extends State<GenerateSchema> {
             SizedBox(height: 16.0),
 
             // PBO Location (Single selection)
-            Text('PBO Location:'),
+            Text('PBI Location:'),
             DropdownButton<String>(
               hint: Text('Select PBO Location'),
               value: selectedPboLocation,

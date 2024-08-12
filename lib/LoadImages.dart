@@ -1,6 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
-class LoadImages extends StatelessWidget {
+class LoadImages extends StatefulWidget {
+  @override
+  _LoadImagesState createState() => _LoadImagesState();
+}
+
+class _LoadImagesState extends State<LoadImages> {
+  File? _buildingImage;
+  File? _verticalityImage;
+  File? _signalTestImage;
+
+  Future<void> _pickImage(ImageSource source, String section) async {
+    final ImagePicker _picker = ImagePicker();
+    final XFile? image = await _picker.pickImage(source: source);
+
+    if (image != null) {
+      setState(() {
+        switch (section) {
+          case 'building':
+            _buildingImage = File(image.path);
+            break;
+          case 'verticality':
+            _verticalityImage = File(image.path);
+            break;
+          case 'signal':
+            _signalTestImage = File(image.path);
+            break;
+        }
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,23 +57,28 @@ class LoadImages extends StatelessWidget {
               children: [
                 ElevatedButton.icon(
                   onPressed: () {
-                    // Take photo of the building functionality
+                    _pickImage(ImageSource.camera, 'building');
                   },
                   icon: Icon(Icons.camera_alt),
                   label: Text('Prendre Photo'),
                 ),
                 ElevatedButton.icon(
                   onPressed: () {
-                    // Load building photo from gallery functionality
+                    _pickImage(ImageSource.gallery, 'building');
                   },
                   icon: Icon(Icons.photo_library),
                   label: Text('Charger Image'),
                 ),
               ],
             ),
+            if (_buildingImage != null)
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                child: Image.file(_buildingImage!),
+              ),
             SizedBox(height: 16.0),
             Text(
-              'Verticalite',
+              'Verticalité PBI',
               style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 8.0),
@@ -50,20 +87,25 @@ class LoadImages extends StatelessWidget {
               children: [
                 ElevatedButton.icon(
                   onPressed: () {
-                    // Take verticality photo functionality
+                    _pickImage(ImageSource.camera, 'verticality');
                   },
                   icon: Icon(Icons.camera_alt),
                   label: Text('Prendre Photo'),
                 ),
                 ElevatedButton.icon(
                   onPressed: () {
-                    // Load verticality photo from gallery functionality
+                    _pickImage(ImageSource.gallery, 'verticality');
                   },
                   icon: Icon(Icons.photo_library),
                   label: Text('Charger Image'),
                 ),
               ],
             ),
+            if (_verticalityImage != null)
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                child: Image.file(_verticalityImage!),
+              ),
             SizedBox(height: 16.0),
             Text(
               'Test de signal',
@@ -75,20 +117,25 @@ class LoadImages extends StatelessWidget {
               children: [
                 ElevatedButton.icon(
                   onPressed: () {
-                    // Take signal test photo functionality
+                    _pickImage(ImageSource.camera, 'signal');
                   },
                   icon: Icon(Icons.camera_alt),
                   label: Text('Prendre Photo'),
                 ),
                 ElevatedButton.icon(
                   onPressed: () {
-                    // Load signal test photo from gallery functionality
+                    _pickImage(ImageSource.gallery, 'signal');
                   },
                   icon: Icon(Icons.photo_library),
                   label: Text('Charger Image'),
                 ),
               ],
             ),
+            if (_signalTestImage != null)
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                child: Image.file(_signalTestImage!),
+              ),
             SizedBox(height: 32.0),
             ElevatedButton(
               onPressed: () {
