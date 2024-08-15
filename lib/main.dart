@@ -99,7 +99,7 @@ class HomePage extends StatelessWidget {
                         }
                       },
                       child: Text(
-                        "Log In",
+                        "Connexion",
                         style: TextStyle(
                             fontSize: 20,
                             color: Theme.of(context).indicatorColor),

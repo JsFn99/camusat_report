@@ -7,6 +7,7 @@ class Building extends StatefulWidget {
 
 class _BuildingState extends State<Building> {
   late Map<String, String> buildingData;
+  bool isPBOToggled = false; // State variable to track the toggle switch
 
   @override
   void didChangeDependencies() {
@@ -67,49 +68,54 @@ class _BuildingState extends State<Building> {
               children: [
                 Text('PBO:'),
                 Switch(
-                  value: false,
+                  value: isPBOToggled,
                   onChanged: (value) {
                     setState(() {
-                      // Toggle functionality
+                      isPBOToggled = value;
                     });
                   },
                 ),
               ],
             ),
-            DropdownButton<String>(
-              value: 'RDC',
-              items: ['RDC', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
-                  .map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-              onChanged: (String? newValue) {
-                setState(() {
-                  // Handle floor selection
-                });
-              },
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                ElevatedButton.icon(
-                  onPressed: () {
-                    // Take picture functionality
-                  },
-                  icon: Icon(Icons.camera_alt),
-                  label: Text('Prendre Photo'),
-                ),
-                ElevatedButton.icon(
-                  onPressed: () {
-                    // Load from gallery functionality
-                  },
-                  icon: Icon(Icons.photo_library),
-                  label: Text('Charger Image'),
-                ),
-              ],
-            ),
+            // Conditionally show the DropdownButton and camera/gallery buttons
+            if (isPBOToggled) ...[
+              DropdownButton<String>(
+                value: 'RDC',
+                items: ['RDC', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
+                    .map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    // Handle floor selection
+                  });
+                },
+              ),
+              SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      // Take picture functionality
+                    },
+                    icon: Icon(Icons.camera_alt),
+                    label: Text('Prendre Photo'),
+                  ),
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      // Load from gallery functionality
+                    },
+                    icon: Icon(Icons.photo_library),
+                    label: Text('Charger Image'),
+                  ),
+                ],
+              ),
+            ],
+            SizedBox(height: 10),
             TextField(
               decoration: InputDecoration(labelText: 'Splitere'),
               keyboardType: TextInputType.number,
