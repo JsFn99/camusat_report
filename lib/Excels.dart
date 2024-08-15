@@ -21,20 +21,20 @@ class _ExcelsState extends State<Excels> {
   Future<void> _showDeleteConfirmationDialog(String filePath, int index) async {
     return showDialog<void>(
       context: context,
-      barrierDismissible: false, // User must tap button to dismiss
+      barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Confirmation'),
           content: Text('Voulez vous vraiment supprimer ce fichier?'),
           actions: <Widget>[
             TextButton(
-              child: Text('No'),
+              child: Text('Non'),
               onPressed: () {
                 Navigator.of(context).pop(); // Dismiss dialog
               },
             ),
             TextButton(
-              child: Text('Yes'),
+              child: Text('Oui'),
               onPressed: () async {
                 await _dataProvider.deleteFile(filePath);
                 setState(() {
