@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 class Building extends StatefulWidget {
   @override
@@ -8,11 +10,28 @@ class Building extends StatefulWidget {
 class _BuildingState extends State<Building> {
   late Map<String, String> buildingData;
   bool isPBOToggled = false; // State variable to track the toggle switch
+  File? _takenImage;
+  File? _loadedImage;
+
+  final ImagePicker _picker = ImagePicker();
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     buildingData = ModalRoute.of(context)!.settings.arguments as Map<String, String>;
+  }
+
+  Future<void> _pickImage(ImageSource source, bool isForTakenImage) async {
+    final XFile? image = await _picker.pickImage(source: source);
+    if (image != null) {
+      setState(() {
+        if (isForTakenImage) {
+          _takenImage = File(image.path);
+        } else {
+          _loadedImage = File(image.path);
+        }
+      });
+    }
   }
 
   @override
@@ -100,20 +119,42 @@ class _BuildingState extends State<Building> {
                 children: [
                   ElevatedButton.icon(
                     onPressed: () {
-                      // Take picture functionality
+                      _pickImage(ImageSource.camera, true);
                     },
                     icon: Icon(Icons.camera_alt),
                     label: Text('Prendre Photo'),
                   ),
                   ElevatedButton.icon(
                     onPressed: () {
-                      // Load from gallery functionality
+                      _pickImage(ImageSource.gallery, false);
                     },
                     icon: Icon(Icons.photo_library),
                     label: Text('Charger Image'),
                   ),
                 ],
               ),
+              if (_takenImage != null)
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Taken Photo:'),
+                      Image.file(_takenImage!),
+                    ],
+                  ),
+                ),
+              if (_loadedImage != null)
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Loaded Image:'),
+                      Image.file(_loadedImage!),
+                    ],
+                  ),
+                ),
             ],
             SizedBox(height: 10),
             TextField(
