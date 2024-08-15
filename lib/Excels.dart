@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'DataProviderImpl.dart';
 import 'IDataProvider.dart';
 
@@ -11,12 +12,26 @@ class Excels extends StatefulWidget {
 }
 
 class _ExcelsState extends State<Excels> {
-  List<String> regions = [
-    // Initialize with your existing files
-    'Data/01.1.21-Casa - Bourgogne Ouest A5 - Fiabilisation2.xlsx',
-  ];
-
+  List<String> regions = [];
   final IDataProvider _dataProvider = DataProviderImpl();
+
+  @override
+  void initState() {
+    super.initState();
+    _loadFilePaths();
+  }
+
+  Future<void> _loadFilePaths() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      regions = prefs.getStringList('filePaths') ?? [];
+    });
+  }
+
+  Future<void> _saveFilePaths() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setStringList('filePaths', regions);
+  }
 
   Future<void> _showDeleteConfirmationDialog(String filePath, int index) async {
     return showDialog<void>(
@@ -25,22 +40,26 @@ class _ExcelsState extends State<Excels> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Confirmation'),
-          content: Text('Voulez vous vraiment supprimer ce fichier?'),
+          content: Text('Etes vous sur de vouloir supprimer le fichier?'),
           actions: <Widget>[
             TextButton(
               child: Text('Non'),
               onPressed: () {
-                Navigator.of(context).pop(); // Dismiss dialog
+                Navigator.of(context).pop();
               },
             ),
             TextButton(
               child: Text('Oui'),
               onPressed: () async {
-                await _dataProvider.deleteFile(filePath);
+                final file = File(filePath);
+                if (await file.exists()) {
+                  await file.delete();
+                }
                 setState(() {
                   regions.removeAt(index);
                 });
-                Navigator.of(context).pop(); // Dismiss dialog
+                await _saveFilePaths();
+                Navigator.of(context).pop();
               },
             ),
           ],
@@ -131,6 +150,7 @@ class _ExcelsState extends State<Excels> {
             setState(() {
               regions.add(newFilePath);
             });
+            await _saveFilePaths(); // Save updated list
           }
         },
         child: Icon(Icons.add),
