@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+import 'package:url_launcher/url_launcher.dart';
 
 class Building extends StatefulWidget {
   @override
@@ -9,7 +10,7 @@ class Building extends StatefulWidget {
 
 class _BuildingState extends State<Building> {
   late Map<String, String> buildingData;
-  bool isPBOToggled = false; // State variable to track the toggle switch
+  bool isPBOToggled = false;
   File? _takenImage;
   File? _loadedImage;
 
@@ -31,6 +32,47 @@ class _BuildingState extends State<Building> {
           _loadedImage = File(image.path);
         }
       });
+    }
+  }
+
+  Future<void> _openMap() async {
+    final latitude = buildingData['lat']!;
+    final longitude = buildingData['long']!;
+
+    final Map<String, String> mapUrls = {
+      'Google Maps': 'comgooglemaps://?q=$longitude,$latitude',
+      'Maps': 'maps://?q=$longitude,$latitude',
+      'Waze': 'waze://?ll=$longitude,$latitude&navigate=yes',
+      'Google Earth': 'googleearth://?ll=$longitude,$latitude',
+    };
+
+    final choice = await showDialog<String>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Open Map With'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: mapUrls.keys.map((app) {
+              return ListTile(
+                title: Text(app),
+                onTap: () {
+                  Navigator.of(context).pop(mapUrls[app]);
+                },
+              );
+            }).toList(),
+          ),
+        );
+      },
+    );
+
+    if (choice != null) {
+      if (await canLaunch(choice)) {
+        await launch(choice);
+      } else {
+        final webUrl = 'https://www.google.com/maps/search/?api=1&query=$longitude,$latitude';
+        await launch(webUrl);
+      }
     }
   }
 
@@ -68,9 +110,7 @@ class _BuildingState extends State<Building> {
             ),
             SizedBox(height: 10),
             ElevatedButton.icon(
-              onPressed: () {
-                // Open map functionality
-              },
+              onPressed: _openMap,
               icon: Icon(Icons.map),
               label: Text('Ouvrir Plan'),
             ),
@@ -96,7 +136,6 @@ class _BuildingState extends State<Building> {
                 ),
               ],
             ),
-            // Conditionally show the DropdownButton and camera/gallery buttons
             if (isPBOToggled) ...[
               DropdownButton<String>(
                 value: 'RDC',
