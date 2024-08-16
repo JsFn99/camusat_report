@@ -24,8 +24,8 @@ class DataProviderImpl implements IDataProvider {
             'nomPlaque': row[9]?.value?.toString() ?? 'Unknown',
             'adresse':
             "${row[2]?.value?.toString() ?? ''} ${row[5]?.value?.toString() ?? ''}",
-            'lat': row[6]?.value?.toString() ?? 'Unknown',
-            'long': row[7]?.value?.toString() ?? 'Unknown',
+            'lat': row[7]?.value?.toString() ?? 'Unknown',
+            'long': row[6]?.value?.toString() ?? 'Unknown',
           });
         }
       }

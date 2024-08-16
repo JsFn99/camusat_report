@@ -40,10 +40,10 @@ class _BuildingState extends State<Building> {
     final longitude = buildingData['long']!;
 
     final Map<String, String> mapUrls = {
-      'Google Maps': 'comgooglemaps://?q=$longitude,$latitude',
-      'Maps': 'maps://?q=$longitude,$latitude',
-      'Waze': 'waze://?ll=$longitude,$latitude&navigate=yes',
-      'Google Earth': 'googleearth://?ll=$longitude,$latitude',
+      'Google Maps': 'comgooglemaps://?q=$latitude,$longitude',
+      'Maps': 'maps://?q=$latitude,$longitude',
+      'Waze': 'waze://?ll=$latitude,$longitude&navigate=yes',
+      'Google Earth': 'googleearth://?ll=$latitude,$longitude',
     };
 
     final choice = await showDialog<String>(
@@ -70,7 +70,7 @@ class _BuildingState extends State<Building> {
       if (await canLaunch(choice)) {
         await launch(choice);
       } else {
-        final webUrl = 'https://www.google.com/maps/search/?api=1&query=$longitude,$latitude';
+        final webUrl = 'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
         await launch(webUrl);
       }
     }
