@@ -41,9 +41,8 @@ class _BuildingState extends State<Building> {
 
     final Map<String, String> mapUrls = {
       'Google Maps': 'comgooglemaps://?q=$latitude,$longitude',
-      'Maps': 'maps://?q=$latitude,$longitude',
-      'Waze': 'waze://?ll=$latitude,$longitude&navigate=yes',
       'Google Earth': 'googleearth://?ll=$latitude,$longitude',
+      'Maps': 'maps://?q=$latitude,$longitude',
     };
 
     final choice = await showDialog<String>(
@@ -111,15 +110,23 @@ class _BuildingState extends State<Building> {
             SizedBox(height: 10),
             ElevatedButton.icon(
               onPressed: _openMap,
-              icon: Icon(Icons.map),
+              icon: Icon(Icons.location_on),
               label: Text('Ouvrir Plan'),
+            ),
+            SizedBox(height: 10),
+            ElevatedButton.icon(
+              onPressed: () {
+                _pickImage(ImageSource.gallery, false);
+              },
+              icon: Icon(Icons.photo_library),
+              label: Text('Charger Image plan'),
             ),
             SizedBox(height: 10),
             ElevatedButton.icon(
               onPressed: () {
                 Navigator.pushNamed(context, '/generateSchema');
               },
-              icon: Icon(Icons.view_agenda),
+              icon: Icon(Icons.draw),
               label: Text('Generer Schema'),
             ),
             Row(
