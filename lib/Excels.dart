@@ -5,6 +5,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'DataProviderImpl.dart';
 import 'IDataProvider.dart';
+import 'BottomNavBar.dart';
 
 class Excels extends StatefulWidget {
   @override
@@ -14,6 +15,7 @@ class Excels extends StatefulWidget {
 class _ExcelsState extends State<Excels> {
   List<String> regions = [];
   final IDataProvider _dataProvider = DataProviderImpl();
+  int _selectedIndex = 0;
 
   @override
   void initState() {
@@ -66,6 +68,17 @@ class _ExcelsState extends State<Excels> {
         );
       },
     );
+  }
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+    if (index == 0) {
+      Navigator.pushReplacementNamed(context, '/Excels');
+    } else if (index == 1) {
+      Navigator.pushReplacementNamed(context, '/Reports');
+    }
   }
 
   @override
@@ -155,6 +168,10 @@ class _ExcelsState extends State<Excels> {
         },
         child: Icon(Icons.add),
         backgroundColor: Colors.blue,
+      ),
+      bottomNavigationBar: BottomNavBar(
+        selectedIndex: _selectedIndex,
+        onTap: _onItemTapped,
       ),
     );
   }

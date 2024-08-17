@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:url_launcher/url_launcher.dart';
+import '../models/building_report.dart';
 
 class Building extends StatefulWidget {
   @override
@@ -9,7 +10,7 @@ class Building extends StatefulWidget {
 }
 
 class _BuildingState extends State<Building> {
-  late Map<String, String> buildingData;
+  late BuildingReport buildingReport;
   bool isPBOToggled = false;
   File? _takenImage;
   File? _loadedImage;
@@ -19,7 +20,12 @@ class _BuildingState extends State<Building> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    buildingData = ModalRoute.of(context)!.settings.arguments as Map<String, String>;
+    final buildingData = ModalRoute.of(context)!.settings.arguments as Map<String, String>;
+    buildingReport = BuildingReport(
+      nomPlaque: buildingData['nomPlaque']!,
+      adresse: buildingData['adresse']!,
+      coordonnees: '${buildingData['lat']}, ${buildingData['long']}', imageImmeuble: null, screenSituationGeographique: null, schema: null, imagePBI: null, imagesPBO: [], imageTestDeSignal: null, splitere: null,
+    );
   }
 
   Future<void> _pickImage(ImageSource source, bool isForTakenImage) async {
@@ -28,6 +34,7 @@ class _BuildingState extends State<Building> {
       setState(() {
         if (isForTakenImage) {
           _takenImage = File(image.path);
+          buildingReport.imageImmeuble = _takenImage!;
         } else {
           _loadedImage = File(image.path);
         }
@@ -36,10 +43,10 @@ class _BuildingState extends State<Building> {
   }
 
   Future<void> _openMap() async {
-    final latitude = buildingData['lat']!;
-    final longitude = buildingData['long']!;
+    final latitude = buildingReport.coordonnees.split(', ')[0];
+    final longitude = buildingReport.coordonnees.split(', ')[1];
 
-    final Map<String, String> mapUrls = {
+    final mapUrls = {
       'Google Maps': 'comgooglemaps://?q=$latitude,$longitude',
       'Google Earth': 'googleearth://?ll=$latitude,$longitude',
       'Maps': 'maps://?q=$latitude,$longitude',
@@ -80,7 +87,7 @@ class _BuildingState extends State<Building> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Details de l immeuble',
+          'Details de l\'immeuble',
           style: TextStyle(color: Theme.of(context).indicatorColor),
         ),
         backgroundColor: Colors.orange[800],
@@ -90,15 +97,15 @@ class _BuildingState extends State<Building> {
         child: ListView(
           children: [
             Text(
-              'Immeuble: ${buildingData['name']}',
+              'Immeuble: ${buildingReport.nomPlaque}',
               style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 8.0),
-            Text('Nom de Plaque: ${buildingData['nomPlaque']}'),
+            Text('Nom de Plaque: ${buildingReport.nomPlaque}'),
             SizedBox(height: 8.0),
-            Text('Adresse: ${buildingData['adresse']}'),
+            Text('Adresse: ${buildingReport.adresse}'),
             SizedBox(height: 8.0),
-            Text('Coordonnées: ${buildingData['lat']} , ${buildingData['long']}'),
+            Text('Coordonnées: ${buildingReport.coordonnees}'),
             SizedBox(height: 16.0),
             ElevatedButton.icon(
               onPressed: () {
@@ -207,13 +214,15 @@ class _BuildingState extends State<Building> {
               decoration: InputDecoration(labelText: 'Splitere'),
               keyboardType: TextInputType.number,
               onChanged: (value) {
-                // Handle splitter input
+                setState(() {
+                  buildingReport.splitere = int.parse(value);
+                });
               },
             ),
             SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: () {
-                // Validate functionality
+                // Validate and save the report
               },
               child: Text('Validate'),
             ),
@@ -223,3 +232,4 @@ class _BuildingState extends State<Building> {
     );
   }
 }
+

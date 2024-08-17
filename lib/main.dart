@@ -3,6 +3,7 @@ import 'Building.dart';
 import 'Excels.dart';
 import 'Home.dart';
 import 'LoadImages.dart';
+import 'Reports.dart';
 import 'generateSchema.dart';
 
 void main() {
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
         "/building": (context) => Building(),
         "/loadImages": (context) => LoadImages(),
         "/generateSchema": (context) => GenerateSchema(),
+        "/Reports": (context) => Reports(),
       },
       home: HomePage(),
     );
