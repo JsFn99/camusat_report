@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'BottomNavBar.dart';
+import '../widgets/BottomNavBar.dart';
 
 class Reports extends StatefulWidget {
   @override

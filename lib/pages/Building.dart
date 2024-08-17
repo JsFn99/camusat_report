@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:url_launcher/url_launcher.dart';
-import '../models/building_report.dart';
+import '../../models/building_report.dart';
 
 class Building extends StatefulWidget {
   @override

@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'DataProviderImpl.dart';
-import 'IDataProvider.dart';
-import 'BottomNavBar.dart';
+import '../data/DataProviderImpl.dart';
+import '../data/IDataProvider.dart';
+import '../widgets/BottomNavBar.dart';
 
 class Excels extends StatefulWidget {
   @override

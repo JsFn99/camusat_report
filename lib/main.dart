@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'Building.dart';
-import 'Excels.dart';
-import 'Home.dart';
-import 'LoadImages.dart';
-import 'Reports.dart';
-import 'generateSchema.dart';
+import 'pages/Building.dart';
+import 'pages/Excels.dart';
+import 'pages/Home.dart';
+import 'pages/LoadImages.dart';
+import 'pages/Reports.dart';
+import 'pages/generateSchema.dart';
 
 void main() {
   runApp(MyApp());
