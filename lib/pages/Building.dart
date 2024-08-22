@@ -116,6 +116,7 @@ class _BuildingState extends State<Building> {
               icon: Icon(Icons.add_a_photo),
               label: Text('Ajouter Photos'),
             ),
+            Center(child: buildingReport.imageImmeuble != null ? Image.file(buildingReport.imageImmeuble!) : const Text("")),
             SizedBox(height: 10),
             ElevatedButton.icon(
               onPressed: _openMap,
