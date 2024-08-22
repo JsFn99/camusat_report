@@ -106,7 +106,7 @@ class _ExcelsState extends State<Excels> {
                 GestureDetector(
                   onTap: () async {
                     List<Map<String, String>> data =
-                    await _dataProvider.loadExcel(regions[index]);
+                        await _dataProvider.loadExcel(regions[index]);
                     Navigator.pushNamed(
                       context,
                       '/home',

@@ -10,7 +10,7 @@ class Building extends StatefulWidget {
 }
 
 class _BuildingState extends State<Building> {
-  late BuildingReport buildingReport;
+  BuildingReport buildingReport = BuildingReport();
   bool isPBOToggled = false;
   File? _takenImage;
   File? _loadedImage;
@@ -20,12 +20,12 @@ class _BuildingState extends State<Building> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final buildingData = ModalRoute.of(context)!.settings.arguments as Map<String, String>;
-    buildingReport = BuildingReport(
-      nomPlaque: buildingData['nomPlaque']!,
-      adresse: buildingData['adresse']!,
-      coordonnees: '${buildingData['lat']}, ${buildingData['long']}', imageImmeuble: null, screenSituationGeographique: null, schema: null, imagePBI: null, imagesPBO: [], imageTestDeSignal: null, splitere: null,
-    );
+    final buildingData =
+        ModalRoute.of(context)!.settings.arguments as Map<String, String>;
+    buildingReport.coordonnees =
+        '${buildingData['lat']}, ${buildingData['long']}';
+    buildingReport.nomPlaque = buildingData['nomPlaque']!;
+    buildingReport.adresse = buildingData['adresse']!;
   }
 
   Future<void> _pickImage(ImageSource source, bool isForTakenImage) async {
@@ -43,8 +43,8 @@ class _BuildingState extends State<Building> {
   }
 
   Future<void> _openMap() async {
-    final latitude = buildingReport.coordonnees.split(', ')[0];
-    final longitude = buildingReport.coordonnees.split(', ')[1];
+    final latitude = buildingReport.coordonnees!.split(', ')[0];
+    final longitude = buildingReport.coordonnees!.split(', ')[1];
 
     final mapUrls = {
       'Google Maps': 'comgooglemaps://?q=$latitude,$longitude',
@@ -76,7 +76,8 @@ class _BuildingState extends State<Building> {
       if (await canLaunch(choice)) {
         await launch(choice);
       } else {
-        final webUrl = 'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
+        final webUrl =
+            'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
         await launch(webUrl);
       }
     }
@@ -109,7 +110,8 @@ class _BuildingState extends State<Building> {
             SizedBox(height: 16.0),
             ElevatedButton.icon(
               onPressed: () {
-                Navigator.pushNamed(context, '/loadImages');
+                Navigator.pushNamed(context, '/loadImages',
+                    arguments: buildingReport);
               },
               icon: Icon(Icons.add_a_photo),
               label: Text('Ajouter Photos'),
@@ -153,8 +155,19 @@ class _BuildingState extends State<Building> {
             if (isPBOToggled) ...[
               DropdownButton<String>(
                 value: 'RDC',
-                items: ['RDC', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
-                    .map<DropdownMenuItem<String>>((String value) {
+                items: [
+                  'RDC',
+                  '1',
+                  '2',
+                  '3',
+                  '4',
+                  '5',
+                  '6',
+                  '7',
+                  '8',
+                  '9',
+                  '10'
+                ].map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
                     child: Text(value),
@@ -232,4 +245,3 @@ class _BuildingState extends State<Building> {
     );
   }
 }
-

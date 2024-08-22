@@ -1,3 +1,4 @@
+import 'package:camusat_report/models/building_report.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
@@ -11,6 +12,7 @@ class _LoadImagesState extends State<LoadImages> {
   File? _buildingImage;
   File? _verticalityImage;
   File? _signalTestImage;
+  late BuildingReport buildingReport;
 
   Future<void> _pickImage(ImageSource source, String section) async {
     final ImagePicker _picker = ImagePicker();
@@ -20,13 +22,14 @@ class _LoadImagesState extends State<LoadImages> {
       setState(() {
         switch (section) {
           case 'building':
-            _buildingImage = File(image.path);
+            // _buildingImage = File(image.path);
+            buildingReport.imageImmeuble = File(image.path);
             break;
           case 'verticality':
-            _verticalityImage = File(image.path);
+            buildingReport.imagePBI = File(image.path);
             break;
           case 'signal':
-            _signalTestImage = File(image.path);
+            buildingReport.imageTestDeSignal = File(image.path);
             break;
         }
       });
@@ -35,6 +38,7 @@ class _LoadImagesState extends State<LoadImages> {
 
   @override
   Widget build(BuildContext context) {
+    buildingReport = ModalRoute.of(context)!.settings.arguments as BuildingReport;
     return Scaffold(
       appBar: AppBar(
         title: Text(
