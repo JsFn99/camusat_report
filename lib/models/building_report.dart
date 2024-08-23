@@ -11,4 +11,5 @@ class BuildingReport {
   late List<File> imagesPBO;            // Images PBO
   File? imageTestDeSignal;          // Image test de signal
   int? splitere;                    // Splitere
+  String? pbiLocation;              // PBI Location
 }
