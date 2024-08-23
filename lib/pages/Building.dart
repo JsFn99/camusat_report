@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import '../../models/building_report.dart';
 
 class Building extends StatefulWidget {
@@ -46,41 +47,8 @@ class _BuildingState extends State<Building> {
     final latitude = buildingReport.coordonnees!.split(', ')[0];
     final longitude = buildingReport.coordonnees!.split(', ')[1];
 
-    final mapUrls = {
-      'Google Maps': 'comgooglemaps://?q=$latitude,$longitude',
-      'Google Earth': 'googleearth://?ll=$latitude,$longitude',
-      'Maps': 'maps://?q=$latitude,$longitude',
-    };
-
-    final choice = await showDialog<String>(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Open Map With'),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: mapUrls.keys.map((app) {
-              return ListTile(
-                title: Text(app),
-                onTap: () {
-                  Navigator.of(context).pop(mapUrls[app]);
-                },
-              );
-            }).toList(),
-          ),
-        );
-      },
-    );
-
-    if (choice != null) {
-      if (await canLaunch(choice)) {
-        await launch(choice);
-      } else {
-        final webUrl =
-            'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
-        await launch(webUrl);
-      }
-    }
+    launchUrlString(
+        'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude');
   }
 
   @override
