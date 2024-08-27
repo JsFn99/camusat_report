@@ -147,7 +147,7 @@ class Reportgenerator {
               Spacing(20),
               BuildingDetails(),
               Spacing(20),
-              Content(),
+              // Content(),
             ],
           );
         }));
