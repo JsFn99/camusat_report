@@ -56,11 +56,15 @@ class Reportgenerator {
           crossAxisAlignment: pw.CrossAxisAlignment.stretch,
           children: [
             pw.Container(
-                padding: const pw.EdgeInsets.all(10),
-                decoration: const pw.BoxDecoration(
-                  border: pw.Border(bottom: pw.BorderSide(width: 1)),
-                ),
-                child: pw.Text("NOM DE LA PLAQUE : ${reportData.nomPlaque}")),
+              padding: const pw.EdgeInsets.all(10),
+              decoration: const pw.BoxDecoration(
+                border: pw.Border(bottom: pw.BorderSide(width: 1)),
+              ),
+              child: pw.Text(
+                "NOM DE LA PLAQUE : ${reportData.nomPlaque}",
+                textAlign: pw.TextAlign.center,
+              ),
+            ),
             pw.Container(
               padding: const pw.EdgeInsets.all(10),
               decoration: const pw.BoxDecoration(
@@ -88,10 +92,46 @@ class Reportgenerator {
       );
     }
 
-    // Report content
-    // pw.Widget Content() {
+    pw.Widget TitleBorder(String title) {
+      return pw.Container(
+        color: PdfColors.amber300,
+        decoration: pw.BoxDecoration(
+          border: pw.Border.all(width: 1),
+        ),
+        child: pw.Text(
+          title,
+          textAlign: pw.TextAlign.center,
+          style: pw.TextStyle(fontSize: 12, fontWeight: pw.FontWeight.bold),
+        ),
+      );
+    }
 
-    // }
+    pw.Widget Spacing(double _height) {
+      return pw.SizedBox(height: _height);
+    }
+
+    // Report content
+    pw.Widget Content() {
+      return pw.Column(
+        crossAxisAlignment: pw.CrossAxisAlignment.stretch,
+        children: [
+          pw.Text("Rapport de câblage en fibre optique par CAMUSAT"),
+          pw.SizedBox(height: 10),
+          reportData.imageImmeuble != null
+              ? pw.Image(
+                  pw.MemoryImage(reportData.imageImmeuble!.readAsBytesSync()),
+                )
+              : pw.Text("Image not found"),
+          TitleBorder("SITUATION GEOGRAPHIQUE"),
+          Spacing(10),
+          reportData.screenSituationGeographique != null
+              ? pw.Image(
+                  pw.MemoryImage(reportData.imageImmeuble!.readAsBytesSync()),
+                )
+              : pw.Text("Image not found"),
+        ],
+      );
+    }
 
     // Generating the pdf
     pdf.addPage(pw.Page(
@@ -101,11 +141,13 @@ class Reportgenerator {
             crossAxisAlignment: pw.CrossAxisAlignment.start,
             children: [
               Header(),
-              pw.SizedBox(height: 10), // spacing
+              Spacing(10),
               Title(),
               pw.Divider(),
-              pw.SizedBox(height: 20), // spacing
+              Spacing(20),
               BuildingDetails(),
+              Spacing(20),
+              Content(),
             ],
           );
         }));

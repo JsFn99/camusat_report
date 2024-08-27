@@ -33,21 +33,21 @@ class _BuildingState extends State<Building> {
     buildingReport.adresse = buildingData['adresse']!;
   }
 
-  Future<void> _pickImage(ImageSource source, String floor) async {
+   Future<File> _pickImage(ImageSource source) async {
     final XFile? image = await _picker.pickImage(source: source);
-    if (image != null) {
-      setState(() {
-        if (!pboImages.containsKey(floor)) {
-          pboImages[floor] = [];
-        }
-        pboImages[floor]!.add(File(image.path));
-      });
-    }
+    return File(image!.path);
+      // setState(() {
+      //   if (!pboImages.containsKey(floor)) {
+      //     pboImages[floor] = [];
+      //   }
+      //   pboImages[floor]!.add(File(image.path));
+      // });
+    //  }
   }
 
   Future<void> _openMap() async {
-    final latitude = buildingReport.coordonnees!.split(', ')[0];
-    final longitude = buildingReport.coordonnees!.split(', ')[1];
+    final latitude = buildingReport.coordonnees.split(', ')[0];
+    final longitude = buildingReport.coordonnees.split(', ')[1];
 
     launchUrlString(
         'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude');
@@ -76,7 +76,7 @@ class _BuildingState extends State<Building> {
             Text('Nom de Plaque: ${buildingReport.nomPlaque}'),
             const SizedBox(height: 8.0),
             Text('Adresse: ${buildingReport.adresse}'),
-            SizedBox(height: 8.0),
+            const SizedBox(height: 8.0),
             Text('Coordonnées: ${buildingReport.coordonnees}'),
             const SizedBox(height: 16.0),
             ElevatedButton.icon(
@@ -84,8 +84,8 @@ class _BuildingState extends State<Building> {
                 Navigator.pushNamed(context, '/loadImages',
                     arguments: buildingReport);
               },
-              icon: Icon(Icons.add_a_photo),
-              label: Text('Ajouter Photos'),
+              icon: const Icon(Icons.add_a_photo),
+              label: const Text('Ajouter Photos'),
             ),
             Center(
                 child: buildingReport.imageImmeuble != null
@@ -94,24 +94,24 @@ class _BuildingState extends State<Building> {
             const SizedBox(height: 10),
             ElevatedButton.icon(
               onPressed: _openMap,
-              icon: Icon(Icons.location_on),
-              label: Text('Ouvrir Plan'),
+              icon: const Icon(Icons.location_on),
+              label: const Text('Ouvrir Plan'),
             ),
             const SizedBox(height: 10),
             ElevatedButton.icon(
-              onPressed: () {
-                _pickImage(ImageSource.gallery, 'Plan');
+              onPressed: () async {
+                buildingReport.screenSituationGeographique = await _pickImage(ImageSource.gallery);
               },
-              icon: Icon(Icons.photo_library),
-              label: Text('Charger Image plan'),
+              icon: const Icon(Icons.photo_library),
+              label: const Text('Charger Image plan'),
             ),
             const SizedBox(height: 10),
             ElevatedButton.icon(
               onPressed: () {
                 Navigator.pushNamed(context, '/generateSchema');
               },
-              icon: Icon(Icons.draw),
-              label: Text('Generer Schema'),
+              icon: const Icon(Icons.draw),
+              label: const Text('Generer Schema'),
             ),
             const SizedBox(height: 16.0),
 
@@ -152,7 +152,7 @@ class _BuildingState extends State<Building> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('PBO:'),
+                const Text('PBO:'),
                 Switch(
                   value: isPBOToggled,
                   onChanged: (value) {
@@ -169,10 +169,10 @@ class _BuildingState extends State<Building> {
             ),
 
             if (isPBOToggled) ...[
-              Text('Sélectionnez les étages:'),
+              const Text('Sélectionnez les étages:'),
               DropdownButtonFormField<String>(
                 value: null,
-                hint: Text("Choisir les étages"),
+                hint: const Text("Choisir les étages"),
                 items: [
                   'Sous-sol',
                   'RDC',
@@ -218,7 +218,7 @@ class _BuildingState extends State<Building> {
                       children: [
                         ElevatedButton.icon(
                           onPressed: () {
-                            _pickImage(ImageSource.camera, floor);
+                            // _pickImage(ImageSource.camera, floor);
                           },
                           icon: const Icon(Icons.camera_alt),
                           label: const Text('Prendre Photo'),
@@ -226,7 +226,7 @@ class _BuildingState extends State<Building> {
                         const SizedBox(width: 8),
                         ElevatedButton.icon(
                           onPressed: () {
-                            _pickImage(ImageSource.gallery, floor);
+                            // _pickImage(ImageSource.gallery, floor);
                           },
                           icon: const Icon(Icons.photo_library),
                           label: const Text('Charger Image'),
