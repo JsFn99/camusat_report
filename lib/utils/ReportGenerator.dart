@@ -10,7 +10,7 @@ class Reportgenerator {
 
   void generate(BuildingReport reportData) async {
     final ByteData camusatLogoData =
-        await rootBundle.load('images/camusat.png');
+    await rootBundle.load('images/camusat.png');
     final ByteData orangeLogoData = await rootBundle.load('images/orange.png');
     final camusatLogo = pw.MemoryImage(camusatLogoData.buffer.asUint8List());
     final orangeLogo = pw.MemoryImage(orangeLogoData.buffer.asUint8List());
@@ -21,7 +21,7 @@ class Reportgenerator {
         child: pw.Row(
           mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
           children: [
-            pw.Image(camusatLogo, width: 50, height: 50),
+            pw.Image(camusatLogo, width: 100, height: 100),
             pw.Image(orangeLogo, width: 50, height: 50),
           ],
         ),
@@ -32,23 +32,24 @@ class Reportgenerator {
     pw.Widget Title() {
       return pw.Container(
         padding: pw.EdgeInsets.all(10),
-        color: PdfColors.blueGrey, // Custom background color
-        width: double.infinity,
+        color: PdfColors.amber100,
+        width: 400,
         child: pw.Text(
           'DOSSIER FIN DES TRAVAUX',
           style: pw.TextStyle(
-            fontSize: 20,
+            fontSize: 24,
             fontWeight: pw.FontWeight.bold,
-            color: PdfColors.white, // Text color
+            color: PdfColors.black,
           ),
           textAlign: pw.TextAlign.center,
         ),
       );
     }
 
-    // Building details
+    // Building details (smaller width and centered)
     pw.Widget BuildingDetails() {
       return pw.Container(
+        width: 400, // Smaller width, adjust as needed
         decoration: pw.BoxDecoration(
           border: pw.Border.all(width: 1),
         ),
@@ -92,16 +93,27 @@ class Reportgenerator {
       );
     }
 
+    // Title with border (smaller width and centered)
     pw.Widget TitleBorder(String title) {
-      return pw.Container(
-        padding: const pw.EdgeInsets.all(5),
-        decoration: pw.BoxDecoration(
-          border: pw.Border.all(width: 1),
-        ),
-        child: pw.Text(
-          title,
-          textAlign: pw.TextAlign.center,
-          // style: pw.TextStyle(fontSize: 12, fontWeight: pw.FontWeight.bold),
+      return pw.Center(
+        child: pw.Container(
+          width: 300, // Smaller width, adjust as needed
+          padding: const pw.EdgeInsets.all(5),
+          decoration: pw.BoxDecoration(
+            border: pw.Border.all(width: 1),
+            color: title == "SITUATION GEOGRAPHIQUE"
+                ? PdfColors.amber50
+                : PdfColors.white,
+          ),
+          child: pw.Text(
+            title,
+            textAlign: pw.TextAlign.center,
+            style: pw.TextStyle(
+              fontSize: 12,
+              fontWeight: pw.FontWeight.bold,
+              color: PdfColors.black,
+            ),
+          ),
         ),
       );
     }
@@ -116,12 +128,26 @@ class Reportgenerator {
         child: pw.Column(
           crossAxisAlignment: pw.CrossAxisAlignment.stretch,
           children: [
-            pw.Text(
-              "Rapport de câblage en fibre optique par CAMUSAT",
-              textAlign: pw.TextAlign.center,
+            pw.Center(
+              child: pw.Container(
+                width: 600,
+                padding: pw.EdgeInsets.all(10),
+                decoration: pw.BoxDecoration(
+                  color: PdfColors.white,
+                  border: pw.Border.all(color: PdfColors.black, width: 1),
+                ),
+                child: pw.Text(
+                  "Rapport de câblage en fibre optique par CAMUSAT",
+                  textAlign: pw.TextAlign.center,
+                  style: pw.TextStyle(
+                    fontSize: 16,
+                    fontWeight: pw.FontWeight.bold,
+                    color: PdfColors.blue900,
+                  ),
+                ),
+              ),
             ),
             Spacing(10),
-            // pw.Image(pw.MemoryImage(reportData.imageImmeuble!.readAsBytesSync())),
             TitleBorder("SITUATION GEOGRAPHIQUE"),
             Spacing(10),
             // pw.Image(pw.MemoryImage(reportData.screenSituationGeographique!.readAsBytesSync())),
@@ -135,12 +161,11 @@ class Reportgenerator {
         pageFormat: PdfPageFormat.a4,
         build: (pw.Context context) {
           return pw.Column(
-            crossAxisAlignment: pw.CrossAxisAlignment.start,
+            crossAxisAlignment: pw.CrossAxisAlignment.center,
             children: [
               Header(),
               Spacing(10),
               Title(),
-              pw.Divider(),
               Spacing(20),
               BuildingDetails(),
               Spacing(20),
