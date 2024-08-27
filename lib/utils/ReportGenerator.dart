@@ -92,6 +92,7 @@ class Reportgenerator {
         ),
       );
     }
+    // pw.Image(pw.MemoryImage(reportData.imageImmeuble!.readAsBytesSync())),
 
     // Title with border (smaller width and centered)
     pw.Widget TitleBorder(String title) {
@@ -156,6 +157,37 @@ class Reportgenerator {
       );
     }
 
+    //SITUATION DE CABLAGE container
+    pw.Widget Cablage() {
+      return pw.Container(
+        child: pw.Column(
+          crossAxisAlignment: pw.CrossAxisAlignment.stretch,
+          children: [
+            pw.Center(
+              child: pw.Container(
+                width: 300,
+                padding: pw.EdgeInsets.all(10),
+                decoration: pw.BoxDecoration(
+                  color: PdfColors.amber50,
+                  border: pw.Border.all(color: PdfColors.black, width: 1),
+                ),
+                child: pw.Text(
+                  "SITUATION DE CABLAGE",
+                  textAlign: pw.TextAlign.center,
+                  style: pw.TextStyle(
+                    fontSize: 12,
+                    fontWeight: pw.FontWeight.bold,
+                    color: PdfColors.black,
+                  ),
+                ),
+              ),
+            ),
+            // pw.Image(pw.MemoryImage(reportData.schema!.readAsBytesSync())),
+          ],
+        ),
+      );
+    }
+
     // Generating the pdf
     pdf.addPage(pw.Page(
         pageFormat: PdfPageFormat.a4,
@@ -170,6 +202,8 @@ class Reportgenerator {
               BuildingDetails(),
               Spacing(20),
               Content(),
+              Spacing(20),
+              Cablage(),
             ],
           );
         }));
