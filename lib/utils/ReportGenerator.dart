@@ -94,14 +94,14 @@ class Reportgenerator {
 
     pw.Widget TitleBorder(String title) {
       return pw.Container(
-        color: PdfColors.amber300,
+        padding: const pw.EdgeInsets.all(5),
         decoration: pw.BoxDecoration(
           border: pw.Border.all(width: 1),
         ),
         child: pw.Text(
           title,
           textAlign: pw.TextAlign.center,
-          style: pw.TextStyle(fontSize: 12, fontWeight: pw.FontWeight.bold),
+          // style: pw.TextStyle(fontSize: 12, fontWeight: pw.FontWeight.bold),
         ),
       );
     }
@@ -112,24 +112,21 @@ class Reportgenerator {
 
     // Report content
     pw.Widget Content() {
-      return pw.Column(
-        crossAxisAlignment: pw.CrossAxisAlignment.stretch,
-        children: [
-          pw.Text("Rapport de câblage en fibre optique par CAMUSAT"),
-          pw.SizedBox(height: 10),
-          reportData.imageImmeuble != null
-              ? pw.Image(
-                  pw.MemoryImage(reportData.imageImmeuble!.readAsBytesSync()),
-                )
-              : pw.Text("Image not found"),
-          TitleBorder("SITUATION GEOGRAPHIQUE"),
-          Spacing(10),
-          reportData.screenSituationGeographique != null
-              ? pw.Image(
-                  pw.MemoryImage(reportData.imageImmeuble!.readAsBytesSync()),
-                )
-              : pw.Text("Image not found"),
-        ],
+      return pw.Container(
+        child: pw.Column(
+          crossAxisAlignment: pw.CrossAxisAlignment.stretch,
+          children: [
+            pw.Text(
+              "Rapport de câblage en fibre optique par CAMUSAT",
+              textAlign: pw.TextAlign.center,
+            ),
+            Spacing(10),
+            // pw.Image(pw.MemoryImage(reportData.imageImmeuble!.readAsBytesSync())),
+            TitleBorder("SITUATION GEOGRAPHIQUE"),
+            Spacing(10),
+            // pw.Image(pw.MemoryImage(reportData.screenSituationGeographique!.readAsBytesSync())),
+          ],
+        ),
       );
     }
 
@@ -147,7 +144,7 @@ class Reportgenerator {
               Spacing(20),
               BuildingDetails(),
               Spacing(20),
-              // Content(),
+              Content(),
             ],
           );
         }));
