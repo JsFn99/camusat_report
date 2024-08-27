@@ -29,6 +29,8 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   excel: any
+  pdf: any
+  printing: any
   flutter:
     sdk: flutter
   archive: ^3.6.1
@@ -68,6 +70,7 @@ flutter:
   assets:
       - images/
       - images/camusat.png
+      - images/orange.png
       - Data/
   #   - images/a_dot_ham.jpeg
 
