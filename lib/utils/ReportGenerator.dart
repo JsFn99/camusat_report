@@ -5,11 +5,10 @@ import 'package:pdf/widgets.dart' as pw;
 
 class Reportgenerator {
   final pdf = pw.Document();
-  BuildingReport? buildingData;
 
-  Reportgenerator({this.buildingData});
+  Reportgenerator();
 
-  void generate() async {
+  void generate(BuildingReport reportData) async {
     final ByteData camusatLogoData =
         await rootBundle.load('images/camusat.png');
     final ByteData orangeLogoData = await rootBundle.load('images/orange.png');
@@ -46,6 +45,49 @@ class Reportgenerator {
         ),
       );
     }
+
+    // Building details
+    pw.Widget BuildingDetails() {
+      return pw.Container(
+        decoration: pw.BoxDecoration(
+          border: pw.Border.all(width: 1),
+        ),
+        child: pw.Column(
+          crossAxisAlignment: pw.CrossAxisAlignment.stretch,
+          children: [
+            pw.Container(
+                padding: const pw.EdgeInsets.all(10),
+                decoration: const pw.BoxDecoration(
+                  border: pw.Border(bottom: pw.BorderSide(width: 1)),
+                ),
+                child: pw.Text("NOM DE LA PLAQUE : ${reportData.nomPlaque}")),
+            pw.Container(
+              padding: const pw.EdgeInsets.all(10),
+              decoration: const pw.BoxDecoration(
+                border: pw.Border(bottom: pw.BorderSide(width: 1)),
+              ),
+              child: pw.Text(
+                reportData.adresse,
+                style: pw.TextStyle(
+                    fontSize: 14,
+                    fontWeight: pw.FontWeight.bold,
+                    color: PdfColors.red300),
+                textAlign: pw.TextAlign.center,
+              ),
+            ),
+            pw.Container(
+              padding: const pw.EdgeInsets.all(10),
+              child: pw.Text(
+                "Coordonnées de l'immeuble : ${reportData.coordonnees}",
+                style: const pw.TextStyle(fontSize: 12),
+                textAlign: pw.TextAlign.center,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
     // Report content
     // pw.Widget Content() {
 

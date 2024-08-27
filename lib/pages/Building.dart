@@ -31,8 +31,6 @@ class _BuildingState extends State<Building> {
         '${buildingData['lat']}, ${buildingData['long']}';
     buildingReport.nomPlaque = buildingData['nomPlaque']!;
     buildingReport.adresse = buildingData['adresse']!;
-
-    reportGenerator.buildingData = buildingReport;
   }
 
   Future<void> _pickImage(ImageSource source, String floor) async {
@@ -66,20 +64,21 @@ class _BuildingState extends State<Building> {
         backgroundColor: Colors.orange[800],
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: ListView(
           children: [
             Text(
               'Immeuble: ${buildingReport.nomPlaque}',
-              style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+              style:
+                  const TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 8.0),
+            const SizedBox(height: 8.0),
             Text('Nom de Plaque: ${buildingReport.nomPlaque}'),
-            SizedBox(height: 8.0),
+            const SizedBox(height: 8.0),
             Text('Adresse: ${buildingReport.adresse}'),
             SizedBox(height: 8.0),
             Text('Coordonnées: ${buildingReport.coordonnees}'),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             ElevatedButton.icon(
               onPressed: () {
                 Navigator.pushNamed(context, '/loadImages',
@@ -92,13 +91,13 @@ class _BuildingState extends State<Building> {
                 child: buildingReport.imageImmeuble != null
                     ? Image.file(buildingReport.imageImmeuble!)
                     : const Text("")),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             ElevatedButton.icon(
               onPressed: _openMap,
               icon: Icon(Icons.location_on),
               label: Text('Ouvrir Plan'),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             ElevatedButton.icon(
               onPressed: () {
                 _pickImage(ImageSource.gallery, 'Plan');
@@ -106,7 +105,7 @@ class _BuildingState extends State<Building> {
               icon: Icon(Icons.photo_library),
               label: Text('Charger Image plan'),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             ElevatedButton.icon(
               onPressed: () {
                 Navigator.pushNamed(context, '/generateSchema');
@@ -114,10 +113,10 @@ class _BuildingState extends State<Building> {
               icon: Icon(Icons.draw),
               label: Text('Generer Schema'),
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
 
             // PBI Dropdown Menu
-            Text('PBI:'),
+            const Text('PBI:'),
             DropdownButton<String>(
               value: selectedPBI,
               items: [
@@ -147,7 +146,7 @@ class _BuildingState extends State<Building> {
               },
             ),
 
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
 
             // PBO Toggle Switch
             Row(
@@ -208,7 +207,7 @@ class _BuildingState extends State<Building> {
                   }
                 },
               ),
-              SizedBox(height: 16.0),
+              const SizedBox(height: 16.0),
               for (var floor in selectedFloors)
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -221,20 +220,20 @@ class _BuildingState extends State<Building> {
                           onPressed: () {
                             _pickImage(ImageSource.camera, floor);
                           },
-                          icon: Icon(Icons.camera_alt),
-                          label: Text('Prendre Photo'),
+                          icon: const Icon(Icons.camera_alt),
+                          label: const Text('Prendre Photo'),
                         ),
-                        SizedBox(width: 8),
+                        const SizedBox(width: 8),
                         ElevatedButton.icon(
                           onPressed: () {
                             _pickImage(ImageSource.gallery, floor);
                           },
-                          icon: Icon(Icons.photo_library),
-                          label: Text('Charger Image'),
+                          icon: const Icon(Icons.photo_library),
+                          label: const Text('Charger Image'),
                         ),
                       ],
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     if (pboImages[floor] != null &&
                         pboImages[floor]!.isNotEmpty)
                       Wrap(
@@ -250,10 +249,10 @@ class _BuildingState extends State<Building> {
                 ),
             ],
 
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
 
             TextField(
-              decoration: InputDecoration(labelText: 'Splitere'),
+              decoration: const InputDecoration(labelText: 'Splitere'),
               keyboardType: TextInputType.number,
               onChanged: (value) {
                 setState(() {
@@ -261,16 +260,17 @@ class _BuildingState extends State<Building> {
                 });
               },
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: () {
                 // Validate and save the report
-                reportGenerator.generate();
+                reportGenerator.generate(buildingReport);
                 Printing.layoutPdf(
-                  onLayout: (PdfPageFormat format) async => reportGenerator.getPdf().save(),
+                  onLayout: (PdfPageFormat format) =>
+                      reportGenerator.getPdf().save(),
                 );
               },
-              child: Text('Validate'),
+              child: const Text('Validate'),
             ),
           ],
         ),

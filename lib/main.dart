@@ -58,12 +58,12 @@ class HomePage extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image(
+                    const Image(
                       image: AssetImage("images/camusat.png"),
                       height: 100,
                       width: 100,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 30,
                     ),
                     TextFormField(
@@ -75,7 +75,7 @@ class HomePage extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10),
                           )),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 30,
                     ),
                     TextFormField(
@@ -88,7 +88,7 @@ class HomePage extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10),
                           )),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 30,
                     ),
                     ElevatedButton(
@@ -100,14 +100,14 @@ class HomePage extends StatelessWidget {
                           Navigator.pushNamed(context, "/Excels");
                         }
                       },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Theme.of(context).primaryColor,
+                      ),
                       child: Text(
                         "Connexion",
                         style: TextStyle(
                             fontSize: 20,
                             color: Theme.of(context).indicatorColor),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Theme.of(context).primaryColor,
                       ),
                     )
                   ],
