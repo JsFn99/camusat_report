@@ -104,6 +104,8 @@ class Reportgenerator {
               pw.SizedBox(height: 10), // spacing
               Title(),
               pw.Divider(),
+              pw.SizedBox(height: 20), // spacing
+              BuildingDetails(),
             ],
           );
         }));
