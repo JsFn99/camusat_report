@@ -101,47 +101,54 @@ class _ExcelsState extends State<Excels> {
           ),
           itemCount: regions.length,
           itemBuilder: (context, index) {
-            return Stack(
+            return Column(
               children: [
-                GestureDetector(
-                  onTap: () async {
-                    List<Map<String, String>> data =
+                Stack(
+                  children: [
+                    GestureDetector(
+                      onTap: () async {
+                        List<Map<String, String>> data =
                         await _dataProvider.loadExcel(regions[index]);
-                    Navigator.pushNamed(
-                      context,
-                      '/home',
-                      arguments: data,
-                    );
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage('images/excel.png'),
-                        fit: BoxFit.cover,
-                      ),
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                    child: Center(
-                      child: Text(
-                        'Region ${index + 1}',
-                        style: TextStyle(color: Colors.white, fontSize: 18.0),
+                        Navigator.pushNamed(
+                          context,
+                          '/home',
+                          arguments: data,
+                        );
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage('images/excel.png'),
+                            fit: BoxFit.cover,
+                          ),
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                        // Remove the Text widget here
+                        child: SizedBox(height: 100), // Adjust height as needed
                       ),
                     ),
-                  ),
+                    Positioned(
+                      top: 8.0,
+                      right: 8.0,
+                      child: IconButton(
+                        icon: Icon(Icons.delete, color: Colors.red),
+                        onPressed: () {
+                          _showDeleteConfirmationDialog(regions[index], index);
+                        },
+                      ),
+                    ),
+                  ],
                 ),
-                Positioned(
-                  top: 8.0,
-                  right: 8.0,
-                  child: IconButton(
-                    icon: Icon(Icons.delete, color: Colors.red),
-                    onPressed: () {
-                      _showDeleteConfirmationDialog(regions[index], index);
-                    },
-                  ),
+                SizedBox(height: 8.0), // Space between the container and file name
+                Text(
+                  regions[index].split('/').last, // Show the file name only
+                  style: TextStyle(fontSize: 16.0, color: Colors.black),
+                  textAlign: TextAlign.center,
                 ),
               ],
             );
           },
+
         ),
       ),
       floatingActionButton: FloatingActionButton(
