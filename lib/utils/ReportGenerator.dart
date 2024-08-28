@@ -136,7 +136,7 @@ class Reportgenerator {
                 title: "Rapport de câblage en fibre optique par CAMUSAT",
                 background: PdfColors.white,
                 foreground: PdfColors.blue900,
-                width: 500,
+                width: 800,
             ),
             spacing(10),
             // pw.Image(pw.MemoryImage(reportData.screenSituationGeographique!.readAsBytesSync())),
