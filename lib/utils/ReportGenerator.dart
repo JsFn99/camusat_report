@@ -98,7 +98,7 @@ class Reportgenerator {
     pw.Widget TitleBorder(String title) {
       return pw.Center(
         child: pw.Container(
-          width: 300, // Smaller width, adjust as needed
+          width: 200, // Smaller width, adjust as needed
           padding: const pw.EdgeInsets.all(5),
           decoration: pw.BoxDecoration(
             border: pw.Border.all(width: 1),
@@ -165,7 +165,7 @@ class Reportgenerator {
           children: [
             pw.Center(
               child: pw.Container(
-                width: 300,
+                width: 200,
                 padding: pw.EdgeInsets.all(10),
                 decoration: pw.BoxDecoration(
                   color: PdfColors.amber50,
@@ -188,6 +188,87 @@ class Reportgenerator {
       );
     }
 
+    pw.Widget VERTICALITE() {
+      return pw.Container(
+        child: pw.Column(
+          crossAxisAlignment: pw.CrossAxisAlignment.stretch,
+          children: [
+            pw.Center(
+              child: pw.Container(
+                width: 200,
+                padding: pw.EdgeInsets.all(10),
+                decoration: pw.BoxDecoration(
+                  color: PdfColors.amber50,
+                  border: pw.Border.all(color: PdfColors.black, width: 1),
+                ),
+                child: pw.Text(
+                  "VERTICALITE",
+                  textAlign: pw.TextAlign.center,
+                  style: pw.TextStyle(
+                    fontSize: 12,
+                    fontWeight: pw.FontWeight.bold,
+                    color: PdfColors.black,
+                  ),
+                ),
+              ),
+            ),
+            // pw.Image(pw.MemoryImage(reportData.schema!.readAsBytesSync())),
+          ],
+        ),
+      );
+    }
+
+    pw.Widget test() {
+      return pw.Container(
+        child: pw.Column(
+          crossAxisAlignment: pw.CrossAxisAlignment.start,
+          children: [
+            pw.Center(
+              child: pw.Container(
+                width: 200,
+                padding: pw.EdgeInsets.all(10),
+                decoration: pw.BoxDecoration(
+                  color: PdfColors.amber50,
+                  border: pw.Border.all(color: PdfColors.black, width: 1),
+                ),
+                child: pw.Text(
+                  "TEST DE RACCORDEMENT",
+                  textAlign: pw.TextAlign.center,
+                  style: pw.TextStyle(
+                    fontSize: 12,
+                    fontWeight: pw.FontWeight.bold,
+                    color: PdfColors.black,
+                  ),
+                ),
+              ),
+            ),
+            Spacing(10),
+
+            pw.Center(
+              child: pw.Container(
+                width: 200,
+                padding: pw.EdgeInsets.all(5),
+                decoration: pw.BoxDecoration(
+                    color: PdfColors.grey300,
+                    border: pw.Border.all(color: PdfColors.black, width: 1)
+                ),
+                child: pw.Text(
+                  "TEST DE SIGNAL",
+                  textAlign: pw.TextAlign.center,
+                  style: pw.TextStyle(
+                    fontSize: 10,
+                    fontWeight: pw.FontWeight.bold,
+                    color: PdfColors.black,
+                  ),
+                ),
+              ),
+            ),
+            Spacing(10),
+          ],
+        ),
+      );
+    }
+
     // Generating the pdf
     pdf.addPage(pw.Page(
         pageFormat: PdfPageFormat.a4,
@@ -196,7 +277,7 @@ class Reportgenerator {
             crossAxisAlignment: pw.CrossAxisAlignment.center,
             children: [
               Header(),
-              Spacing(10),
+              Spacing(20),
               Title(),
               Spacing(20),
               BuildingDetails(),
@@ -204,6 +285,10 @@ class Reportgenerator {
               Content(),
               Spacing(20),
               Cablage(),
+              Spacing(20),
+              VERTICALITE(),
+              Spacing(20),
+              test()
             ],
           );
         }));
