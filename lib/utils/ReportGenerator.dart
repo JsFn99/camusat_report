@@ -16,12 +16,12 @@ class Reportgenerator {
     }
 
     // Check if the images are not null
-    // if (isImageValid(reportData.imageImmeuble) &&
-    //     isImageValid(reportData.imagePBI) &&
-    //     isImageValid(reportData.screenSituationGeographique) &&
-    //     isImageValid(reportData.imageTestDeSignal)) return true;
+    if (isImageValid(reportData.imageImmeuble) &&
+        isImageValid(reportData.imagePBI) &&
+        isImageValid(reportData.screenSituationGeographique) &&
+        isImageValid(reportData.imageTestDeSignal)) return true;
 
-    return true; // false;
+    return false;
   }
 
   Future<bool> generate(BuildingReport reportData) async {
@@ -41,6 +41,20 @@ class Reportgenerator {
             pw.Image(camusatLogo, width: 100, height: 100),
             pw.Image(orangeLogo, width: 50, height: 50),
           ],
+        ),
+      );
+    }
+
+    pw.Widget placeImage(File img) {
+      return pw.Center(
+        child: pw.Container(
+          height: 300,
+          padding: const pw.EdgeInsets.all(10),
+          decoration: pw.BoxDecoration(
+            color: PdfColors.amber50,
+            border: pw.Border.all(color: PdfColors.black, width: 1),
+          ),
+          child: pw.Image(pw.MemoryImage(img.readAsBytesSync())),
         ),
       );
     }
@@ -154,11 +168,12 @@ class Reportgenerator {
               width: 800,
             ),
             spacing(20),
-            pw.Center(
-              child: pw.Image(
-                  height: 300,
-                  pw.MemoryImage(reportData.imageImmeuble.readAsBytesSync())),
-            ),
+            placeImage(reportData.imageImmeuble),
+            // pw.Center(
+            //   child: pw.Image(
+            //       height: 300,
+            //       pw.MemoryImage(reportData.imageImmeuble.readAsBytesSync())),
+            // ),
           ],
         ),
       );
@@ -170,7 +185,8 @@ class Reportgenerator {
           crossAxisAlignment: pw.CrossAxisAlignment.stretch,
           children: [
             titleBorder(title: "SITUATION GEOGRAPHIQUE"),
-            spacing(10),
+            spacing(20),
+            placeImage(reportData.screenSituationGeographique),
           ],
         ),
       );
@@ -183,7 +199,8 @@ class Reportgenerator {
           crossAxisAlignment: pw.CrossAxisAlignment.stretch,
           children: [
             titleBorder(title: "SITUATION DE CABLAGE"),
-            // pw.Image(pw.MemoryImage(reportData.schema!.readAsBytesSync())),
+            spacing(20),
+            // TODO : Render schema ;
           ],
         ),
       );
@@ -209,12 +226,13 @@ class Reportgenerator {
           crossAxisAlignment: pw.CrossAxisAlignment.start,
           children: [
             titleBorder(title: "TEST DE RACCORDEMENT"),
-            spacing(10),
+            spacing(20),
             titleBorder(
               title: "TEST DE SIGNAL",
               background: PdfColors.grey300,
             ),
-            spacing(10),
+            spacing(20),
+            placeImage(reportData.imageTestDeSignal),
           ],
         ),
       );

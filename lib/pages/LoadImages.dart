@@ -26,11 +26,10 @@ class _LoadImagesState extends State<LoadImages> {
           buildingReport.imageImmeuble = File(image.path).copySync(imagePath);
           break;
         case 'verticality':
-          buildingReport.imagePBI = await File(image.path).copy(imagePath);
+          buildingReport.imagePBI = File(image.path).copySync(imagePath);
           break;
         case 'signal':
-          buildingReport.imageTestDeSignal =
-              await File(image.path).copy(imagePath);
+          buildingReport.imageTestDeSignal = File(image.path).copySync(imagePath);
           break;
       }
     }
@@ -49,7 +48,7 @@ class _LoadImagesState extends State<LoadImages> {
         backgroundColor: Colors.orange[800],
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: ListView(
           children: [
             const Text(
@@ -64,24 +63,24 @@ class _LoadImagesState extends State<LoadImages> {
                   onPressed: () {
                     _pickImage(ImageSource.camera, 'building');
                   },
-                  icon: Icon(Icons.camera_alt),
-                  label: Text('Prendre Photo'),
+                  icon: const Icon(Icons.camera_alt),
+                  label: const Text('Prendre Photo'),
                 ),
                 ElevatedButton.icon(
                   onPressed: () {
                     _pickImage(ImageSource.gallery, 'building');
                   },
-                  icon: Icon(Icons.photo_library),
-                  label: Text('Charger Image'),
+                  icon: const Icon(Icons.photo_library),
+                  label: const Text('Charger Image'),
                 ),
               ],
             ),
-            SizedBox(height: 16.0),
-            Text(
+            const SizedBox(height: 16.0),
+            const Text(
               'Verticalité PBI',
               style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 8.0),
+            const SizedBox(height: 8.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -89,24 +88,24 @@ class _LoadImagesState extends State<LoadImages> {
                   onPressed: () {
                     _pickImage(ImageSource.camera, 'verticality');
                   },
-                  icon: Icon(Icons.camera_alt),
-                  label: Text('Prendre Photo'),
+                  icon: const Icon(Icons.camera_alt),
+                  label: const Text('Prendre Photo'),
                 ),
                 ElevatedButton.icon(
                   onPressed: () {
                     _pickImage(ImageSource.gallery, 'verticality');
                   },
-                  icon: Icon(Icons.photo_library),
-                  label: Text('Charger Image'),
+                  icon: const Icon(Icons.photo_library),
+                  label: const Text('Charger Image'),
                 ),
               ],
             ),
-            SizedBox(height: 16.0),
-            Text(
+            const SizedBox(height: 16.0),
+            const Text(
               'Test de signal',
               style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 8.0),
+            const SizedBox(height: 8.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -114,27 +113,27 @@ class _LoadImagesState extends State<LoadImages> {
                   onPressed: () {
                     _pickImage(ImageSource.camera, 'signal');
                   },
-                  icon: Icon(Icons.camera_alt),
-                  label: Text('Prendre Photo'),
+                  icon: const Icon(Icons.camera_alt),
+                  label: const Text('Prendre Photo'),
                 ),
                 ElevatedButton.icon(
                   onPressed: () {
                     _pickImage(ImageSource.gallery, 'signal');
                   },
-                  icon: Icon(Icons.photo_library),
-                  label: Text('Charger Image'),
+                  icon: const Icon(Icons.photo_library),
+                  label: const Text('Charger Image'),
                 ),
               ],
             ),
-            SizedBox(height: 32.0),
+            const SizedBox(height: 32.0),
             ElevatedButton(
               onPressed: () {
                 // Validate the selections and proceed
               },
-              child: Text('Valider'),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blueAccent,
               ),
+              child: const Text('Valider'),
             ),
           ],
         ),

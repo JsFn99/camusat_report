@@ -1,6 +1,7 @@
 import 'package:camusat_report/utils/ReportGenerator.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:printing/printing.dart';
 import 'dart:io';
@@ -8,6 +9,8 @@ import 'package:url_launcher/url_launcher_string.dart';
 import '../../models/building_report.dart';
 
 class Building extends StatefulWidget {
+  const Building({super.key});
+
   @override
   _BuildingState createState() => _BuildingState();
 }
@@ -34,15 +37,12 @@ class _BuildingState extends State<Building> {
   }
 
   Future<File> _pickImage(ImageSource source) async {
-    final XFile? image = await _picker.pickImage(source: source);
-    return File(image!.path);
-    // setState(() {
-    //   if (!pboImages.containsKey(floor)) {
-    //     pboImages[floor] = [];
-    //   }
-    //   pboImages[floor]!.add(File(image.path));
-    // });
-    //  }
+    final image = await _picker.pickImage(source: source);
+    final directory = await getApplicationDocumentsDirectory();
+    final imagePath =
+        '${directory.path}/${DateTime.now().millisecondsSinceEpoch}.jpg';
+
+    return File(image!.path).copySync(imagePath);
   }
 
   Future<void> _openMap() async {
