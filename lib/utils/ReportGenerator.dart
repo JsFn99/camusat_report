@@ -188,6 +188,7 @@ class Reportgenerator {
       );
     }
 
+    // VERTICALITE
     pw.Widget VERTICALITE() {
       return pw.Container(
         child: pw.Column(
@@ -218,6 +219,7 @@ class Reportgenerator {
       );
     }
 
+    // TEST DE RACCORDEMENT
     pw.Widget test() {
       return pw.Container(
         child: pw.Column(
@@ -291,7 +293,8 @@ class Reportgenerator {
               test()
             ],
           );
-        }));
+        })
+    );
   }
 
   pw.Document getPdf() {
