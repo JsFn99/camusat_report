@@ -259,7 +259,19 @@ class Reportgenerator {
       ),
     );
 
-    // Page 2: Cablage
+    // Page 2: Situation geographique
+    pdf.addPage(
+      pw.Page(
+        pageFormat: PdfPageFormat.a4,
+        build: (pw.Context context) {
+          return pw.Center(
+            child: pageSituationGeo(),
+          );
+        },
+      ),
+    );
+
+    // Page 3: Cablage
     pdf.addPage(
       pw.Page(
         pageFormat: PdfPageFormat.a4,
@@ -271,7 +283,7 @@ class Reportgenerator {
       ),
     );
 
-    // Page 3: VERTICALITE
+    // Page 4: VERTICALITE
     pdf.addPage(
       pw.Page(
         pageFormat: PdfPageFormat.a4,
@@ -283,7 +295,7 @@ class Reportgenerator {
       ),
     );
 
-    // Page 4: TEST DE RACCORDEMENT
+    // Page 5: TEST DE RACCORDEMENT
     pdf.addPage(
       pw.Page(
         pageFormat: PdfPageFormat.a4,
