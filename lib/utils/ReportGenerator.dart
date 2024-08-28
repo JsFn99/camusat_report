@@ -49,7 +49,7 @@ class Reportgenerator {
     // Building details (smaller width and centered)
     pw.Widget BuildingDetails() {
       return pw.Container(
-        width: 400, // Smaller width, adjust as needed
+        width: 400,
         decoration: pw.BoxDecoration(
           border: pw.Border.all(width: 1),
         ),
@@ -98,7 +98,7 @@ class Reportgenerator {
     pw.Widget TitleBorder(String title) {
       return pw.Center(
         child: pw.Container(
-          width: 200, // Smaller width, adjust as needed
+          width: 200,
           padding: const pw.EdgeInsets.all(5),
           decoration: pw.BoxDecoration(
             border: pw.Border.all(width: 1),
@@ -271,8 +271,9 @@ class Reportgenerator {
       );
     }
 
-    // Generating the pdf
-    pdf.addPage(pw.Page(
+    // Page 1: Header, Title, BuildingDetails, and Content
+    pdf.addPage(
+      pw.Page(
         pageFormat: PdfPageFormat.a4,
         build: (pw.Context context) {
           return pw.Column(
@@ -285,15 +286,46 @@ class Reportgenerator {
               BuildingDetails(),
               Spacing(20),
               Content(),
-              Spacing(20),
-              Cablage(),
-              Spacing(20),
-              VERTICALITE(),
-              Spacing(20),
-              test()
             ],
           );
-        })
+        },
+      ),
+    );
+
+    // Page 2: Cablage
+    pdf.addPage(
+      pw.Page(
+        pageFormat: PdfPageFormat.a4,
+        build: (pw.Context context) {
+          return pw.Center(
+            child: Cablage(),
+          );
+        },
+      ),
+    );
+
+    // Page 3: VERTICALITE
+    pdf.addPage(
+      pw.Page(
+        pageFormat: PdfPageFormat.a4,
+        build: (pw.Context context) {
+          return pw.Center(
+            child: VERTICALITE(),
+          );
+        },
+      ),
+    );
+
+    // Page 4: TEST DE RACCORDEMENT
+    pdf.addPage(
+      pw.Page(
+        pageFormat: PdfPageFormat.a4,
+        build: (pw.Context context) {
+          return pw.Center(
+            child: test(),
+          );
+        },
+      ),
     );
   }
 
