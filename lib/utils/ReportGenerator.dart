@@ -8,9 +8,14 @@ class Reportgenerator {
 
   Reportgenerator();
 
+  bool isReportDataValide(BuildingReport reportData) {
+    return true;
+  }
+
   void generate(BuildingReport reportData) async {
+    isReportDataValide(reportData);
     final ByteData camusatLogoData =
-    await rootBundle.load('images/camusat.png');
+        await rootBundle.load('images/camusat.png');
     final ByteData orangeLogoData = await rootBundle.load('images/orange.png');
     final camusatLogo = pw.MemoryImage(camusatLogoData.buffer.asUint8List());
     final orangeLogo = pw.MemoryImage(orangeLogoData.buffer.asUint8List());
@@ -28,10 +33,14 @@ class Reportgenerator {
       );
     }
 
+    pw.Widget spacing(double height) {
+      return pw.SizedBox(height: height);
+    }
+
     // Report title
     pw.Widget Title() {
       return pw.Container(
-        padding: pw.EdgeInsets.all(10),
+        padding: const pw.EdgeInsets.all(10),
         color: PdfColors.amber100,
         width: 400,
         child: pw.Text(
@@ -42,6 +51,30 @@ class Reportgenerator {
             color: PdfColors.black,
           ),
           textAlign: pw.TextAlign.center,
+        ),
+      );
+    }
+
+    // Title with border (smaller width and centered)
+    pw.Widget titleBorder(
+        {required String title, PdfColor? background, PdfColor? foreground}) {
+      return pw.Center(
+        child: pw.Container(
+          width: 200,
+          padding: const pw.EdgeInsets.all(10),
+          decoration: pw.BoxDecoration(
+            color: background ?? PdfColors.amber50,
+            border: pw.Border.all(color: PdfColors.black, width: 1),
+          ),
+          child: pw.Text(
+            title,
+            textAlign: pw.TextAlign.center,
+            style: pw.TextStyle(
+              fontSize: 12,
+              fontWeight: pw.FontWeight.bold,
+              color: foreground ?? PdfColors.black,
+            ),
+          ),
         ),
       );
     }
@@ -92,36 +125,6 @@ class Reportgenerator {
         ),
       );
     }
-    // pw.Image(pw.MemoryImage(reportData.imageImmeuble!.readAsBytesSync())),
-
-    // Title with border (smaller width and centered)
-    pw.Widget titleBorder(String title) {
-      return pw.Center(
-        child: pw.Container(
-          width: 200,
-          padding: const pw.EdgeInsets.all(5),
-          decoration: pw.BoxDecoration(
-            border: pw.Border.all(width: 1),
-            color: title == "SITUATION GEOGRAPHIQUE"
-                ? PdfColors.amber50
-                : PdfColors.white,
-          ),
-          child: pw.Text(
-            title,
-            textAlign: pw.TextAlign.center,
-            style: pw.TextStyle(
-              fontSize: 12,
-              fontWeight: pw.FontWeight.bold,
-              color: PdfColors.black,
-            ),
-          ),
-        ),
-      );
-    }
-
-    pw.Widget spacing(double _height) {
-      return pw.SizedBox(height: _height);
-    }
 
     // Report content
     pw.Widget pageMeuble() {
@@ -129,32 +132,17 @@ class Reportgenerator {
         child: pw.Column(
           crossAxisAlignment: pw.CrossAxisAlignment.stretch,
           children: [
-            pw.Center(
-              child: pw.Container(
-                width: 600,
-                padding: pw.EdgeInsets.all(10),
-                decoration: pw.BoxDecoration(
-                  color: PdfColors.white,
-                  border: pw.Border.all(color: PdfColors.black, width: 1),
-                ),
-                child: pw.Text(
-                  "Rapport de câblage en fibre optique par CAMUSAT",
-                  textAlign: pw.TextAlign.center,
-                  style: pw.TextStyle(
-                    fontSize: 16,
-                    fontWeight: pw.FontWeight.bold,
-                    color: PdfColors.blue900,
-                  ),
-                ),
-              ),
-            ),
-            spacing(10),
-            titleBorder("SITUATION GEOGRAPHIQUE"),
+            titleBorder(
+                title: "Rapport de câblage en fibre optique par CAMUSAT"),
             spacing(10),
             // pw.Image(pw.MemoryImage(reportData.screenSituationGeographique!.readAsBytesSync())),
           ],
         ),
       );
+    }
+
+    pw.Widget pageSituationGeo() {
+      return pw.Container();
     }
 
     //SITUATION DE CABLAGE container
@@ -163,25 +151,7 @@ class Reportgenerator {
         child: pw.Column(
           crossAxisAlignment: pw.CrossAxisAlignment.stretch,
           children: [
-            pw.Center(
-              child: pw.Container(
-                width: 200,
-                padding: pw.EdgeInsets.all(10),
-                decoration: pw.BoxDecoration(
-                  color: PdfColors.amber50,
-                  border: pw.Border.all(color: PdfColors.black, width: 1),
-                ),
-                child: pw.Text(
-                  "SITUATION DE CABLAGE",
-                  textAlign: pw.TextAlign.center,
-                  style: pw.TextStyle(
-                    fontSize: 12,
-                    fontWeight: pw.FontWeight.bold,
-                    color: PdfColors.black,
-                  ),
-                ),
-              ),
-            ),
+            titleBorder(title: "SITUATION DE CABLAGE"),
             // pw.Image(pw.MemoryImage(reportData.schema!.readAsBytesSync())),
           ],
         ),
@@ -194,25 +164,7 @@ class Reportgenerator {
         child: pw.Column(
           crossAxisAlignment: pw.CrossAxisAlignment.stretch,
           children: [
-            pw.Center(
-              child: pw.Container(
-                width: 200,
-                padding: pw.EdgeInsets.all(10),
-                decoration: pw.BoxDecoration(
-                  color: PdfColors.amber50,
-                  border: pw.Border.all(color: PdfColors.black, width: 1),
-                ),
-                child: pw.Text(
-                  "VERTICALITE",
-                  textAlign: pw.TextAlign.center,
-                  style: pw.TextStyle(
-                    fontSize: 12,
-                    fontWeight: pw.FontWeight.bold,
-                    color: PdfColors.black,
-                  ),
-                ),
-              ),
-            ),
+            titleBorder(title: "VERTICALITE"),
             // pw.Image(pw.MemoryImage(reportData.schema!.readAsBytesSync())),
           ],
         ),
@@ -225,45 +177,11 @@ class Reportgenerator {
         child: pw.Column(
           crossAxisAlignment: pw.CrossAxisAlignment.start,
           children: [
-            pw.Center(
-              child: pw.Container(
-                width: 200,
-                padding: pw.EdgeInsets.all(10),
-                decoration: pw.BoxDecoration(
-                  color: PdfColors.amber50,
-                  border: pw.Border.all(color: PdfColors.black, width: 1),
-                ),
-                child: pw.Text(
-                  "TEST DE RACCORDEMENT",
-                  textAlign: pw.TextAlign.center,
-                  style: pw.TextStyle(
-                    fontSize: 12,
-                    fontWeight: pw.FontWeight.bold,
-                    color: PdfColors.black,
-                  ),
-                ),
-              ),
-            ),
+            titleBorder(title: "TEST DE RACCORDEMENT"),
             spacing(10),
-
-            pw.Center(
-              child: pw.Container(
-                width: 200,
-                padding: pw.EdgeInsets.all(5),
-                decoration: pw.BoxDecoration(
-                    color: PdfColors.grey300,
-                    border: pw.Border.all(color: PdfColors.black, width: 1)
-                ),
-                child: pw.Text(
-                  "TEST DE SIGNAL",
-                  textAlign: pw.TextAlign.center,
-                  style: pw.TextStyle(
-                    fontSize: 10,
-                    fontWeight: pw.FontWeight.bold,
-                    color: PdfColors.black,
-                  ),
-                ),
-              ),
+            titleBorder(
+              title: "TEST DE SIGNAL",
+              background: PdfColors.grey300,
             ),
             spacing(10),
           ],
@@ -271,7 +189,7 @@ class Reportgenerator {
       );
     }
 
-    // Page 1: Header, Title, BuildingDetails, and Content
+    // Page 1: Header, Title, BuildingDetails, and Building Page
     pdf.addPage(
       pw.Page(
         pageFormat: PdfPageFormat.a4,
