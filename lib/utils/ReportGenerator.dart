@@ -169,11 +169,6 @@ class Reportgenerator {
             ),
             spacing(20),
             placeImage(reportData.imageImmeuble),
-            // pw.Center(
-            //   child: pw.Image(
-            //       height: 300,
-            //       pw.MemoryImage(reportData.imageImmeuble.readAsBytesSync())),
-            // ),
           ],
         ),
       );
