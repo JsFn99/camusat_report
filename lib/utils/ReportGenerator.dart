@@ -57,13 +57,13 @@ class Reportgenerator {
 
     // Title with border (smaller width and centered)
     pw.Widget titleBorder(
-        {required String title, PdfColor? background, PdfColor? foreground}) {
+        {required String title, PdfColor? background, PdfColor? foreground, double? width}) {
       return pw.Center(
         child: pw.Container(
-          width: 200,
+          width: width ?? 200,
           padding: const pw.EdgeInsets.all(10),
           decoration: pw.BoxDecoration(
-            color: background ?? PdfColors.amber50,
+            color:  background ?? PdfColors.amber50,
             border: pw.Border.all(color: PdfColors.black, width: 1),
           ),
           child: pw.Text(
@@ -133,7 +133,11 @@ class Reportgenerator {
           crossAxisAlignment: pw.CrossAxisAlignment.stretch,
           children: [
             titleBorder(
-                title: "Rapport de câblage en fibre optique par CAMUSAT"),
+                title: "Rapport de câblage en fibre optique par CAMUSAT",
+                background: PdfColors.white,
+                foreground: PdfColors.blue900,
+                width: 500,
+            ),
             spacing(10),
             // pw.Image(pw.MemoryImage(reportData.screenSituationGeographique!.readAsBytesSync())),
           ],
