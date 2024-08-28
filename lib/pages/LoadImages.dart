@@ -3,42 +3,43 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
+import 'package:path_provider/path_provider.dart';
+
 class LoadImages extends StatefulWidget {
   @override
   _LoadImagesState createState() => _LoadImagesState();
 }
 
 class _LoadImagesState extends State<LoadImages> {
-  File? _buildingImage;
-  File? _verticalityImage;
-  File? _signalTestImage;
   late BuildingReport buildingReport;
 
   Future<void> _pickImage(ImageSource source, String section) async {
-    final ImagePicker _picker = ImagePicker();
-    final XFile? image = await _picker.pickImage(source: source);
+    final ImagePicker picker = ImagePicker();
+    final image = await picker.pickImage(source: source);
 
     if (image != null) {
-      setState(() {
-        switch (section) {
-          case 'building':
-            // _buildingImage = File(image.path);
-            buildingReport.imageImmeuble = File(image.path);
-            break;
-          case 'verticality':
-            buildingReport.imagePBI = File(image.path);
-            break;
-          case 'signal':
-            buildingReport.imageTestDeSignal = File(image.path);
-            break;
-        }
-      });
+      final directory = await getApplicationDocumentsDirectory();
+      final imagePath =
+          '${directory.path}/${DateTime.now().millisecondsSinceEpoch}.jpg';
+      switch (section) {
+        case 'building':
+          buildingReport.imageImmeuble = File(image.path).copySync(imagePath);
+          break;
+        case 'verticality':
+          buildingReport.imagePBI = await File(image.path).copy(imagePath);
+          break;
+        case 'signal':
+          buildingReport.imageTestDeSignal =
+              await File(image.path).copy(imagePath);
+          break;
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    buildingReport = ModalRoute.of(context)!.settings.arguments as BuildingReport;
+    buildingReport =
+        ModalRoute.of(context)!.settings.arguments as BuildingReport;
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -51,11 +52,11 @@ class _LoadImagesState extends State<LoadImages> {
         padding: EdgeInsets.all(16.0),
         child: ListView(
           children: [
-            Text(
+            const Text(
               'Photo de l\'immeuble',
               style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 8.0),
+            const SizedBox(height: 8.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -75,11 +76,6 @@ class _LoadImagesState extends State<LoadImages> {
                 ),
               ],
             ),
-            if (_buildingImage != null)
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
-                child: Image.file(_buildingImage!),
-              ),
             SizedBox(height: 16.0),
             Text(
               'Verticalité PBI',
@@ -105,11 +101,6 @@ class _LoadImagesState extends State<LoadImages> {
                 ),
               ],
             ),
-            if (_verticalityImage != null)
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
-                child: Image.file(_verticalityImage!),
-              ),
             SizedBox(height: 16.0),
             Text(
               'Test de signal',
@@ -135,11 +126,6 @@ class _LoadImagesState extends State<LoadImages> {
                 ),
               ],
             ),
-            if (_signalTestImage != null)
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
-                child: Image.file(_signalTestImage!),
-              ),
             SizedBox(height: 32.0),
             ElevatedButton(
               onPressed: () {

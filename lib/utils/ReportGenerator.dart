@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:camusat_report/models/building_report.dart';
 import 'package:flutter/services.dart';
 import 'package:pdf/pdf.dart';
@@ -8,12 +10,22 @@ class Reportgenerator {
 
   Reportgenerator();
 
-  bool isReportDataValide(BuildingReport reportData) {
-    return true;
+  bool isReportDataValid(BuildingReport reportData) {
+    bool isImageValid(File image) {
+      return image.existsSync();
+    }
+
+    // Check if the images are not null
+    // if (isImageValid(reportData.imageImmeuble) &&
+    //     isImageValid(reportData.imagePBI) &&
+    //     isImageValid(reportData.screenSituationGeographique) &&
+    //     isImageValid(reportData.imageTestDeSignal)) return true;
+
+    return true; // false;
   }
 
-  void generate(BuildingReport reportData) async {
-    isReportDataValide(reportData);
+  Future<bool> generate(BuildingReport reportData) async {
+    if (!isReportDataValid(reportData)) return false;
     final ByteData camusatLogoData =
         await rootBundle.load('images/camusat.png');
     final ByteData orangeLogoData = await rootBundle.load('images/orange.png');
@@ -57,13 +69,16 @@ class Reportgenerator {
 
     // Title with border (smaller width and centered)
     pw.Widget titleBorder(
-        {required String title, PdfColor? background, PdfColor? foreground, double? width}) {
+        {required String title,
+        PdfColor? background,
+        PdfColor? foreground,
+        double? width}) {
       return pw.Center(
         child: pw.Container(
           width: width ?? 200,
           padding: const pw.EdgeInsets.all(10),
           decoration: pw.BoxDecoration(
-            color:  background ?? PdfColors.amber50,
+            color: background ?? PdfColors.amber50,
             border: pw.Border.all(color: PdfColors.black, width: 1),
           ),
           child: pw.Text(
@@ -133,20 +148,32 @@ class Reportgenerator {
           crossAxisAlignment: pw.CrossAxisAlignment.stretch,
           children: [
             titleBorder(
-                title: "Rapport de câblage en fibre optique par CAMUSAT",
-                background: PdfColors.white,
-                foreground: PdfColors.blue900,
-                width: 800,
+              title: "Rapport de câblage en fibre optique par CAMUSAT",
+              background: PdfColors.white,
+              foreground: PdfColors.blue900,
+              width: 800,
             ),
-            spacing(10),
-            // pw.Image(pw.MemoryImage(reportData.screenSituationGeographique!.readAsBytesSync())),
+            spacing(20),
+            pw.Center(
+              child: pw.Image(
+                  height: 300,
+                  pw.MemoryImage(reportData.imageImmeuble.readAsBytesSync())),
+            ),
           ],
         ),
       );
     }
 
     pw.Widget pageSituationGeo() {
-      return pw.Container();
+      return pw.Container(
+        child: pw.Column(
+          crossAxisAlignment: pw.CrossAxisAlignment.stretch,
+          children: [
+            titleBorder(title: "SITUATION GEOGRAPHIQUE"),
+            spacing(10),
+          ],
+        ),
+      );
     }
 
     //SITUATION DE CABLAGE container
@@ -249,6 +276,7 @@ class Reportgenerator {
         },
       ),
     );
+    return true;
   }
 
   pw.Document getPdf() {

@@ -4,12 +4,12 @@ class BuildingReport {
   late String nomPlaque;                // NOM DE LA PLAQUE
   late String adresse;                  // Adresse
   late String coordonnees;              // Coordonnées de l'immeuble
-  File? imageImmeuble;              // Image immeuble
-  File? screenSituationGeographique;// Screen situation géographique
-  File? schema;                     // Schema
-  File? imagePBI;                   // Image PBI
+  late File imageImmeuble;              // Image immeuble
+  late File screenSituationGeographique;// Screen situation géographique
+  late File schema;                     // Schema
+  late File imagePBI;                   // Image PBI
   late Map<String, File> imagesPBO;            // Images PBO
-  File? imageTestDeSignal;          // Image test de signal
-  int? splitere;                    // Splitere
-  String? pbiLocation;              // PBI Location
+  late File imageTestDeSignal;          // Image test de signal
+  late int splitere;                    // Splitere
+  late String pbiLocation;              // PBI Location
 }

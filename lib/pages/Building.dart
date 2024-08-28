@@ -33,15 +33,15 @@ class _BuildingState extends State<Building> {
     buildingReport.adresse = buildingData['adresse']!;
   }
 
-   Future<File> _pickImage(ImageSource source) async {
+  Future<File> _pickImage(ImageSource source) async {
     final XFile? image = await _picker.pickImage(source: source);
     return File(image!.path);
-      // setState(() {
-      //   if (!pboImages.containsKey(floor)) {
-      //     pboImages[floor] = [];
-      //   }
-      //   pboImages[floor]!.add(File(image.path));
-      // });
+    // setState(() {
+    //   if (!pboImages.containsKey(floor)) {
+    //     pboImages[floor] = [];
+    //   }
+    //   pboImages[floor]!.add(File(image.path));
+    // });
     //  }
   }
 
@@ -96,7 +96,8 @@ class _BuildingState extends State<Building> {
             const SizedBox(height: 10),
             ElevatedButton.icon(
               onPressed: () async {
-                buildingReport.screenSituationGeographique = await _pickImage(ImageSource.gallery);
+                buildingReport.screenSituationGeographique =
+                    await _pickImage(ImageSource.gallery);
               },
               icon: const Icon(Icons.photo_library),
               label: const Text('Charger Image plan'),
@@ -258,13 +259,14 @@ class _BuildingState extends State<Building> {
             ),
             const SizedBox(height: 16.0),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 // Validate and save the report
-                reportGenerator.generate(buildingReport);
-                Printing.layoutPdf(
-                  onLayout: (PdfPageFormat format) =>
-                      reportGenerator.getPdf().save(),
-                );
+                if (await reportGenerator.generate(buildingReport)) {
+                  Printing.layoutPdf(
+                    onLayout: (PdfPageFormat format) =>
+                        reportGenerator.getPdf().save(),
+                  );
+                }
               },
               child: const Text('Validate'),
             ),
