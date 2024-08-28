@@ -47,7 +47,7 @@ class Reportgenerator {
     }
 
     // Building details (smaller width and centered)
-    pw.Widget BuildingDetails() {
+    pw.Widget buildingDetails() {
       return pw.Container(
         width: 400,
         decoration: pw.BoxDecoration(
@@ -95,7 +95,7 @@ class Reportgenerator {
     // pw.Image(pw.MemoryImage(reportData.imageImmeuble!.readAsBytesSync())),
 
     // Title with border (smaller width and centered)
-    pw.Widget TitleBorder(String title) {
+    pw.Widget titleBorder(String title) {
       return pw.Center(
         child: pw.Container(
           width: 200,
@@ -119,12 +119,12 @@ class Reportgenerator {
       );
     }
 
-    pw.Widget Spacing(double _height) {
+    pw.Widget spacing(double _height) {
       return pw.SizedBox(height: _height);
     }
 
     // Report content
-    pw.Widget Content() {
+    pw.Widget pageMeuble() {
       return pw.Container(
         child: pw.Column(
           crossAxisAlignment: pw.CrossAxisAlignment.stretch,
@@ -148,9 +148,9 @@ class Reportgenerator {
                 ),
               ),
             ),
-            Spacing(10),
-            TitleBorder("SITUATION GEOGRAPHIQUE"),
-            Spacing(10),
+            spacing(10),
+            titleBorder("SITUATION GEOGRAPHIQUE"),
+            spacing(10),
             // pw.Image(pw.MemoryImage(reportData.screenSituationGeographique!.readAsBytesSync())),
           ],
         ),
@@ -158,7 +158,7 @@ class Reportgenerator {
     }
 
     //SITUATION DE CABLAGE container
-    pw.Widget Cablage() {
+    pw.Widget pageCablage() {
       return pw.Container(
         child: pw.Column(
           crossAxisAlignment: pw.CrossAxisAlignment.stretch,
@@ -189,7 +189,7 @@ class Reportgenerator {
     }
 
     // VERTICALITE
-    pw.Widget VERTICALITE() {
+    pw.Widget pageVerticalite() {
       return pw.Container(
         child: pw.Column(
           crossAxisAlignment: pw.CrossAxisAlignment.stretch,
@@ -220,7 +220,7 @@ class Reportgenerator {
     }
 
     // TEST DE RACCORDEMENT
-    pw.Widget test() {
+    pw.Widget pageTestRaccordement() {
       return pw.Container(
         child: pw.Column(
           crossAxisAlignment: pw.CrossAxisAlignment.start,
@@ -244,7 +244,7 @@ class Reportgenerator {
                 ),
               ),
             ),
-            Spacing(10),
+            spacing(10),
 
             pw.Center(
               child: pw.Container(
@@ -265,7 +265,7 @@ class Reportgenerator {
                 ),
               ),
             ),
-            Spacing(10),
+            spacing(10),
           ],
         ),
       );
@@ -280,12 +280,12 @@ class Reportgenerator {
             crossAxisAlignment: pw.CrossAxisAlignment.center,
             children: [
               Header(),
-              Spacing(20),
+              spacing(20),
               Title(),
-              Spacing(20),
-              BuildingDetails(),
-              Spacing(20),
-              Content(),
+              spacing(20),
+              buildingDetails(),
+              spacing(20),
+              pageMeuble(),
             ],
           );
         },
@@ -298,7 +298,7 @@ class Reportgenerator {
         pageFormat: PdfPageFormat.a4,
         build: (pw.Context context) {
           return pw.Center(
-            child: Cablage(),
+            child: pageCablage(),
           );
         },
       ),
@@ -310,7 +310,7 @@ class Reportgenerator {
         pageFormat: PdfPageFormat.a4,
         build: (pw.Context context) {
           return pw.Center(
-            child: VERTICALITE(),
+            child: pageVerticalite(),
           );
         },
       ),
@@ -322,7 +322,7 @@ class Reportgenerator {
         pageFormat: PdfPageFormat.a4,
         build: (pw.Context context) {
           return pw.Center(
-            child: test(),
+            child: pageTestRaccordement(),
           );
         },
       ),

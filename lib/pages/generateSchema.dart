@@ -128,7 +128,7 @@ class _GenerateSchemaState extends State<GenerateSchema> {
 
             // Cables PBO
             TextField(
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Câbles PBO',
                 border: OutlineInputBorder(),
               ),
