@@ -70,7 +70,7 @@ class _BuildingState extends State<Building> {
             Text(
               'Immeuble: ${buildingReport.nomPlaque}',
               style:
-                  const TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+                  const TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8.0),
             Text('Nom de Plaque: ${buildingReport.nomPlaque}'),

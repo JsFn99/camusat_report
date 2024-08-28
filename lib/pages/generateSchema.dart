@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:camusat_report/models/schema.dart';
 
 class GenerateSchema extends StatefulWidget {
   @override
@@ -6,20 +7,27 @@ class GenerateSchema extends StatefulWidget {
 }
 
 class _GenerateSchemaState extends State<GenerateSchema> {
-  int nombreEtages = 1;
-  List<String> pbiLocations = [];
-  String? selectedPboLocation;
-  int cablesPbo = 1;
+  int _nombreEtages = 1;
+  List<String> _pboLocations = [];
+  List<String> _b2bLocations = [];
+  String? _selectedPboLocation;
+  int _cablesPbo = 1;
 
-  List<String> pbiOptions = ['RDC', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
-  List<String> pboOptions = ['Sous-sol', 'RDC', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
+  List<String> _b2b = ['RDC', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
+  List<String> _pbiOptions = ['RDC', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
+  List<String> _pboOptions = ['Sous-sol', 'RDC', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
 
+  late Schema schema = Schema();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Générer Schéma'),
+        title: Text(
+          "Générer Schéma",
+          style: TextStyle(color: Theme.of(context).indicatorColor),
+        ),
+        backgroundColor: Colors.orange[800],
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
@@ -36,16 +44,16 @@ class _GenerateSchemaState extends State<GenerateSchema> {
                       icon: Icon(Icons.remove),
                       onPressed: () {
                         setState(() {
-                          if (nombreEtages > 1) nombreEtages--;
+                          if (_nombreEtages > 1) _nombreEtages--;
                         });
                       },
                     ),
-                    Text('$nombreEtages'),
+                    Text('$_nombreEtages'),
                     IconButton(
                       icon: Icon(Icons.add),
                       onPressed: () {
                         setState(() {
-                          nombreEtages++;
+                          _nombreEtages++;
                         });
                       },
                     ),
@@ -55,20 +63,42 @@ class _GenerateSchemaState extends State<GenerateSchema> {
             ),
             SizedBox(height: 16.0),
 
-            // PBI Location (Multiple selection)
-            Text('PBO Location:'),
+            // B2B Location (Multiple selection)
+            Text('Emplacement des B2B :'),
             Wrap(
-              children: pbiOptions.map((option) {
-                bool isSelected = pbiLocations.contains(option);
+              children: _b2b.map((option) {
+                bool isSelected = _b2bLocations.contains(option);
                 return ChoiceChip(
                   label: Text(option),
                   selected: isSelected,
                   onSelected: (selected) {
                     setState(() {
                       if (isSelected) {
-                        pbiLocations.remove(option);
+                        _b2bLocations.remove(option);
                       } else {
-                        pbiLocations.add(option);
+                        _b2bLocations.add(option);
+                      }
+                    });
+                  },
+                );
+              }).toList(),
+            ),
+            SizedBox(height: 16.0),
+
+            // PBI Location (Multiple selection)
+            Text('Emplacement PBO :'),
+            Wrap(
+              children: _pbiOptions.map((option) {
+                bool isSelected = _pboLocations.contains(option);
+                return ChoiceChip(
+                  label: Text(option),
+                  selected: isSelected,
+                  onSelected: (selected) {
+                    setState(() {
+                      if (isSelected) {
+                        _pboLocations.remove(option);
+                      } else {
+                        _pboLocations.add(option);
                       }
                     });
                   },
@@ -78,11 +108,11 @@ class _GenerateSchemaState extends State<GenerateSchema> {
             SizedBox(height: 16.0),
 
             // PBO Location (Single selection)
-            Text('PBI Location:'),
+            Text('Emplacement PBI:'),
             DropdownButton<String>(
-              hint: Text('Select PBO Location'),
-              value: selectedPboLocation,
-              items: pboOptions.map((String value) {
+              hint: Text('Sélectionner emplacement PBI '),
+              value: _selectedPboLocation,
+              items: _pboOptions.map((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
                   child: Text(value),
@@ -90,7 +120,7 @@ class _GenerateSchemaState extends State<GenerateSchema> {
               }).toList(),
               onChanged: (newValue) {
                 setState(() {
-                  selectedPboLocation = newValue;
+                  _selectedPboLocation = newValue;
                 });
               },
             ),
@@ -105,7 +135,7 @@ class _GenerateSchemaState extends State<GenerateSchema> {
               keyboardType: TextInputType.number,
               onChanged: (value) {
                 setState(() {
-                  cablesPbo = int.tryParse(value) ?? 1;
+                  _cablesPbo = int.tryParse(value) ?? 1;
                 });
               },
             ),
@@ -114,9 +144,23 @@ class _GenerateSchemaState extends State<GenerateSchema> {
             // Generate Button
             ElevatedButton(
               onPressed: () {
-                // Generate schema logic here
+                // Assign the user inputs to the Schema object
+                schema.nbrEtages = _nombreEtages;
+                schema.b2bLocations = {for (int i = 0; i < _b2bLocations.length; i++) i: _b2bLocations[i]};
+                schema.pboLocations = {for (int i = 0; i < _pboLocations.length; i++) i: _pboLocations[i]};
+                schema.pbiLocation = _pboOptions.indexOf(_selectedPboLocation!);
+                schema.cablePbo = _cablesPbo;
+
+                // Implement your schema generation logic here
+
+                print('Schema generated with the following data:');
+                print('Nombre d\'étages: ${schema.nbrEtages}');
+                print('Emplacement B2B: ${schema.b2bLocations}');
+                print('Emplacement PBO: ${schema.pboLocations}');
+                print('Emplacement PBI: ${schema.pbiLocation}');
+                print('Câbles PBO: ${schema.cablePbo}');
               },
-              child: Text('Générer'),
+              child: Text('Générer schéma'),
             ),
           ],
         ),

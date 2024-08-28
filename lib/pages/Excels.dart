@@ -102,6 +102,7 @@ class _ExcelsState extends State<Excels> {
           itemCount: regions.length,
           itemBuilder: (context, index) {
             return Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Stack(
                   children: [
@@ -116,19 +117,20 @@ class _ExcelsState extends State<Excels> {
                         );
                       },
                       child: Container(
+                        height: 100,
+                        width: double.infinity,
                         decoration: BoxDecoration(
                           image: DecorationImage(
                             image: AssetImage('images/excel.png'),
-                            fit: BoxFit.cover,
+                            fit: BoxFit.scaleDown,
                           ),
                           borderRadius: BorderRadius.circular(8.0),
                         ),
-                        // Remove the Text widget here
-                        child: SizedBox(height: 100), // Adjust height as needed
+                        child: SizedBox.shrink(),
                       ),
                     ),
                     Positioned(
-                      top: 8.0,
+                      top: -14.0,
                       right: 8.0,
                       child: IconButton(
                         icon: Icon(Icons.delete, color: Colors.red),
@@ -139,7 +141,7 @@ class _ExcelsState extends State<Excels> {
                     ),
                   ],
                 ),
-                SizedBox(height: 8.0), // Space between the container and file name
+                SizedBox(height: 8.0),
                 Text(
                   regions[index].split('/').last, // Show the file name only
                   style: TextStyle(fontSize: 16.0, color: Colors.black),
