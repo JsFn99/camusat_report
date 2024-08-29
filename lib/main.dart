@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
         "/generateSchema": (context) => GenerateSchema(),
         "/Reports": (context) => Reports(),
       },
-      home: LoadingPage(),  // Start with the LoadingPage
+      home: LoadingPage(),
     );
   }
 }
@@ -57,8 +57,8 @@ class _LoadingPageState extends State<LoadingPage> {
           children: [
             const Image(
               image: AssetImage("images/camusat.png"),
-              height: 100,
-              width: 100,
+              height: 300,
+              width: 300,
             ),
             const SizedBox(height: 30),
             CircularProgressIndicator(
