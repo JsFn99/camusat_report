@@ -257,7 +257,7 @@ class _BuildingState extends State<Building> {
                       children: [
                         ElevatedButton.icon(
                           onPressed: () {
-                            // Implement camera function
+                            _pickPBOImage(ImageSource.camera, floor);
                           },
                           icon: const Icon(Icons.camera_alt),
                           label: const Text('Prendre Photo'),
@@ -308,6 +308,9 @@ class _BuildingState extends State<Building> {
               children: [
                 ElevatedButton(
                   onPressed: () async => previewPdf(),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Theme.of(context).badgeTheme.backgroundColor,
+                  ),
                   child: const Text('Generer Rapport'),
                 ),
               ],
