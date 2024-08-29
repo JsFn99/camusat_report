@@ -229,6 +229,11 @@ class Reportgenerator {
             ),
             spacing(20),
             placeImage(reportData.imageTestDeSignal),
+            spacing(20),
+            titleBorder(
+              title: reportData.splitere > 32 ? "SPLITERE 2 (1*8)" : "SPLITERE (1*8)",
+              background: PdfColors.grey300,
+            ),
           ],
         ),
       );
