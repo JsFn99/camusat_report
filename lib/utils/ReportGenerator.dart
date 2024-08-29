@@ -209,7 +209,13 @@ class Reportgenerator {
           crossAxisAlignment: pw.CrossAxisAlignment.stretch,
           children: [
             titleBorder(title: "VERTICALITE"),
-            // pw.Image(pw.MemoryImage(reportData.schema!.readAsBytesSync())),
+            spacing(20),
+            titleBorder(
+              title: reportData.pbiLocation == "Sous-sol" ? "PBI \"Sous-sol\"" : "PBI \"FACADE\"",
+              background: PdfColors.grey300,
+            ),
+            spacing(20),
+             placeImage(reportData.imagePBI),
           ],
         ),
       );

@@ -19,7 +19,7 @@ class _BuildingState extends State<Building> {
   BuildingReport buildingReport = BuildingReport();
   Reportgenerator reportGenerator = Reportgenerator();
   bool isPBOToggled = false;
-  String selectedPBI = 'RDC';
+  String selectedPBI = 'Sous-sol';
   Map<String, List<File>> pboImages = {};
 
   final ImagePicker _picker = ImagePicker();
@@ -133,17 +133,7 @@ class _BuildingState extends State<Building> {
               value: selectedPBI,
               items: [
                 'Sous-sol',
-                'RDC',
-                '1',
-                '2',
-                '3',
-                '4',
-                '5',
-                '6',
-                '7',
-                '8',
-                '9',
-                '10'
+                'Facade',
               ].map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
