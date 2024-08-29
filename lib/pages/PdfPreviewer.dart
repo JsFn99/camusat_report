@@ -9,23 +9,24 @@ import 'package:intl/intl.dart';
 
 class PdfPreviewer extends StatelessWidget {
   final Uint8List pdfBytes;
+  final String nomPlaque;
 
-  const PdfPreviewer({super.key, required this.pdfBytes});
+  const PdfPreviewer({super.key, required this.pdfBytes, required this.nomPlaque});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Votre Pdf"),
+        title: Text("Votre Pdf: $nomPlaque"),
         actions: [
           IconButton(
-            icon: Icon(Icons.save),
+            icon: const Icon(Icons.save),
             onPressed: () async {
               await _savePdf(context);
             },
           ),
           IconButton(
-            icon: Icon(Icons.email),
+            icon: const Icon(Icons.email),
             onPressed: () async {
               await _sendViaEmail(context);
             },
@@ -40,12 +41,11 @@ class PdfPreviewer extends StatelessWidget {
 
   Future<void> _savePdf(BuildContext context) async {
     final directory = await getApplicationDocumentsDirectory();
-    final fileName = "rapport_${DateTime.now().millisecondsSinceEpoch}.pdf";
+    final fileName = "${nomPlaque}_${DateTime.now().millisecondsSinceEpoch}.pdf";
     final file = File('${directory.path}/$fileName');
 
     await file.writeAsBytes(pdfBytes);
 
-    // Save report details
     final prefs = await SharedPreferences.getInstance();
     List<String> reportTitles = prefs.getStringList('reportTitles') ?? [];
     List<String> reportDates = prefs.getStringList('reportDates') ?? [];
@@ -60,13 +60,13 @@ class PdfPreviewer extends StatelessWidget {
     await prefs.setStringList('reportDates', reportDates);
 
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('PDF enregistré avec succes !')),
+      const SnackBar(content: Text('PDF enregistré avec succès !')),
     );
   }
 
   Future<void> _sendViaEmail(BuildContext context) async {
     final directory = await getApplicationDocumentsDirectory();
-    final fileName = "rapport_${DateTime.now().millisecondsSinceEpoch}.pdf";
+    final fileName = "${nomPlaque}_${DateTime.now().millisecondsSinceEpoch}.pdf";
     final file = File('${directory.path}/$fileName');
 
     await file.writeAsBytes(pdfBytes);

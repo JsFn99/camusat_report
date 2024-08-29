@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:share_plus/share_plus.dart';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
+import 'package:flutter_pdfview/flutter_pdfview.dart'; // Import the PDF viewer package
 import '../widgets/BottomNavBar.dart';
 
 class Reports extends StatefulWidget {
@@ -82,6 +83,28 @@ class _ReportsState extends State<Reports> {
     }
   }
 
+  Future<void> _openReport(String fileName) async {
+    final directory = await getApplicationDocumentsDirectory();
+    final file = File('${directory.path}/$fileName');
+
+    print('Looking for file at: ${file.path}');
+
+    if (await file.exists()) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => PDFView(
+            filePath: file.path,
+          ),
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Fichier introuvable!')),
+      );
+    }
+  }
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -104,32 +127,38 @@ class _ReportsState extends State<Reports> {
         backgroundColor: Colors.orange[800],
       ),
       body: ListView.builder(
-        padding: EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(12.0),
         itemCount: reportTitles.length,
         itemBuilder: (context, index) {
           return ListTile(
-            leading: Icon(Icons.insert_drive_file, color: Colors.orange[800]),
-            title: Text(reportTitles[index]),
-            subtitle: Text(reportDates[index]),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
+            leading: Icon(Icons.insert_drive_file, color: Colors.orange[800], size: 30),
+            title: Row(
               children: [
-                IconButton(
-                  icon: Icon(Icons.email, color: Colors.blue),
-                  onPressed: () {
-                    _sendReportViaEmail(reportTitles[index]);
-                  },
+                Expanded(
+                  child: Text(reportTitles[index]),
                 ),
-                IconButton(
-                  icon: Icon(Icons.delete, color: Colors.red),
-                  onPressed: () {
-                    _deleteReport(index);
-                  },
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      icon: Icon(Icons.email, color: Colors.blue),
+                      onPressed: () {
+                        _sendReportViaEmail(reportTitles[index]);
+                      },
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.delete, color: Colors.red),
+                      onPressed: () {
+                        _deleteReport(index);
+                      },
+                    ),
+                  ],
                 ),
               ],
             ),
+            subtitle: Text(reportDates[index]),
             onTap: () {
-              // Handle report selection
+              _openReport(reportTitles[index]);
             },
           );
         },

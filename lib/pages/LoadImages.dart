@@ -12,6 +12,11 @@ class LoadImages extends StatefulWidget {
 
 class _LoadImagesState extends State<LoadImages> {
   late BuildingReport buildingReport;
+  Map<String, bool> imageLoaded = {
+    'building': false,
+    'verticality': false,
+    'signal': false,
+  };
 
   Future<void> _pickImage(ImageSource source, String section) async {
     final ImagePicker picker = ImagePicker();
@@ -32,13 +37,16 @@ class _LoadImagesState extends State<LoadImages> {
           buildingReport.imageTestDeSignal = File(image.path).copySync(imagePath);
           break;
       }
+      setState(() {
+        imageLoaded[section] = true;
+      });
     }
   }
 
   @override
   Widget build(BuildContext context) {
     buildingReport =
-        ModalRoute.of(context)!.settings.arguments as BuildingReport;
+    ModalRoute.of(context)!.settings.arguments as BuildingReport;
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -63,14 +71,27 @@ class _LoadImagesState extends State<LoadImages> {
                   onPressed: () {
                     _pickImage(ImageSource.camera, 'building');
                   },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: imageLoaded['building'] ?? false
+                        ? Colors.green
+                        : Theme.of(context).primaryColorLight,
+                  ),
                   icon: const Icon(Icons.camera_alt),
                   label: const Text('Prendre Photo'),
                 ),
-                Text('OU',style: TextStyle(fontSize: 14.0),),
+                Text(
+                  'OU',
+                  style: TextStyle(fontSize: 14.0),
+                ),
                 ElevatedButton.icon(
                   onPressed: () {
                     _pickImage(ImageSource.gallery, 'building');
                   },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: imageLoaded['building'] ?? false
+                        ? Colors.green
+                        : Theme.of(context).primaryColorLight,
+                  ),
                   icon: const Icon(Icons.photo_library),
                   label: const Text('Charger Image'),
                 ),
@@ -89,14 +110,27 @@ class _LoadImagesState extends State<LoadImages> {
                   onPressed: () {
                     _pickImage(ImageSource.camera, 'verticality');
                   },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: imageLoaded['verticality'] ?? false
+                        ? Colors.green
+                        : Theme.of(context).primaryColorLight,
+                  ),
                   icon: const Icon(Icons.camera_alt),
                   label: const Text('Prendre Photo'),
                 ),
-                Text('OU',style: TextStyle(fontSize: 14.0),),
+                Text(
+                  'OU',
+                  style: TextStyle(fontSize: 14.0),
+                ),
                 ElevatedButton.icon(
                   onPressed: () {
                     _pickImage(ImageSource.gallery, 'verticality');
                   },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: imageLoaded['verticality'] ?? false
+                        ? Colors.green
+                        : Theme.of(context).primaryColorLight,
+                  ),
                   icon: const Icon(Icons.photo_library),
                   label: const Text('Charger Image'),
                 ),
@@ -115,14 +149,27 @@ class _LoadImagesState extends State<LoadImages> {
                   onPressed: () {
                     _pickImage(ImageSource.camera, 'signal');
                   },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: imageLoaded['signal'] ?? false
+                        ? Colors.green
+                        : Theme.of(context).primaryColorLight,
+                  ),
                   icon: const Icon(Icons.camera_alt),
                   label: const Text('Prendre Photo'),
                 ),
-                Text('OU',style: TextStyle(fontSize: 14.0),),
+                Text(
+                  'OU',
+                  style: TextStyle(fontSize: 14.0),
+                ),
                 ElevatedButton.icon(
                   onPressed: () {
                     _pickImage(ImageSource.gallery, 'signal');
                   },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: imageLoaded['signal'] ?? false
+                        ? Colors.green
+                        : Theme.of(context).primaryColorLight,
+                  ),
                   icon: const Icon(Icons.photo_library),
                   label: const Text('Charger Image'),
                 ),
