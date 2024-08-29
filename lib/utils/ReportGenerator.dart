@@ -48,13 +48,15 @@ class Reportgenerator {
     pw.Widget placeImage(File img) {
       return pw.Center(
         child: pw.Container(
-          height: 300,
           padding: const pw.EdgeInsets.all(10),
+          height: 300,
           decoration: pw.BoxDecoration(
             color: PdfColors.amber50,
             border: pw.Border.all(color: PdfColors.black, width: 1),
           ),
-          child: pw.Image(pw.MemoryImage(img.readAsBytesSync())),
+          child: pw.Image(
+            pw.MemoryImage(img.readAsBytesSync()),
+            ),
         ),
       );
     }
