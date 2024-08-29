@@ -131,7 +131,7 @@ class _LoadImagesState extends State<LoadImages> {
             const SizedBox(height: 32.0),
             ElevatedButton(
               onPressed: () {
-                // Validate the selections and proceed
+                Navigator.pop(context, buildingReport);
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blueAccent,
