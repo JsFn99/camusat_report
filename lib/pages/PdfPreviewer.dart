@@ -46,7 +46,6 @@ class PdfPreviewer extends StatelessWidget {
 
     await file.writeAsBytes(pdfBytes);
 
-    // Save report details
     final prefs = await SharedPreferences.getInstance();
     List<String> reportTitles = prefs.getStringList('reportTitles') ?? [];
     List<String> reportDates = prefs.getStringList('reportDates') ?? [];
@@ -54,14 +53,14 @@ class PdfPreviewer extends StatelessWidget {
     final now = DateTime.now();
     final formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(now);
 
-    reportTitles.add(nomPlaque);
+    reportTitles.add(fileName);
     reportDates.add(formattedDate);
 
     await prefs.setStringList('reportTitles', reportTitles);
     await prefs.setStringList('reportDates', reportDates);
 
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('PDF enregistré avec succes !')),
+      const SnackBar(content: Text('PDF enregistré avec succès !')),
     );
   }
 

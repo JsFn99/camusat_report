@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:share_plus/share_plus.dart';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
+import 'package:flutter_pdfview/flutter_pdfview.dart'; // Import the PDF viewer package
 import '../widgets/BottomNavBar.dart';
 
 class Reports extends StatefulWidget {
@@ -82,6 +83,28 @@ class _ReportsState extends State<Reports> {
     }
   }
 
+  Future<void> _openReport(String fileName) async {
+    final directory = await getApplicationDocumentsDirectory();
+    final file = File('${directory.path}/$fileName');
+
+    print('Looking for file at: ${file.path}');
+
+    if (await file.exists()) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => PDFView(
+            filePath: file.path,
+          ),
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Fichier introuvable!')),
+      );
+    }
+  }
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -112,10 +135,10 @@ class _ReportsState extends State<Reports> {
             title: Row(
               children: [
                 Expanded(
-                  child: Text(reportTitles[index]), // Title takes up available space
+                  child: Text(reportTitles[index]),
                 ),
                 Row(
-                  mainAxisSize: MainAxisSize.min, // Minimize the space taken by trailing icons
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     IconButton(
                       icon: Icon(Icons.email, color: Colors.blue),
@@ -135,7 +158,7 @@ class _ReportsState extends State<Reports> {
             ),
             subtitle: Text(reportDates[index]),
             onTap: () {
-              // Handle report selection
+              _openReport(reportTitles[index]);
             },
           );
         },
