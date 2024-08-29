@@ -22,8 +22,7 @@ class Reportgenerator {
     return false;
   }
 
-  Future<bool> generate(BuildingReport reportData) async {
-    if (!isReportDataValid(reportData)) return false;
+  void generate(BuildingReport reportData) async {
     pdf = pw.Document();
     final ByteData camusatLogoData =
         await rootBundle.load('images/camusat.png');
@@ -313,7 +312,6 @@ class Reportgenerator {
         },
       ),
     );
-    return true;
   }
 
   Uint8List getPdf() {

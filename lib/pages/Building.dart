@@ -270,7 +270,8 @@ class _BuildingState extends State<Building> {
               children: [
                 ElevatedButton(
                   onPressed: () async => {
-                    if (await reportGenerator.generate(buildingReport)) {
+                    if (reportGenerator.isReportDataValid(buildingReport)) {
+                      reportGenerator.generate(buildingReport),
                       Navigator.push(
                           context,
                           MaterialPageRoute(
