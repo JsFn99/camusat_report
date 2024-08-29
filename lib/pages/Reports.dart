@@ -104,30 +104,36 @@ class _ReportsState extends State<Reports> {
         backgroundColor: Colors.orange[800],
       ),
       body: ListView.builder(
-        padding: EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(12.0),
         itemCount: reportTitles.length,
         itemBuilder: (context, index) {
           return ListTile(
-            leading: Icon(Icons.insert_drive_file, color: Colors.orange[800]),
-            title: Text(reportTitles[index]),
-            subtitle: Text(reportDates[index]),
-            trailing: Row(
-              mainAxisSize: MainAxisSize.min,
+            leading: Icon(Icons.insert_drive_file, color: Colors.orange[800], size: 30),
+            title: Row(
               children: [
-                IconButton(
-                  icon: Icon(Icons.email, color: Colors.blue),
-                  onPressed: () {
-                    _sendReportViaEmail(reportTitles[index]);
-                  },
+                Expanded(
+                  child: Text(reportTitles[index]), // Title takes up available space
                 ),
-                IconButton(
-                  icon: Icon(Icons.delete, color: Colors.red),
-                  onPressed: () {
-                    _deleteReport(index);
-                  },
+                Row(
+                  mainAxisSize: MainAxisSize.min, // Minimize the space taken by trailing icons
+                  children: [
+                    IconButton(
+                      icon: Icon(Icons.email, color: Colors.blue),
+                      onPressed: () {
+                        _sendReportViaEmail(reportTitles[index]);
+                      },
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.delete, color: Colors.red),
+                      onPressed: () {
+                        _deleteReport(index);
+                      },
+                    ),
+                  ],
                 ),
               ],
             ),
+            subtitle: Text(reportDates[index]),
             onTap: () {
               // Handle report selection
             },

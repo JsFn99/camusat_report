@@ -35,8 +35,7 @@ class _BuildingState extends State<Building> {
     super.didChangeDependencies();
     final buildingData =
     ModalRoute.of(context)!.settings.arguments as Map<String, String>;
-    buildingReport.coordonnees =
-    '${buildingData['lat']}, ${buildingData['long']}';
+    buildingReport.coordonnees = '${buildingData['lat']}, ${buildingData['long']}';
     buildingReport.nomPlaque = buildingData['nomPlaque']!;
     buildingReport.adresse = buildingData['adresse']!;
   }
@@ -49,7 +48,7 @@ class _BuildingState extends State<Building> {
         context,
         MaterialPageRoute(
           builder: (context) => PdfPreviewer(
-            pdfBytes: data,
+            pdfBytes: data, nomPlaque: '${buildingReport.nomPlaque}',
           ),
         ),
       );
