@@ -12,4 +12,6 @@ class BuildingReport {
   late File imageTestDeSignal;          // Image test de signal
   late int splitere;                    // Splitere
   late String pbiLocation;              // PBI Location
+
+  BuildingReport([this.imagesPBO = const {}]);
 }

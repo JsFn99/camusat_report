@@ -5,7 +5,6 @@ import 'package:camusat_report/pages/PdfPreviewer.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:printing/printing.dart';
 import 'dart:io';
 import 'package:url_launcher/url_launcher_string.dart';
 import '../../models/building_report.dart';
@@ -65,14 +64,14 @@ class _BuildingState extends State<Building> {
     throw Null;
   }
 
-  Future <Map<String, File>> _pickPBOImage(ImageSource source, String floor) async {
+  Future<File> _pickPBOImage(ImageSource source) async {
     final image = await _picker.pickImage(source: source);
     final directory = await getApplicationDocumentsDirectory();
     final imagePath =
         '${directory.path}/${DateTime.now().millisecondsSinceEpoch}.jpg';
 
     if (image != null) {
-      return {floor: File(image.path).copySync(imagePath)};
+      return File(image.path).copySync(imagePath);
     }
     throw Null;
   }
@@ -236,35 +235,23 @@ class _BuildingState extends State<Building> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         ElevatedButton.icon(
-                          onPressed: () {
-                            // _pickImage(ImageSource.camera, floor);
+                          onPressed: () async {
+                            buildingReport.imagesPBO[floor] = await _pickPBOImage(ImageSource.camera);
                           },
                           icon: const Icon(Icons.camera_alt),
                           label: const Text('Prendre Photo'),
                         ),
-                        Text('OU',style: TextStyle(fontSize: 14.0),),
+                        const Text('OU',style: TextStyle(fontSize: 14.0),),
                         const SizedBox(width: 8),
                         ElevatedButton.icon(
-                          onPressed: () {
-                            _pickPBOImage(ImageSource.gallery, floor);
+                          onPressed: () async {
+                            buildingReport.imagesPBO[floor] = await _pickPBOImage(ImageSource.gallery);
                           },
                           icon: const Icon(Icons.photo_library),
                           label: const Text('Charger Image'),
                         ),
                       ],
                     ),
-                    const SizedBox(height: 10),
-                    if (pboImages[floor] != null &&
-                        pboImages[floor]!.isNotEmpty)
-                      Wrap(
-                        children: pboImages[floor]!
-                            .map((imageFile) => Padding(
-                                  padding: const EdgeInsets.all(4.0),
-                                  child: Image.file(imageFile,
-                                      width: 100, height: 100),
-                                ))
-                            .toList(),
-                      ),
                   ],
                 ),
             ],
@@ -289,18 +276,6 @@ class _BuildingState extends State<Building> {
                 ),
               ],
             )
-            /*ElevatedButton(
-              onPressed: () async {
-                // Validate and save the report
-                if (await reportGenerator.generate(buildingReport)) {
-                  Printing.layoutPdf(
-                    onLayout: (PdfPageFormat format) =>
-                        reportGenerator.getPdf().save(),
-                  );
-                }
-              },
-              child: const Text('Validate'),
-            ),*/
           ],
         ),
       ),

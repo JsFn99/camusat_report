@@ -43,19 +43,24 @@ class Reportgenerator {
       );
     }
 
-    pw.Widget placeImage(File img) {
+    pw.Widget placeImage(File img, {double? width, double? height}) {
       return pw.Center(
         child: pw.Container(
           padding: const pw.EdgeInsets.all(10),
-          height: 300,
           decoration: pw.BoxDecoration(
             color: PdfColors.amber50,
             border: pw.Border.all(color: PdfColors.black, width: 1),
           ),
-          child: pw.Image(
-            pw.MemoryImage(img.readAsBytesSync()),
+          child: pw.FittedBox(
+            fit: pw.BoxFit.contain,
+            child: pw.Image(
+              pw.MemoryImage(img.readAsBytesSync()),
+              // fit: pw.BoxFit.scaleDown,
+              width: width ?? 200,
+              height: height ?? 300,
             ),
         ),
+      ),
       );
     }
 
@@ -84,13 +89,14 @@ class Reportgenerator {
     // Title with border (smaller width and centered)
     pw.Widget titleBorder(
         {required String title,
-        PdfColor? background,
-        PdfColor? foreground,
-        double? width}) {
+          PdfColor? background,
+          PdfColor? foreground,
+          double? padding,
+          double? width}) {
       return pw.Center(
         child: pw.Container(
           width: width ?? 200,
-          padding: const pw.EdgeInsets.all(10),
+          padding: pw.EdgeInsets.all(padding ?? 10),
           decoration: pw.BoxDecoration(
             color: background ?? PdfColors.amber50,
             border: pw.Border.all(color: PdfColors.black, width: 1),
@@ -201,6 +207,30 @@ class Reportgenerator {
       );
     }
 
+    pw.Widget widgetListPBO() {
+      var listPbo = reportData.imagesPBO.entries;
+      return pw.GridView(
+        crossAxisCount: 3,
+        crossAxisSpacing: 5,
+        mainAxisSpacing: 5,
+        childAspectRatio: 1,
+        children: listPbo.map((entry) {
+          return pw.Container(
+            alignment: pw.Alignment.center,
+            padding: const pw.EdgeInsets.all(4),
+            child: pw.Column(
+              mainAxisAlignment: pw.MainAxisAlignment.center,
+              children: [
+                titleBorder(title: entry.key, padding: 2),
+                spacing(5),
+                placeImage(entry.value, width: 80, height: 100),
+              ],
+            ),
+          );
+        }).toList(),
+      );
+    }
+
     // VERTICALITE
     pw.Widget pageVerticalite() {
       return pw.Container(
@@ -208,13 +238,16 @@ class Reportgenerator {
           crossAxisAlignment: pw.CrossAxisAlignment.stretch,
           children: [
             titleBorder(title: "VERTICALITE"),
-            spacing(20),
+            spacing(10),
             titleBorder(
               title: reportData.pbiLocation == "Sous-sol" ? "PBI \"Sous-sol\"" : "PBI \"FACADE\"",
               background: PdfColors.grey300,
+              padding: 2,
             ),
-            spacing(20),
-             placeImage(reportData.imagePBI),
+            spacing(10),
+            placeImage(reportData.imagePBI, width: 80, height: 100),
+            spacing(10),
+            widgetListPBO(),
           ],
         ),
       );
@@ -316,7 +349,6 @@ class Reportgenerator {
 
 Future<Uint8List >getPdf() async {
     Uint8List data = await pdf.save();
-    pdf.save().then((result) => data = result);
     return data;
   }
 }
