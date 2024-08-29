@@ -1,12 +1,9 @@
-import 'dart:typed_data';
-
+import 'dart:io';
 import 'package:camusat_report/utils/ReportGenerator.dart';
 import 'package:camusat_report/pages/PdfPreviewer.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:printing/printing.dart';
-import 'dart:io';
 import 'package:url_launcher/url_launcher_string.dart';
 import '../../models/building_report.dart';
 
@@ -23,6 +20,12 @@ class _BuildingState extends State<Building> {
   bool isPBOToggled = false;
   String selectedPBI = 'Sous-sol';
   Map<String, List<File>> pboImages = {};
+  Map<String, bool> imageLoaded = {
+    'plan': false,
+    'schema': false,
+    'pbi': false,
+    'signal': false,
+  };
 
   final ImagePicker _picker = ImagePicker();
   List<String> selectedFloors = [];
@@ -31,9 +34,9 @@ class _BuildingState extends State<Building> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     final buildingData =
-        ModalRoute.of(context)!.settings.arguments as Map<String, String>;
+    ModalRoute.of(context)!.settings.arguments as Map<String, String>;
     buildingReport.coordonnees =
-        '${buildingData['lat']}, ${buildingData['long']}';
+    '${buildingData['lat']}, ${buildingData['long']}';
     buildingReport.nomPlaque = buildingData['nomPlaque']!;
     buildingReport.adresse = buildingData['adresse']!;
   }
@@ -43,12 +46,12 @@ class _BuildingState extends State<Building> {
       await reportGenerator.generate(buildingReport);
       var data = await reportGenerator.getPdf();
       Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => PdfPreviewer(
-                  pdfBytes: data,
-              )
-          )
+        context,
+        MaterialPageRoute(
+          builder: (context) => PdfPreviewer(
+            pdfBytes: data,
+          ),
+        ),
       );
     }
   }
@@ -65,7 +68,8 @@ class _BuildingState extends State<Building> {
     throw Null;
   }
 
-  Future <Map<String, File>> _pickPBOImage(ImageSource source, String floor) async {
+  Future<Map<String, File>> _pickPBOImage(
+      ImageSource source, String floor) async {
     final image = await _picker.pickImage(source: source);
     final directory = await getApplicationDocumentsDirectory();
     final imagePath =
@@ -101,8 +105,8 @@ class _BuildingState extends State<Building> {
           children: [
             Text(
               'Immeuble: ${buildingReport.nomPlaque}',
-              style:
-                  const TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+              style: const TextStyle(
+                  fontSize: 20.0, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8.0),
             Text('Nom de Plaque: ${buildingReport.nomPlaque}'),
@@ -116,12 +120,14 @@ class _BuildingState extends State<Building> {
                 Navigator.pushNamed(context, '/loadImages',
                     arguments: buildingReport);
               },
+              style: ElevatedButton.styleFrom(backgroundColor: Theme.of(context).primaryColorLight),
               icon: const Icon(Icons.add_a_photo),
               label: const Text('Ajouter Photos'),
             ),
             const SizedBox(height: 10),
             ElevatedButton.icon(
               onPressed: _openMap,
+              style: ElevatedButton.styleFrom(backgroundColor: Theme.of(context).primaryColorLight),
               icon: const Icon(Icons.location_on),
               label: const Text('Ouvrir Plan'),
             ),
@@ -129,8 +135,16 @@ class _BuildingState extends State<Building> {
             ElevatedButton.icon(
               onPressed: () async {
                 buildingReport.screenSituationGeographique =
-                    await _pickImage(ImageSource.gallery);
+                await _pickImage(ImageSource.gallery);
+                setState(() {
+                  imageLoaded['plan'] = true;
+                });
               },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: (imageLoaded['plan'] ?? false)
+                    ? Colors.green
+                    : Theme.of(context).primaryColorLight,
+              ),
               icon: const Icon(Icons.photo_library),
               label: const Text('Charger Image plan'),
             ),
@@ -139,6 +153,11 @@ class _BuildingState extends State<Building> {
               onPressed: () {
                 Navigator.pushNamed(context, '/generateSchema');
               },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: (imageLoaded['schema'] ?? false)
+                    ? Colors.green
+                    : Theme.of(context).primaryColorLight,
+              ),
               icon: const Icon(Icons.draw),
               label: const Text('Generer Schema'),
             ),
@@ -161,6 +180,7 @@ class _BuildingState extends State<Building> {
                 setState(() {
                   selectedPBI = newValue!;
                   buildingReport.pbiLocation = selectedPBI;
+                  imageLoaded['pbi'] = true;
                 });
               },
             ),
@@ -237,12 +257,15 @@ class _BuildingState extends State<Building> {
                       children: [
                         ElevatedButton.icon(
                           onPressed: () {
-                            // _pickImage(ImageSource.camera, floor);
+                            // Implement camera function
                           },
                           icon: const Icon(Icons.camera_alt),
                           label: const Text('Prendre Photo'),
                         ),
-                        Text('OU',style: TextStyle(fontSize: 14.0),),
+                        Text(
+                          'OU',
+                          style: TextStyle(fontSize: 14.0),
+                        ),
                         const SizedBox(width: 8),
                         ElevatedButton.icon(
                           onPressed: () {
@@ -259,10 +282,10 @@ class _BuildingState extends State<Building> {
                       Wrap(
                         children: pboImages[floor]!
                             .map((imageFile) => Padding(
-                                  padding: const EdgeInsets.all(4.0),
-                                  child: Image.file(imageFile,
-                                      width: 100, height: 100),
-                                ))
+                          padding: const EdgeInsets.all(4.0),
+                          child: Image.file(imageFile,
+                              width: 100, height: 100),
+                        ))
                             .toList(),
                       ),
                   ],
@@ -285,22 +308,10 @@ class _BuildingState extends State<Building> {
               children: [
                 ElevatedButton(
                   onPressed: () async => previewPdf(),
-                  child: const Text("Preview"),
+                  child: const Text('Generer Rapport'),
                 ),
               ],
-            )
-            /*ElevatedButton(
-              onPressed: () async {
-                // Validate and save the report
-                if (await reportGenerator.generate(buildingReport)) {
-                  Printing.layoutPdf(
-                    onLayout: (PdfPageFormat format) =>
-                        reportGenerator.getPdf().save(),
-                  );
-                }
-              },
-              child: const Text('Validate'),
-            ),*/
+            ),
           ],
         ),
       ),
