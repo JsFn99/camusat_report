@@ -310,7 +310,9 @@ class Reportgenerator {
     return true;
   }
 
-  pw.Document getPdf() {
-    return pdf;
+  Uint8List getPdf() {
+    Uint8List data = Uint8List(0);
+    pdf.save().then((result) => data = result);
+    return data;
   }
 }

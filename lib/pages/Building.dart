@@ -1,8 +1,10 @@
+import 'dart:typed_data';
+
 import 'package:camusat_report/utils/ReportGenerator.dart';
+import 'package:camusat_report/pages/PdfPreviewer.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:pdf/pdf.dart';
 import 'package:printing/printing.dart';
 import 'dart:io';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -261,7 +263,26 @@ class _BuildingState extends State<Building> {
               },
             ),
             const SizedBox(height: 16.0),
-            ElevatedButton(
+            Row(
+              children: [
+                ElevatedButton(
+                  onPressed: () async => {
+                    if (await reportGenerator.generate(buildingReport)) {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PdfPreviewer(
+                                pdfBytes: reportGenerator.getPdf()
+                            ),
+                          )
+                      ),
+                    }
+                  },
+                  child: const Text("Preview"),
+                ),
+              ],
+            )
+            /*ElevatedButton(
               onPressed: () async {
                 // Validate and save the report
                 if (await reportGenerator.generate(buildingReport)) {
@@ -272,7 +293,7 @@ class _BuildingState extends State<Building> {
                 }
               },
               child: const Text('Validate'),
-            ),
+            ),*/
           ],
         ),
       ),
