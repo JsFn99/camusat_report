@@ -22,7 +22,7 @@ class Reportgenerator {
     return false;
   }
 
-  void generate(BuildingReport reportData) async {
+  Future<void> generate(BuildingReport reportData) async {
     pdf = pw.Document();
     final ByteData camusatLogoData =
         await rootBundle.load('images/camusat.png');
@@ -314,8 +314,8 @@ class Reportgenerator {
     );
   }
 
-  Uint8List getPdf() {
-    Uint8List data = Uint8List(0);
+Future<Uint8List >getPdf() async {
+    Uint8List data = await pdf.save();
     pdf.save().then((result) => data = result);
     return data;
   }

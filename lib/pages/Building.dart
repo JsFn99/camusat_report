@@ -38,6 +38,21 @@ class _BuildingState extends State<Building> {
     buildingReport.adresse = buildingData['adresse']!;
   }
 
+  void previewPdf() async {
+    if (reportGenerator.isReportDataValid(buildingReport)) {
+      await reportGenerator.generate(buildingReport);
+      var data = await reportGenerator.getPdf();
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => PdfPreviewer(
+                  pdfBytes: data,
+              )
+          )
+      );
+    }
+  }
+
   Future<File> _pickImage(ImageSource source) async {
     final image = await _picker.pickImage(source: source);
     final directory = await getApplicationDocumentsDirectory();
@@ -269,19 +284,7 @@ class _BuildingState extends State<Building> {
             Row(
               children: [
                 ElevatedButton(
-                  onPressed: () async => {
-                    if (reportGenerator.isReportDataValid(buildingReport)) {
-                      reportGenerator.generate(buildingReport),
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => PdfPreviewer(
-                                pdfBytes: reportGenerator.getPdf()
-                            ),
-                          )
-                      ),
-                    }
-                  },
+                  onPressed: () async => previewPdf(),
                   child: const Text("Preview"),
                 ),
               ],
