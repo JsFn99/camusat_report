@@ -40,13 +40,13 @@ class _ReportsState extends State<Reports> {
           actions: [
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop(false); // User cancels
+                Navigator.of(context).pop(false);
               },
               child: Text('Annuler'),
             ),
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop(true); // User confirms
+                Navigator.of(context).pop(true);
               },
               child: Text('Supprimer'),
             ),
