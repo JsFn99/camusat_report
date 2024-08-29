@@ -21,7 +21,7 @@ class _BuildingState extends State<Building> {
   BuildingReport buildingReport = BuildingReport();
   Reportgenerator reportGenerator = Reportgenerator();
   bool isPBOToggled = false;
-  String selectedPBI = 'RDC';
+  String selectedPBI = 'Sous-sol';
   Map<String, List<File>> pboImages = {};
 
   final ImagePicker _picker = ImagePicker();
@@ -46,6 +46,18 @@ class _BuildingState extends State<Building> {
 
     if (image != null) {
       return File(image.path).copySync(imagePath);
+    }
+    throw Null;
+  }
+
+  Future <Map<String, File>> _pickPBOImage(ImageSource source, String floor) async {
+    final image = await _picker.pickImage(source: source);
+    final directory = await getApplicationDocumentsDirectory();
+    final imagePath =
+        '${directory.path}/${DateTime.now().millisecondsSinceEpoch}.jpg';
+
+    if (image != null) {
+      return {floor: File(image.path).copySync(imagePath)};
     }
     throw Null;
   }
@@ -123,17 +135,7 @@ class _BuildingState extends State<Building> {
               value: selectedPBI,
               items: [
                 'Sous-sol',
-                'RDC',
-                '1',
-                '2',
-                '3',
-                '4',
-                '5',
-                '6',
-                '7',
-                '8',
-                '9',
-                '10'
+                'Facade',
               ].map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
@@ -225,10 +227,11 @@ class _BuildingState extends State<Building> {
                           icon: const Icon(Icons.camera_alt),
                           label: const Text('Prendre Photo'),
                         ),
+                        Text('OU',style: TextStyle(fontSize: 14.0),),
                         const SizedBox(width: 8),
                         ElevatedButton.icon(
                           onPressed: () {
-                            // _pickImage(ImageSource.gallery, floor);
+                            _pickPBOImage(ImageSource.gallery, floor);
                           },
                           icon: const Icon(Icons.photo_library),
                           label: const Text('Charger Image'),

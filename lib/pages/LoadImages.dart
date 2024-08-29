@@ -66,6 +66,7 @@ class _LoadImagesState extends State<LoadImages> {
                   icon: const Icon(Icons.camera_alt),
                   label: const Text('Prendre Photo'),
                 ),
+                Text('OU',style: TextStyle(fontSize: 14.0),),
                 ElevatedButton.icon(
                   onPressed: () {
                     _pickImage(ImageSource.gallery, 'building');
@@ -91,6 +92,7 @@ class _LoadImagesState extends State<LoadImages> {
                   icon: const Icon(Icons.camera_alt),
                   label: const Text('Prendre Photo'),
                 ),
+                Text('OU',style: TextStyle(fontSize: 14.0),),
                 ElevatedButton.icon(
                   onPressed: () {
                     _pickImage(ImageSource.gallery, 'verticality');
@@ -116,6 +118,7 @@ class _LoadImagesState extends State<LoadImages> {
                   icon: const Icon(Icons.camera_alt),
                   label: const Text('Prendre Photo'),
                 ),
+                Text('OU',style: TextStyle(fontSize: 14.0),),
                 ElevatedButton.icon(
                   onPressed: () {
                     _pickImage(ImageSource.gallery, 'signal');
