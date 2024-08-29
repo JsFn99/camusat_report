@@ -6,9 +6,7 @@ import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 
 class Reportgenerator {
-  final pdf = pw.Document();
-
-  Reportgenerator();
+  late pw.Document pdf;
 
   bool isReportDataValid(BuildingReport reportData) {
     bool isImageValid(File image) {
@@ -26,6 +24,7 @@ class Reportgenerator {
 
   Future<bool> generate(BuildingReport reportData) async {
     if (!isReportDataValid(reportData)) return false;
+    pdf = pw.Document();
     final ByteData camusatLogoData =
         await rootBundle.load('images/camusat.png');
     final ByteData orangeLogoData = await rootBundle.load('images/orange.png');

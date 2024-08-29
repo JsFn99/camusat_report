@@ -42,7 +42,10 @@ class _BuildingState extends State<Building> {
     final imagePath =
         '${directory.path}/${DateTime.now().millisecondsSinceEpoch}.jpg';
 
-    return File(image!.path).copySync(imagePath);
+    if (image != null) {
+      return File(image.path).copySync(imagePath);
+    }
+    throw Null;
   }
 
   Future<void> _openMap() async {
