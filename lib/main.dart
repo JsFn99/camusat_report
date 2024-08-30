@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
       routes: {
         "/home": (context) => Home(),
         "/Excels": (context) => Excels(),
-        "/building": (context) => Building(),
+        "/building": (context) => const Building(),
         "/loadImages": (context) => LoadImages(),
         "/generateSchema": (context) => GenerateSchema(),
         "/Reports": (context) => Reports(),

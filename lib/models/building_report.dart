@@ -8,10 +8,8 @@ class BuildingReport {
   late File screenSituationGeographique;// Screen situation géographique
   late File schema;                     // Schema
   late File imagePBI;                   // Image PBI
-  late Map<String, File> imagesPBO;            // Images PBO
+  Map<String, File> imagesPBO = {};            // Images PBO
   late File imageTestDeSignal;          // Image test de signal
   late int splitere;                    // Splitere
   late String pbiLocation;              // PBI Location
-
-  BuildingReport([this.imagesPBO = const {}]);
 }

@@ -221,7 +221,7 @@ class Reportgenerator {
             child: pw.Column(
               mainAxisAlignment: pw.MainAxisAlignment.center,
               children: [
-                titleBorder(title: entry.key, padding: 2),
+                titleBorder(title: entry.key, padding: 2, width: 80),
                 spacing(5),
                 placeImage(entry.value, width: 80, height: 100),
               ],
