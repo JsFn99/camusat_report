@@ -3,7 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:share_plus/share_plus.dart';
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
-import 'package:flutter_pdfview/flutter_pdfview.dart'; // Import the PDF viewer package
+import 'package:flutter_pdfview/flutter_pdfview.dart';
 import '../widgets/BottomNavBar.dart';
 
 class Reports extends StatefulWidget {
@@ -87,8 +87,6 @@ class _ReportsState extends State<Reports> {
     final directory = await getApplicationDocumentsDirectory();
     final file = File('${directory.path}/$fileName');
 
-    print('Looking for file at: ${file.path}');
-
     if (await file.exists()) {
       Navigator.push(
         context,
@@ -106,13 +104,15 @@ class _ReportsState extends State<Reports> {
   }
 
   void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-    if (index == 0) {
-      Navigator.pushReplacementNamed(context, '/Excels');
-    } else if (index == 1) {
-      Navigator.pushReplacementNamed(context, '/Reports');
+    if (index != _selectedIndex) {
+      setState(() {
+        _selectedIndex = index;
+      });
+      if (index == 0) {
+        Navigator.pushReplacementNamed(context, '/Excels');
+      } else if (index == 1) {
+        Navigator.pushReplacementNamed(context, '/Reports');
+      }
     }
   }
 

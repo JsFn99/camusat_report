@@ -6,6 +6,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../data/DataProviderImpl.dart';
 import '../data/IDataProvider.dart';
 import '../widgets/BottomNavBar.dart';
+import 'Home.dart';
+import 'Reports.dart';
 
 class Excels extends StatefulWidget {
   @override
@@ -77,8 +79,19 @@ class _ExcelsState extends State<Excels> {
     if (index == 0) {
       Navigator.pushReplacementNamed(context, '/Excels');
     } else if (index == 1) {
-      Navigator.pushReplacementNamed(context, '/Reports');
+      _navigateWithFadeTransition(context, '/Reports');
     }
+  }
+
+  void _navigateWithFadeTransition(BuildContext context, String routeName) {
+    Navigator.of(context).pushReplacement(PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) {
+        return routes[routeName]!(context);
+      },
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        return FadeTransition(opacity: animation, child: child);
+      },
+    ));
   }
 
   @override
@@ -150,7 +163,6 @@ class _ExcelsState extends State<Excels> {
               ],
             );
           },
-
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -172,7 +184,7 @@ class _ExcelsState extends State<Excels> {
             setState(() {
               regions.add(newFilePath);
             });
-            await _saveFilePaths(); // Save updated list
+            await _saveFilePaths();
           }
         },
         child: Icon(Icons.add),
@@ -185,3 +197,9 @@ class _ExcelsState extends State<Excels> {
     );
   }
 }
+
+final Map<String, WidgetBuilder> routes = {
+  '/home': (context) => Home(),
+  '/Excels': (context) => Excels(),
+  '/Reports': (context) => Reports(),
+};
