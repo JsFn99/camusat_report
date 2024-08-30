@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:camusat_report/models/schema.dart';
+import 'package:camusat_report/utils/SchemaGenerator.dart';
+import 'dart:typed_data';
+import 'package:printing/printing.dart';
 
 class GenerateSchema extends StatefulWidget {
   @override
@@ -18,6 +21,7 @@ class _GenerateSchemaState extends State<GenerateSchema> {
   List<String> _pboOptions = ['Sous-sol', 'RDC', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
 
   late Schema schema = Schema();
+  Uint8List? _pdfBytes;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +33,8 @@ class _GenerateSchemaState extends State<GenerateSchema> {
         ),
         backgroundColor: Colors.orange[800],
       ),
-      body: Padding(
+      body: _pdfBytes == null
+          ? Padding(
         padding: EdgeInsets.all(16.0),
         child: ListView(
           children: [
@@ -138,7 +143,7 @@ class _GenerateSchemaState extends State<GenerateSchema> {
             SizedBox(height: 16.0),
 
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 schema.nbrEtages = _nombreEtages;
                 schema.b2bLocations = {for (int i = 0; i < _b2bLocations.length; i++) i + 1: _b2bLocations[i]};
                 schema.pboLocations = {for (int i = 0; i < _pboLocations.length; i++) i + 1: _pboLocations[i]};
@@ -151,11 +156,21 @@ class _GenerateSchemaState extends State<GenerateSchema> {
                 print('Emplacement PBO: ${schema.pboLocations}');
                 print('Emplacement PBI: ${schema.pbiLocation}');
                 print('Câbles PBO: ${schema.cablePbo}');
+
+                // Generate the PDF schema and get the bytes
+                Uint8List pdfBytes = await SchemaGenerator().generateSchema(schema);
+
+                setState(() {
+                  _pdfBytes = pdfBytes;
+                });
               },
               child: Text('Générer schéma'),
             ),
           ],
         ),
+      )
+          : PdfPreview(
+        build: (context) => _pdfBytes!,
       ),
     );
   }
