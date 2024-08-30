@@ -38,17 +38,6 @@ class SchemaGenerator {
     return pw.Stack(
       alignment: pw.Alignment.center,
       children: [
-        // Red line spanning the entire height of the table
-        pw.Positioned(
-          left: PdfPageFormat.a5.width / 4,
-          // Position the line in the second column
-          child: pw.Container(
-            width: 2, // Width of the red line
-            height: totalFloors * 40, // Height to cover the full table
-            color: PdfColors.red, // Line color
-          ),
-        ),
-
         // Table with rows and content
         pw.Table(
           border: pw.TableBorder.all(width: 0),
