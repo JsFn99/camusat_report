@@ -25,7 +25,7 @@ class SchemaGenerator {
 
     final pdf = pw.Document();
 
-    final pdfFormat = PdfPageFormat.a5.landscape;
+    final pdfFormat = PdfPageFormat.a5.portrait;
 
     int totalFloors = schema.nbrEtages! + 1;
 
@@ -84,8 +84,8 @@ class SchemaGenerator {
                           if (schema.pbiLocation == i)
                             pw.Image(
                               circleImg,
-                              width: 20,
-                              height: 20,
+                              width: 15,
+                              height: 15,
                             ),
                           if (schema.pboLocations.containsKey(i))
                             pw.Image(
