@@ -1,3 +1,4 @@
+import 'package:camusat_report/models/building_report.dart';
 import 'package:flutter/material.dart';
 import 'package:camusat_report/models/schema.dart';
 import 'package:camusat_report/utils/SchemaGenerator.dart';
@@ -35,18 +36,18 @@ class _GenerateSchemaState extends State<GenerateSchema> {
       ),
       body: _pdfBytes == null
           ? Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: ListView(
           children: [
             // Nombre d'étages
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Nombre d\'étages:'),
+                const Text('Nombre d\'étages:'),
                 Row(
                   children: [
                     IconButton(
-                      icon: Icon(Icons.remove),
+                      icon: const Icon(Icons.remove),
                       onPressed: () {
                         setState(() {
                           if (_nombreEtages > 1) _nombreEtages--;
@@ -55,7 +56,7 @@ class _GenerateSchemaState extends State<GenerateSchema> {
                     ),
                     Text('$_nombreEtages'),
                     IconButton(
-                      icon: Icon(Icons.add),
+                      icon: const Icon(Icons.add),
                       onPressed: () {
                         setState(() {
                           _nombreEtages++;
@@ -66,9 +67,9 @@ class _GenerateSchemaState extends State<GenerateSchema> {
                 ),
               ],
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
 
-            Text('Emplacement des B2B :'),
+            const Text('Emplacement des B2B :'),
             Wrap(
               children: _b2b.map((option) {
                 bool isSelected = _b2bLocations.contains(option);
@@ -87,9 +88,9 @@ class _GenerateSchemaState extends State<GenerateSchema> {
                 );
               }).toList(),
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
 
-            Text('Emplacement PBO :'),
+            const Text('Emplacement PBO :'),
             Wrap(
               children: _pboOptions.map((option) {
                 bool isSelected = _pboLocations.contains(option);
@@ -108,11 +109,11 @@ class _GenerateSchemaState extends State<GenerateSchema> {
                 );
               }).toList(),
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
 
-            Text('Emplacement PBI:'),
+            const Text('Emplacement PBI:'),
             DropdownButton<String>(
-              hint: Text('Sélectionner emplacement PBI '),
+              hint: const Text('Sélectionner emplacement PBI '),
               value: _selectedPboLocation,
               items: _pbiOptions.map((String value) {
                 return DropdownMenuItem<String>(
@@ -126,7 +127,7 @@ class _GenerateSchemaState extends State<GenerateSchema> {
                 });
               },
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
 
             TextField(
               decoration: const InputDecoration(
@@ -140,7 +141,7 @@ class _GenerateSchemaState extends State<GenerateSchema> {
                 });
               },
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
 
             ElevatedButton(
               onPressed: () async {
@@ -150,21 +151,23 @@ class _GenerateSchemaState extends State<GenerateSchema> {
                 schema.pbiLocation = _pbiOptions.indexOf(_selectedPboLocation!);
                 schema.cablePbo = _cablesPbo;
 
-                print('Schema generated with the following data:');
-                print('Nombre d\'étages: ${schema.nbrEtages}');
-                print('Emplacement B2B: ${schema.b2bLocations}');
-                print('Emplacement PBO: ${schema.pboLocations}');
-                print('Emplacement PBI: ${schema.pbiLocation}');
-                print('Câbles PBO: ${schema.cablePbo}');
+                BuildingReport.schema = await SchemaGenerator().generateSchema(schema);
+
+                // print('Schema generated with the following data:');
+                // print('Nombre d\'étages: ${schema.nbrEtages}');
+                // print('Emplacement B2B: ${schema.b2bLocations}');
+                // print('Emplacement PBO: ${schema.pboLocations}');
+                // print('Emplacement PBI: ${schema.pbiLocation}');
+                // print('Câbles PBO: ${schema.cablePbo}');
 
                 // Generate the PDF schema and get the bytes
-                Uint8List pdfBytes = await SchemaGenerator().generateSchema(schema);
+                // Uint8List pdfBytes = await SchemaGenerator().generateSchema(schema);
 
-                setState(() {
-                  _pdfBytes = pdfBytes;
-                });
+                // setState(() {
+                //   _pdfBytes = pdfBytes;
+                // });
               },
-              child: Text('Générer schéma'),
+              child: const Text('Générer schéma'),
             ),
           ],
         ),

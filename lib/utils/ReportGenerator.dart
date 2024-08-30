@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:camusat_report/models/building_report.dart';
+import 'package:camusat_report/pages/Building.dart';
 import 'package:flutter/services.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -8,20 +9,21 @@ import 'package:pdf/widgets.dart' as pw;
 class Reportgenerator {
   late pw.Document pdf;
 
-  bool isReportDataValid(BuildingReport reportData) {
-    bool isImageValid(File image) {
-      return image.existsSync();
+  bool isReportDataValid() {
+    bool isImageValid(File? image) {
+      return image != null && image.existsSync();
     }
 
-    if (isImageValid(reportData.imageImmeuble) &&
-        isImageValid(reportData.imagePBI) &&
-        isImageValid(reportData.screenSituationGeographique) &&
-        isImageValid(reportData.imageTestDeSignal)) return true;
+    if (isImageValid(BuildingReport.imageImmeuble) &&
+        isImageValid(BuildingReport.imagePBI) &&
+        isImageValid(BuildingReport.screenSituationGeographique) &&
+        BuildingReport.schema != null &&
+        isImageValid(BuildingReport.imageTestDeSignal)) return true;
 
     return false;
   }
 
-  Future<void> generate(BuildingReport reportData) async {
+  Future<void> generate() async {
     pdf = pw.Document();
     final ByteData camusatLogoData =
         await rootBundle.load('images/camusat.png');
@@ -129,7 +131,7 @@ class Reportgenerator {
                 border: pw.Border(bottom: pw.BorderSide(width: 1)),
               ),
               child: pw.Text(
-                "NOM DE LA PLAQUE : ${reportData.nomPlaque}",
+                "NOM DE LA PLAQUE : ${BuildingReport.nomPlaque}",
                 textAlign: pw.TextAlign.center,
               ),
             ),
@@ -139,7 +141,7 @@ class Reportgenerator {
                 border: pw.Border(bottom: pw.BorderSide(width: 1)),
               ),
               child: pw.Text(
-                reportData.adresse,
+                BuildingReport.adresse,
                 style: pw.TextStyle(
                     fontSize: 14,
                     fontWeight: pw.FontWeight.bold,
@@ -150,7 +152,7 @@ class Reportgenerator {
             pw.Container(
               padding: const pw.EdgeInsets.all(10),
               child: pw.Text(
-                "Coordonnées de l'immeuble : ${reportData.coordonnees}",
+                "Coordonnées de l'immeuble : ${BuildingReport.coordonnees}",
                 style: const pw.TextStyle(fontSize: 12),
                 textAlign: pw.TextAlign.center,
               ),
@@ -173,7 +175,7 @@ class Reportgenerator {
               width: 800,
             ),
             spacing(20),
-            placeImage(reportData.imageImmeuble),
+            placeImage(BuildingReport.imageImmeuble!),
           ],
         ),
       );
@@ -186,7 +188,7 @@ class Reportgenerator {
           children: [
             titleBorder(title: "SITUATION GEOGRAPHIQUE"),
             spacing(20),
-            placeImage(reportData.screenSituationGeographique),
+            placeImage(BuildingReport.screenSituationGeographique!),
           ],
         ),
       );
@@ -200,6 +202,7 @@ class Reportgenerator {
           children: [
             titleBorder(title: "SITUATION DE CABLAGE"),
             spacing(20),
+            BuildingReport.schema!,
             // TODO : Render schema ;
           ],
         ),
@@ -207,7 +210,7 @@ class Reportgenerator {
     }
 
     pw.Widget widgetListPBO() {
-      var listPbo = reportData.imagesPBO.entries;
+      var listPbo = BuildingReport.imagesPBO.entries;
       return pw.GridView(
         crossAxisCount: 3,
         crossAxisSpacing: 5,
@@ -239,12 +242,12 @@ class Reportgenerator {
             titleBorder(title: "VERTICALITE"),
             spacing(10),
             titleBorder(
-              title: reportData.pbiLocation == "Sous-sol" ? "PBI \"Sous-sol\"" : "PBI \"FACADE\"",
+              title: BuildingReport.pbiLocation == "Sous-sol" ? "PBI \"Sous-sol\"" : "PBI \"FACADE\"",
               background: PdfColors.grey300,
               padding: 2,
             ),
             spacing(10),
-            placeImage(reportData.imagePBI, width: 80, height: 100),
+            placeImage(BuildingReport.imagePBI!, width: 80, height: 100),
             spacing(10),
             widgetListPBO(),
           ],
@@ -265,10 +268,10 @@ class Reportgenerator {
               background: PdfColors.grey300,
             ),
             spacing(20),
-            placeImage(reportData.imageTestDeSignal),
+            placeImage(BuildingReport.imageTestDeSignal!),
             spacing(20),
             titleBorder(
-              title: reportData.splitere > 32 ? "SPLITERE 2 (1*8)" : "SPLITERE (1*8)",
+              title: BuildingReport.splitere > 32 ? "SPLITERE 2 (1*8)" : "SPLITERE (1*8)",
               background: PdfColors.grey300,
             ),
           ],

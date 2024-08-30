@@ -1,15 +1,17 @@
 import 'dart:io';
 
+import 'package:pdf/widgets.dart' as pw;
+
 class BuildingReport {
-  late String nomPlaque;                // NOM DE LA PLAQUE
-  late String adresse;                  // Adresse
-  late String coordonnees;              // Coordonnées de l'immeuble
-  late File imageImmeuble;              // Image immeuble
-  late File screenSituationGeographique;// Screen situation géographique
-  late File schema;                     // Schema
-  late File imagePBI;                   // Image PBI
-  Map<String, File> imagesPBO = {};            // Images PBO
-  late File imageTestDeSignal;          // Image test de signal
-  late int splitere;                    // Splitere
-  late String pbiLocation;              // PBI Location
+  static String nomPlaque = "";                // NOM DE LA PLAQUE
+  static String adresse = "";                  // Adresse
+  static String coordonnees = "";              // Coordonnées de l'immeuble
+  static File? imageImmeuble;              // Image immeuble
+  static File? screenSituationGeographique;// Screen situation géographique
+  static pw.Widget? schema;                     // Schema
+  static File? imagePBI;                   // Image PBI
+  static Map<String, File> imagesPBO = {};            // Images PBO
+  static File? imageTestDeSignal;          // Image test de signal
+  static int splitere = 0;                    // Splitere
+  static String pbiLocation = "";              // PBI Location
 }

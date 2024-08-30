@@ -39,14 +39,19 @@ class _HomeState extends State<Home> {
       body: Column(
         children: [
           Padding(
-            padding: EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16.0),
             child: TextField(
-              decoration: InputDecoration(labelText: 'Rechercher'),
+              decoration: const InputDecoration(
+                  labelText: 'Rechercher',
+                  labelStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              ),
+
               onChanged: _filterData,
             ),
           ),
           Expanded(
-            child: ListView.builder(
+            child: ListView.separated(
+              padding: const EdgeInsets.all(10),
               itemCount: filteredData.length,
               itemBuilder: (context, index) {
                 return ListTile(
@@ -61,6 +66,7 @@ class _HomeState extends State<Home> {
                   },
                 );
               },
+              separatorBuilder: (context, index) => const Divider(),
             ),
           ),
         ],

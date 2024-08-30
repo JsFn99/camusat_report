@@ -15,7 +15,6 @@ class Building extends StatefulWidget {
 }
 
 class _BuildingState extends State<Building> {
-  BuildingReport buildingReport = BuildingReport();
   Reportgenerator reportGenerator = Reportgenerator();
   bool isPBOToggled = false;
   String selectedPBI = 'Sous-sol';
@@ -33,22 +32,21 @@ class _BuildingState extends State<Building> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final buildingData =
-    ModalRoute.of(context)!.settings.arguments as Map<String, String>;
-    buildingReport.coordonnees = '${buildingData['lat']}, ${buildingData['long']}';
-    buildingReport.nomPlaque = buildingData['nomPlaque']!;
-    buildingReport.adresse = buildingData['adresse']!;
+    final buildingData = ModalRoute.of(context)!.settings.arguments as Map<String, String>;
+    BuildingReport.coordonnees = '${buildingData['lat']}, ${buildingData['long']}';
+    BuildingReport.nomPlaque = buildingData['nomPlaque']!;
+    BuildingReport.adresse = buildingData['adresse']!;
   }
 
   void previewPdf() async {
-    if (reportGenerator.isReportDataValid(buildingReport)) {
-      await reportGenerator.generate(buildingReport);
+    if (reportGenerator.isReportDataValid()) {
+      await reportGenerator.generate();
       var data = await reportGenerator.getPdf();
       Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => PdfPreviewer(
-            pdfBytes: data, nomPlaque: '${buildingReport.nomPlaque}',
+            pdfBytes: data, nomPlaque: '${BuildingReport.nomPlaque}',
           ),
         ),
       );
@@ -80,8 +78,8 @@ class _BuildingState extends State<Building> {
   }
 
   Future<void> _openMap() async {
-    final latitude = buildingReport.coordonnees.split(', ')[0];
-    final longitude = buildingReport.coordonnees.split(', ')[1];
+    final latitude = BuildingReport.coordonnees.split(', ')[0];
+    final longitude = BuildingReport.coordonnees.split(', ')[1];
 
     launchUrlString(
         'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude');
@@ -102,21 +100,20 @@ class _BuildingState extends State<Building> {
         child: ListView(
           children: [
             Text(
-              'Immeuble: ${buildingReport.nomPlaque}',
+              'Immeuble: ${BuildingReport.nomPlaque}',
               style: const TextStyle(
                   fontSize: 20.0, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8.0),
-            Text('Nom de Plaque: ${buildingReport.nomPlaque}'),
+            Text('Nom de Plaque: ${BuildingReport.nomPlaque}'),
             const SizedBox(height: 8.0),
-            Text('Adresse: ${buildingReport.adresse}'),
+            Text('Adresse: ${BuildingReport.adresse}'),
             const SizedBox(height: 8.0),
-            Text('Coordonnées: ${buildingReport.coordonnees}'),
+            Text('Coordonnées: ${BuildingReport.coordonnees}'),
             const SizedBox(height: 16.0),
             ElevatedButton.icon(
               onPressed: () {
-                Navigator.pushNamed(context, '/loadImages',
-                    arguments: buildingReport);
+                Navigator.pushNamed(context, '/loadImages');
               },
               style: ElevatedButton.styleFrom(backgroundColor: Theme.of(context).primaryColorLight),
               icon: const Icon(Icons.add_a_photo),
@@ -132,7 +129,7 @@ class _BuildingState extends State<Building> {
             const SizedBox(height: 10),
             ElevatedButton.icon(
               onPressed: () async {
-                buildingReport.screenSituationGeographique =
+                BuildingReport.screenSituationGeographique =
                 await _pickImage(ImageSource.gallery);
                 setState(() {
                   imageLoaded['plan'] = true;
@@ -177,7 +174,7 @@ class _BuildingState extends State<Building> {
               onChanged: (String? newValue) {
                 setState(() {
                   selectedPBI = newValue!;
-                  buildingReport.pbiLocation = selectedPBI;
+                  BuildingReport.pbiLocation = selectedPBI;
                   imageLoaded['pbi'] = true;
                 });
               },
@@ -255,19 +252,19 @@ class _BuildingState extends State<Building> {
                       children: [
                         ElevatedButton.icon(
                           onPressed: () async {
-                            buildingReport.imagesPBO[floor] = await _pickPBOImage(ImageSource.camera);
+                            BuildingReport.imagesPBO[floor] = await _pickPBOImage(ImageSource.camera);
                           },
                           icon: const Icon(Icons.camera_alt),
                           label: const Text('Prendre Photo'),
                         ),
-                        Text(
+                        const Text(
                           'OU',
                           style: TextStyle(fontSize: 14.0),
                         ),
                         const SizedBox(width: 8),
                         ElevatedButton.icon(
                           onPressed: () async {
-                            buildingReport.imagesPBO[floor] = await _pickPBOImage(ImageSource.gallery);
+                            BuildingReport.imagesPBO[floor] = await _pickPBOImage(ImageSource.gallery);
                           },
                           icon: const Icon(Icons.photo_library),
                           label: const Text('Charger Image'),
@@ -285,7 +282,7 @@ class _BuildingState extends State<Building> {
               keyboardType: TextInputType.number,
               onChanged: (value) {
                 setState(() {
-                  buildingReport.splitere = int.parse(value);
+                  BuildingReport.splitere = int.parse(value);
                 });
               },
             ),

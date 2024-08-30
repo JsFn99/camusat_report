@@ -43,17 +43,17 @@ class _ExcelsState extends State<Excels> {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Confirmation'),
-          content: Text('Etes vous sur de vouloir supprimer le fichier?'),
+          title: const Text('Confirmation'),
+          content: const Text('Etes vous sur de vouloir supprimer le fichier?'),
           actions: <Widget>[
             TextButton(
-              child: Text('Non'),
+              child: const Text('Non'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: Text('Oui'),
+              child: const Text('Oui'),
               onPressed: () async {
                 final file = File(filePath);
                 if (await file.exists()) {
@@ -105,9 +105,9 @@ class _ExcelsState extends State<Excels> {
         backgroundColor: Colors.orange[800],
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: GridView.builder(
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
             crossAxisSpacing: 16.0,
             mainAxisSpacing: 16.0,
@@ -133,20 +133,20 @@ class _ExcelsState extends State<Excels> {
                         height: 100,
                         width: double.infinity,
                         decoration: BoxDecoration(
-                          image: DecorationImage(
+                          image: const DecorationImage(
                             image: AssetImage('images/excel.png'),
                             fit: BoxFit.scaleDown,
                           ),
                           borderRadius: BorderRadius.circular(8.0),
                         ),
-                        child: SizedBox.shrink(),
+                        child: const SizedBox.shrink(),
                       ),
                     ),
                     Positioned(
                       top: -14.0,
                       right: 8.0,
                       child: IconButton(
-                        icon: Icon(Icons.delete, color: Colors.red),
+                        icon: const Icon(Icons.delete, color: Colors.red),
                         onPressed: () {
                           _showDeleteConfirmationDialog(regions[index], index);
                         },
@@ -154,10 +154,10 @@ class _ExcelsState extends State<Excels> {
                     ),
                   ],
                 ),
-                SizedBox(height: 8.0),
+                const SizedBox(height: 8.0),
                 Text(
                   regions[index].split('/').last, // Show the file name only
-                  style: TextStyle(fontSize: 16.0, color: Colors.black),
+                  style: const TextStyle(fontSize: 16.0, color: Colors.black),
                   textAlign: TextAlign.center,
                 ),
               ],
@@ -187,7 +187,7 @@ class _ExcelsState extends State<Excels> {
             await _saveFilePaths();
           }
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
         backgroundColor: Colors.blue,
       ),
       bottomNavigationBar: BottomNavBar(

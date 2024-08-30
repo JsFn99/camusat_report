@@ -11,7 +11,6 @@ class LoadImages extends StatefulWidget {
 }
 
 class _LoadImagesState extends State<LoadImages> {
-  late BuildingReport buildingReport;
   Map<String, bool> imageLoaded = {
     'building': false,
     'verticality': false,
@@ -28,13 +27,13 @@ class _LoadImagesState extends State<LoadImages> {
           '${directory.path}/${DateTime.now().millisecondsSinceEpoch}.jpg';
       switch (section) {
         case 'building':
-          buildingReport.imageImmeuble = File(image.path).copySync(imagePath);
+          BuildingReport.imageImmeuble = File(image.path).copySync(imagePath);
           break;
         case 'verticality':
-          buildingReport.imagePBI = File(image.path).copySync(imagePath);
+          BuildingReport.imagePBI = File(image.path).copySync(imagePath);
           break;
         case 'signal':
-          buildingReport.imageTestDeSignal = File(image.path).copySync(imagePath);
+          BuildingReport.imageTestDeSignal = File(image.path).copySync(imagePath);
           break;
       }
       setState(() {
@@ -45,8 +44,6 @@ class _LoadImagesState extends State<LoadImages> {
 
   @override
   Widget build(BuildContext context) {
-    buildingReport =
-    ModalRoute.of(context)!.settings.arguments as BuildingReport;
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -178,7 +175,7 @@ class _LoadImagesState extends State<LoadImages> {
             const SizedBox(height: 32.0),
             ElevatedButton(
               onPressed: () {
-                Navigator.pop(context, buildingReport);
+                Navigator.pop(context, BuildingReport);
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blueAccent,

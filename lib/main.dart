@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:camusat_report/styling/GlobalTheme.dart';
+import 'package:camusat_report/styling/theme.dart';
 import 'dart:async';  // Import this for the timer
 
 import 'pages/Building.dart';
@@ -10,7 +10,7 @@ import 'pages/Reports.dart';
 import 'pages/generateSchema.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -43,7 +43,7 @@ class _LoadingPageState extends State<LoadingPage> {
   void initState() {
     super.initState();
 
-    Timer(Duration(seconds: 2), () {
+    Timer(const Duration(seconds: 2), () {
       Navigator.pushReplacementNamed(context, "/Excels");
     });
   }
