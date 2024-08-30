@@ -13,7 +13,6 @@ class Reportgenerator {
       return image.existsSync();
     }
 
-    // Check if the images are not null
     if (isImageValid(reportData.imageImmeuble) &&
         isImageValid(reportData.imagePBI) &&
         isImageValid(reportData.screenSituationGeographique) &&
