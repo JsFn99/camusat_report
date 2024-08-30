@@ -14,7 +14,7 @@ class _GenerateSchemaState extends State<GenerateSchema> {
   int _cablesPbo = 1;
 
   List<String> _b2b = ['RDC', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
-  List<String> _pbiOptions = ['RDC', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
+  List<String> _pbiOptions = ['Sous-sol', 'Facade'];
   List<String> _pboOptions = ['Sous-sol', 'RDC', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
 
   late Schema schema = Schema();
@@ -63,7 +63,6 @@ class _GenerateSchemaState extends State<GenerateSchema> {
             ),
             SizedBox(height: 16.0),
 
-            // B2B Location (Multiple selection)
             Text('Emplacement des B2B :'),
             Wrap(
               children: _b2b.map((option) {
@@ -85,10 +84,9 @@ class _GenerateSchemaState extends State<GenerateSchema> {
             ),
             SizedBox(height: 16.0),
 
-            // PBI Location (Multiple selection)
             Text('Emplacement PBO :'),
             Wrap(
-              children: _pbiOptions.map((option) {
+              children: _pboOptions.map((option) {
                 bool isSelected = _pboLocations.contains(option);
                 return ChoiceChip(
                   label: Text(option),
@@ -107,12 +105,11 @@ class _GenerateSchemaState extends State<GenerateSchema> {
             ),
             SizedBox(height: 16.0),
 
-            // PBO Location (Single selection)
             Text('Emplacement PBI:'),
             DropdownButton<String>(
               hint: Text('Sélectionner emplacement PBI '),
               value: _selectedPboLocation,
-              items: _pboOptions.map((String value) {
+              items: _pbiOptions.map((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
                   child: Text(value),
@@ -126,7 +123,6 @@ class _GenerateSchemaState extends State<GenerateSchema> {
             ),
             SizedBox(height: 16.0),
 
-            // Cables PBO
             TextField(
               decoration: const InputDecoration(
                 labelText: 'Câbles PBO',
@@ -141,17 +137,13 @@ class _GenerateSchemaState extends State<GenerateSchema> {
             ),
             SizedBox(height: 16.0),
 
-            // Generate Button
             ElevatedButton(
               onPressed: () {
-                // Assign the user inputs to the Schema object
                 schema.nbrEtages = _nombreEtages;
-                schema.b2bLocations = {for (int i = 0; i < _b2bLocations.length; i++) i: _b2bLocations[i]};
-                schema.pboLocations = {for (int i = 0; i < _pboLocations.length; i++) i: _pboLocations[i]};
-                schema.pbiLocation = _pboOptions.indexOf(_selectedPboLocation!);
+                schema.b2bLocations = {for (int i = 0; i < _b2bLocations.length; i++) i + 1: _b2bLocations[i]};
+                schema.pboLocations = {for (int i = 0; i < _pboLocations.length; i++) i + 1: _pboLocations[i]};
+                schema.pbiLocation = _pbiOptions.indexOf(_selectedPboLocation!);
                 schema.cablePbo = _cablesPbo;
-
-                // Implement your schema generation logic here
 
                 print('Schema generated with the following data:');
                 print('Nombre d\'étages: ${schema.nbrEtages}');
