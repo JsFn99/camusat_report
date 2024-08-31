@@ -144,6 +144,7 @@ class _BuildingState extends State<Building> {
 
             // PBI Dropdown Menu
             const Text('PBI:'),
+            const SizedBox(height: 4.0),
             DropdownButton<String>(
               value: selectedPBI,
               items: [
@@ -270,8 +271,9 @@ class _BuildingState extends State<Building> {
                 });
               },
             ),
-            const SizedBox(height: 16.0),
+            const SizedBox(height: 36.0),
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ElevatedButton(
                   onPressed: () async => previewPdf(),

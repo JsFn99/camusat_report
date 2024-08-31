@@ -19,7 +19,7 @@ class _GenerateSchemaState extends State<GenerateSchema> {
 
   final List<String> _b2b = ['RDC', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
   final List<String> _pbiOptions = ['Sous-sol', 'Facade'];
-  final List<String> _pboOptions = ['Sous-sol', 'RDC', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
+  final List<String> _pboOptions = ['RDC', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
 
   late Schema schema = Schema();
   Uint8List? _pdfBytes;
@@ -70,6 +70,9 @@ class _GenerateSchemaState extends State<GenerateSchema> {
               const SizedBox(height: 16.0),
 
               const Text('Emplacement des B2B :'),
+
+              const SizedBox(height: 16.0),
+
               Wrap(
                 children: _b2b.map((option) {
                   bool isSelected = _b2bLocations.contains(option);
@@ -91,6 +94,9 @@ class _GenerateSchemaState extends State<GenerateSchema> {
               const SizedBox(height: 16.0),
 
               const Text('Emplacement PBO :'),
+
+              const SizedBox(height: 16.0),
+
               Wrap(
                 children: _pboOptions.map((option) {
                   bool isSelected = _pboLocations.contains(option);
@@ -111,6 +117,9 @@ class _GenerateSchemaState extends State<GenerateSchema> {
               ),
               const SizedBox(height: 16.0),
               const Text('Emplacement PBI:'),
+
+              const SizedBox(height: 16.0),
+
               DropdownButton<String>(
                 hint: const Text('Sélectionner emplacement PBI '),
                 value: _selectedPbiLocation,
