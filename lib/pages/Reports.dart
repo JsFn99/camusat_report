@@ -35,20 +35,20 @@ class _ReportsState extends State<Reports> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Supprimer le rapport'),
-          content: Text('Êtes-vous sûr de vouloir supprimer ce rapport ?'),
+          title: const Text('Supprimer le rapport'),
+          content: const Text('Êtes-vous sûr de vouloir supprimer ce rapport ?'),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop(false);
               },
-              child: Text('Annuler'),
+              child: const Text('Annuler'),
             ),
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop(true);
               },
-              child: Text('Supprimer'),
+              child: const Text('Supprimer'),
             ),
           ],
         );
@@ -65,7 +65,7 @@ class _ReportsState extends State<Reports> {
       await prefs.setStringList('reportDates', reportDates);
 
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Le rapport a été supprimé.')),
+        const SnackBar(content: Text('Le rapport a été supprimé.')),
       );
     }
   }
@@ -78,7 +78,7 @@ class _ReportsState extends State<Reports> {
       await Share.shareFiles([file.path], text: 'Voici votre rapport sous format pdf.');
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Fichier introuvable!')),
+        const SnackBar(content: Text('Fichier introuvable!')),
       );
     }
   }
@@ -98,7 +98,7 @@ class _ReportsState extends State<Reports> {
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Fichier introuvable!')),
+        const SnackBar(content: Text('Fichier introuvable!')),
       );
     }
   }
@@ -127,7 +127,7 @@ class _ReportsState extends State<Reports> {
         backgroundColor: Colors.orange[800],
       ),
       body: ListView.builder(
-        padding: EdgeInsets.all(12.0),
+        padding: const EdgeInsets.all(12.0),
         itemCount: reportTitles.length,
         itemBuilder: (context, index) {
           return ListTile(
@@ -141,13 +141,13 @@ class _ReportsState extends State<Reports> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     IconButton(
-                      icon: Icon(Icons.email, color: Colors.blue),
+                      icon: const Icon(Icons.email, color: Colors.blue),
                       onPressed: () {
                         _sendReportViaEmail(reportTitles[index]);
                       },
                     ),
                     IconButton(
-                      icon: Icon(Icons.delete, color: Colors.red),
+                      icon: const Icon(Icons.delete, color: Colors.red),
                       onPressed: () {
                         _deleteReport(index);
                       },
