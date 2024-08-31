@@ -122,9 +122,7 @@ class _ReportsState extends State<Reports> {
       appBar: AppBar(
         title: Text(
           "Rapports",
-          style: TextStyle(color: Theme.of(context).indicatorColor),
         ),
-        backgroundColor: Colors.orange[800],
       ),
       body: ListView.builder(
         padding: const EdgeInsets.all(12.0),

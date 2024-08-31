@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:camusat_report/models/building_report.dart';
+import 'package:camusat_report/models/BuildingReport.dart';
 import 'package:camusat_report/pages/Building.dart';
 import 'package:flutter/services.dart';
 import 'package:pdf/pdf.dart';

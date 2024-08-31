@@ -1,5 +1,5 @@
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
-import 'package:camusat_report/styling/theme.dart';
 import 'dart:async';  // Import this for the timer
 
 import 'pages/Building.dart';
@@ -19,7 +19,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(primaryColor: Colors.black),
+      theme: FlexThemeData.light(scheme: FlexScheme.hippieBlue),
+      darkTheme: FlexThemeData.dark(scheme: FlexScheme.hippieBlue),
+      themeMode: ThemeMode.system,
       routes: {
         "/home": (context) => Home(),
         "/Excels": (context) => Excels(),
@@ -51,7 +53,6 @@ class _LoadingPageState extends State<LoadingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

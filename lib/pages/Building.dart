@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher_string.dart';
-import '../../models/building_report.dart';
+import '../../models/BuildingReport.dart';
 
 class Building extends StatefulWidget {
   const Building({super.key});
@@ -89,11 +89,9 @@ class _BuildingState extends State<Building> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Details de l\'immeuble',
-          style: TextStyle(color: Theme.of(context).indicatorColor),
+        title: const Text(
+          "Details de l'immeuble",
         ),
-        backgroundColor: Colors.orange[800],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -101,8 +99,6 @@ class _BuildingState extends State<Building> {
           children: [
             Text(
               'Immeuble: ${BuildingReport.nomPlaque}',
-              style: const TextStyle(
-                  fontSize: 20.0, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8.0),
             Text('Nom de Plaque: ${BuildingReport.nomPlaque}'),
@@ -115,14 +111,12 @@ class _BuildingState extends State<Building> {
               onPressed: () {
                 Navigator.pushNamed(context, '/loadImages');
               },
-              style: ElevatedButton.styleFrom(backgroundColor: Theme.of(context).primaryColorLight),
               icon: const Icon(Icons.add_a_photo),
               label: const Text('Ajouter Photos'),
             ),
             const SizedBox(height: 10),
             ElevatedButton.icon(
               onPressed: _openMap,
-              style: ElevatedButton.styleFrom(backgroundColor: Theme.of(context).primaryColorLight),
               icon: const Icon(Icons.location_on),
               label: const Text('Ouvrir Plan'),
             ),
@@ -135,11 +129,6 @@ class _BuildingState extends State<Building> {
                   imageLoaded['plan'] = true;
                 });
               },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: (imageLoaded['plan'] ?? false)
-                    ? Colors.green
-                    : Theme.of(context).primaryColorLight,
-              ),
               icon: const Icon(Icons.photo_library),
               label: const Text('Charger Image plan'),
             ),
@@ -148,11 +137,6 @@ class _BuildingState extends State<Building> {
               onPressed: () {
                 Navigator.pushNamed(context, '/generateSchema');
               },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: (imageLoaded['schema'] ?? false)
-                    ? Colors.green
-                    : Theme.of(context).primaryColorLight,
-              ),
               icon: const Icon(Icons.draw),
               label: const Text('Generer Schema'),
             ),

@@ -77,7 +77,8 @@ class _ExcelsState extends State<Excels> {
       _selectedIndex = index;
     });
     if (index == 0) {
-      Navigator.pushReplacementNamed(context, '/Excels');
+      // Navigator.pushReplacementNamed(context, '/Excels');
+      _navigateWithFadeTransition(context, '/Excels');
     } else if (index == 1) {
       _navigateWithFadeTransition(context, '/Reports');
     }
@@ -98,11 +99,9 @@ class _ExcelsState extends State<Excels> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           "Regions",
-          style: TextStyle(color: Theme.of(context).indicatorColor),
         ),
-        backgroundColor: Colors.orange[800],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -146,7 +145,7 @@ class _ExcelsState extends State<Excels> {
                       top: -14.0,
                       right: 8.0,
                       child: IconButton(
-                        icon: const Icon(Icons.delete, color: Colors.red),
+                        icon: const Icon(Icons.delete, color: Colors.redAccent),
                         onPressed: () {
                           _showDeleteConfirmationDialog(regions[index], index);
                         },
@@ -188,7 +187,6 @@ class _ExcelsState extends State<Excels> {
           }
         },
         child: const Icon(Icons.add),
-        backgroundColor: Colors.blue,
       ),
       bottomNavigationBar: BottomNavBar(
         selectedIndex: _selectedIndex,

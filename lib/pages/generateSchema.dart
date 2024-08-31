@@ -1,4 +1,4 @@
-import 'package:camusat_report/models/building_report.dart';
+import 'package:camusat_report/models/BuildingReport.dart';
 import 'package:flutter/material.dart';
 import 'package:camusat_report/models/schema.dart';
 import 'package:camusat_report/utils/SchemaGenerator.dart';
@@ -32,7 +32,6 @@ class _GenerateSchemaState extends State<GenerateSchema> {
             "Générer Schéma",
             style: TextStyle(color: Theme.of(context).indicatorColor),
           ),
-          backgroundColor: Colors.orange[800],
         ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),

@@ -31,6 +31,8 @@ dependencies:
   excel: any
   pdf: any
   printing: any
+  flex_color_scheme:
+  flutter_launcher_icons:
   flutter_pdfview: any
   flutter:
     sdk: flutter
@@ -102,3 +104,7 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "images/camusat.png"

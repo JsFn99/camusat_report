@@ -1,4 +1,4 @@
-import 'package:camusat_report/models/building_report.dart';
+import 'package:camusat_report/models/BuildingReport.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
@@ -48,9 +48,7 @@ class _LoadImagesState extends State<LoadImages> {
       appBar: AppBar(
         title: Text(
           'Ajouter des Photos',
-          style: TextStyle(color: Theme.of(context).indicatorColor),
         ),
-        backgroundColor: Colors.orange[800],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -177,9 +175,6 @@ class _LoadImagesState extends State<LoadImages> {
               onPressed: () {
                 Navigator.pop(context, BuildingReport);
               },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blueAccent,
-              ),
               child: const Text('Valider'),
             ),
           ],
