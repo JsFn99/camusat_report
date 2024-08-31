@@ -139,8 +139,8 @@ class _ExcelsState extends State<Excels> {
                       ),
                     ),
                     Positioned(
-                      top: -14.0,
-                      right: 8.0,
+                      top: -12.0,
+                      right: 6.0,
                       child: IconButton(
                         icon: const Icon(Icons.delete, color: Colors.redAccent),
                         onPressed: () {

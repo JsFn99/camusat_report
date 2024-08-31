@@ -39,7 +39,52 @@ class _BuildingState extends State<Building> {
   }
 
   void previewPdf() async {
-    if (reportGenerator.isReportDataValid()) {
+    String missingData = '';
+
+    if (BuildingReport.nomPlaque == null || BuildingReport.nomPlaque!.isEmpty) {
+      missingData += 'Nom de Plaque, ';
+    }
+    if (BuildingReport.adresse == null || BuildingReport.adresse!.isEmpty) {
+      missingData += 'Adresse, ';
+    }
+    if (BuildingReport.coordonnees == null || BuildingReport.coordonnees!.isEmpty) {
+      missingData += 'Coordonnées, ';
+    }
+    if (BuildingReport.screenSituationGeographique == null) {
+      missingData += 'Image Plan, ';
+    }
+    if (BuildingReport.pbiLocation == null || BuildingReport.pbiLocation!.isEmpty) {
+      missingData += 'PBI Location, ';
+    }
+    if (BuildingReport.splitere == null) {
+      missingData += 'Splitere, ';
+    }
+    if (BuildingReport.imagesPBO.isEmpty) {
+      missingData += 'PBO Images, ';
+    }
+
+    if (missingData.isNotEmpty) {
+
+      missingData = missingData.substring(0, missingData.length - 2);
+
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Données manquantes'),
+            content: Text('Veuillez fournir les informations suivantes: $missingData'),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    } else {
       await reportGenerator.generate();
       var data = await reportGenerator.getPdf();
       Navigator.push(
@@ -52,6 +97,7 @@ class _BuildingState extends State<Building> {
       );
     }
   }
+
 
   Future<File> _pickImage(ImageSource source) async {
     final image = await _picker.pickImage(source: source);
@@ -145,18 +191,20 @@ class _BuildingState extends State<Building> {
             // PBI Dropdown Menu
             const Text('PBI:'),
             const SizedBox(height: 4.0),
+
             DropdownButton<String>(
+              hint: const Text('Sélectionner emplacement PBI '),
               value: selectedPBI,
               items: [
                 'Sous-sol',
                 'Facade',
-              ].map<DropdownMenuItem<String>>((String value) {
+              ].map((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
                   child: Text(value),
                 );
               }).toList(),
-              onChanged: (String? newValue) {
+              onChanged: (newValue) {
                 setState(() {
                   selectedPBI = newValue!;
                   BuildingReport.pbiLocation = selectedPBI;
@@ -164,6 +212,7 @@ class _BuildingState extends State<Building> {
                 });
               },
             ),
+
 
             const SizedBox(height: 16.0),
 
