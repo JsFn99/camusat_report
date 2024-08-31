@@ -249,7 +249,7 @@ class Reportgenerator {
             spacing(10),
             placeImage(BuildingReport.imagePBI!, width: 80, height: 100),
             spacing(10),
-            widgetListPBO(),
+            pw.Center(child: widgetListPBO()),
           ],
         ),
       );

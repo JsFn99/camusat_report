@@ -156,15 +156,14 @@ class _GenerateSchemaState extends State<GenerateSchema> {
                   padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 15.0),
                 ),
                 onPressed: () async {
+                  schema.b2bLocations = {for (int i = 0; i < _b2bLocations.length; i++) i + 1: _b2bLocations[i]};
+                  schema.pboLocations = {for (int i = 0; i < _pboLocations.length; i++) i + 1: _pboLocations[i]};
                   if (!schema.isValid()) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('Veuillez remplir tous les champs requis .')),
                     );
                     return;
                   }
-                  schema.b2bLocations = {for (int i = 0; i < _b2bLocations.length; i++) i + 1: _b2bLocations[i]};
-                  schema.pboLocations = {for (int i = 0; i < _pboLocations.length; i++) i + 1: _pboLocations[i]};
-
                   BuildingReport.schema = await SchemaGenerator().generateSchema(schema);
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text('Le schéma a été généré .')),
