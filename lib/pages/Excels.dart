@@ -76,15 +76,12 @@ class _ExcelsState extends State<Excels> {
     setState(() {
       _selectedIndex = index;
     });
-    if (index == 0) {
-      // Navigator.pushReplacementNamed(context, '/Excels');
-      _navigateWithFadeTransition(context, '/Excels');
-    } else if (index == 1) {
-      _navigateWithFadeTransition(context, '/Reports');
-    }
+    _navigateWithFadeTransition(context,
+        index == 1 ? '/Reports' : 'Excels');
   }
 
   void _navigateWithFadeTransition(BuildContext context, String routeName) {
+    if (ModalRoute.of(context)?.settings.name == routeName) return;
     Navigator.of(context).pushReplacement(PageRouteBuilder(
       pageBuilder: (context, animation, secondaryAnimation) {
         return routes[routeName]!(context);
