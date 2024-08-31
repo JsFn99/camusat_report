@@ -145,38 +145,72 @@ class _BuildingState extends State<Building> {
           children: [
             Text(
               'Immeuble: ${BuildingReport.nomPlaque}',
+              style: const TextStyle(
+                fontSize: 16,
+              ),
             ),
             const SizedBox(height: 8.0),
-            Text('Nom de Plaque: ${BuildingReport.nomPlaque}'),
+            Text(
+              'Nom de Plaque: ${BuildingReport.nomPlaque}',
+              style: const TextStyle(
+                fontSize: 16,
+              ),
+            ),
             const SizedBox(height: 8.0),
-            Text('Adresse: ${BuildingReport.adresse}'),
+            Text(
+              'Adresse: ${BuildingReport.adresse}',
+              style: const TextStyle(
+                fontSize: 16,
+              ),
+            ),
             const SizedBox(height: 8.0),
-            Text('Coordonnées: ${BuildingReport.coordonnees}'),
-            const SizedBox(height: 16.0),
+            Text(
+              'Coordonnées: ${BuildingReport.coordonnees}',
+              style: const TextStyle(
+                fontSize: 16,
+              ),
+            ),
+            const SizedBox(height: 8.0),
+            const Divider(
+              thickness: 2,
+            ),
+            const SizedBox(height: 8.0),
             ElevatedButton.icon(
               onPressed: () {
                 Navigator.pushNamed(context, '/loadImages');
               },
               icon: const Icon(Icons.add_a_photo),
-              label: const Text('Ajouter Photos'),
+              label: const Text('Ajouter Photos (Immeuble, ...)'),
             ),
             const SizedBox(height: 10),
-            ElevatedButton.icon(
-              onPressed: _openMap,
-              icon: const Icon(Icons.location_on),
-              label: const Text('Ouvrir Plan'),
-            ),
-            const SizedBox(height: 10),
-            ElevatedButton.icon(
-              onPressed: () async {
-                BuildingReport.screenSituationGeographique =
-                await _pickImage(ImageSource.gallery);
-                setState(() {
-                  imageLoaded['plan'] = true;
-                });
-              },
-              icon: const Icon(Icons.photo_library),
-              label: const Text('Charger Image plan'),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: ElevatedButton.icon(
+                    onPressed: _openMap,
+                    icon: const Icon(Icons.location_on),
+                    label: const Text('Ouvrir Plan'),
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  flex: 2,
+                  child:
+                  ElevatedButton.icon(
+                    onPressed: () async {
+                      BuildingReport.screenSituationGeographique =
+                      await _pickImage(ImageSource.gallery);
+                      setState(() {
+                        imageLoaded['plan'] = true;
+                      });
+                    },
+                    icon: const Icon(Icons.photo_library),
+                    label: const Text('Charger Image plan'),
+                  ),
+                )
+              ],
             ),
             const SizedBox(height: 10),
             ElevatedButton.icon(
@@ -184,14 +218,16 @@ class _BuildingState extends State<Building> {
                 Navigator.pushNamed(context, '/generateSchema');
               },
               icon: const Icon(Icons.draw),
-              label: const Text('Generer Schema'),
+              label: const Text('Parametrage du schéma'),
             ),
-            const SizedBox(height: 16.0),
-
+            const SizedBox(height: 8.0),
+            const Divider(
+              thickness: 2,
+            ),
+            const SizedBox(height: 8.0),
             // PBI Dropdown Menu
             const Text('PBI:'),
             const SizedBox(height: 4.0),
-
             DropdownButton<String>(
               hint: const Text('Sélectionner emplacement PBI '),
               value: selectedPBI,
@@ -212,10 +248,7 @@ class _BuildingState extends State<Building> {
                 });
               },
             ),
-
-
             const SizedBox(height: 16.0),
-
             // PBO Toggle Switch
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

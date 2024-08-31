@@ -66,15 +66,10 @@ class _LoadImagesState extends State<LoadImages> {
                   onPressed: () {
                     _pickImage(ImageSource.camera, 'building');
                   },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: imageLoaded['building'] ?? false
-                        ? Colors.green
-                        : Theme.of(context).primaryColorLight,
-                  ),
                   icon: const Icon(Icons.camera_alt),
                   label: const Text('Prendre Photo'),
                 ),
-                Text(
+                const Text(
                   'OU',
                   style: TextStyle(fontSize: 14.0),
                 ),
@@ -82,11 +77,6 @@ class _LoadImagesState extends State<LoadImages> {
                   onPressed: () {
                     _pickImage(ImageSource.gallery, 'building');
                   },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: imageLoaded['building'] ?? false
-                        ? Colors.green
-                        : Theme.of(context).primaryColorLight,
-                  ),
                   icon: const Icon(Icons.photo_library),
                   label: const Text('Charger Image'),
                 ),
@@ -105,15 +95,10 @@ class _LoadImagesState extends State<LoadImages> {
                   onPressed: () {
                     _pickImage(ImageSource.camera, 'verticality');
                   },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: imageLoaded['verticality'] ?? false
-                        ? Colors.green
-                        : Theme.of(context).primaryColorLight,
-                  ),
                   icon: const Icon(Icons.camera_alt),
                   label: const Text('Prendre Photo'),
                 ),
-                Text(
+                const Text(
                   'OU',
                   style: TextStyle(fontSize: 14.0),
                 ),
@@ -121,11 +106,6 @@ class _LoadImagesState extends State<LoadImages> {
                   onPressed: () {
                     _pickImage(ImageSource.gallery, 'verticality');
                   },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: imageLoaded['verticality'] ?? false
-                        ? Colors.green
-                        : Theme.of(context).primaryColorLight,
-                  ),
                   icon: const Icon(Icons.photo_library),
                   label: const Text('Charger Image'),
                 ),
@@ -144,15 +124,10 @@ class _LoadImagesState extends State<LoadImages> {
                   onPressed: () {
                     _pickImage(ImageSource.camera, 'signal');
                   },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: imageLoaded['signal'] ?? false
-                        ? Colors.green
-                        : Theme.of(context).primaryColorLight,
-                  ),
                   icon: const Icon(Icons.camera_alt),
                   label: const Text('Prendre Photo'),
                 ),
-                Text(
+                const Text(
                   'OU',
                   style: TextStyle(fontSize: 14.0),
                 ),
@@ -160,11 +135,6 @@ class _LoadImagesState extends State<LoadImages> {
                   onPressed: () {
                     _pickImage(ImageSource.gallery, 'signal');
                   },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: imageLoaded['signal'] ?? false
-                        ? Colors.green
-                        : Theme.of(context).primaryColorLight,
-                  ),
                   icon: const Icon(Icons.photo_library),
                   label: const Text('Charger Image'),
                 ),
