@@ -137,7 +137,6 @@ class _GenerateSchemaState extends State<GenerateSchema> {
                 },
               ),
               const SizedBox(height: 16.0),
-
               TextField(
                 decoration: const InputDecoration(
                   labelText: 'Câbles PBO',
@@ -152,8 +151,10 @@ class _GenerateSchemaState extends State<GenerateSchema> {
                 },
               ),
               const SizedBox(height: 16.0),
-
               ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 15.0),
+                ),
                 onPressed: () async {
                   if (!schema.isValid()) {
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -170,7 +171,12 @@ class _GenerateSchemaState extends State<GenerateSchema> {
                   );
                   Navigator.pop(context);
                 },
-                child: const Text('Générer schéma'),
+                child: const Text(
+                  'Générer schéma',
+                  style: TextStyle(
+                    fontSize: 16,
+                  ),
+                ),
               ),
             ],
           ),
