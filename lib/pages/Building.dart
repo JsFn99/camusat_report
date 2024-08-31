@@ -39,40 +39,51 @@ class _BuildingState extends State<Building> {
   }
 
   void previewPdf() async {
-    String missingData = '';
+    List<String> missingItems = [];
 
     if (BuildingReport.nomPlaque == null || BuildingReport.nomPlaque!.isEmpty) {
-      missingData += 'Nom de Plaque, ';
+      missingItems.add('Nom de Plaque');
     }
     if (BuildingReport.adresse == null || BuildingReport.adresse!.isEmpty) {
-      missingData += 'Adresse, ';
+      missingItems.add('Adresse');
     }
     if (BuildingReport.coordonnees == null || BuildingReport.coordonnees!.isEmpty) {
-      missingData += 'Coordonnées, ';
+      missingItems.add('Coordonnées');
+    }
+    if (BuildingReport.imageImmeuble == null) {
+      missingItems.add('Image Immeuble');
+    }
+    if (BuildingReport.schema == null) {
+      missingItems.add('Schema');
     }
     if (BuildingReport.screenSituationGeographique == null) {
-      missingData += 'Image Plan, ';
+      missingItems.add('Image Plan');
+    }
+    if (BuildingReport.imagePBI == null) {
+      missingItems.add('Image PBI');
     }
     if (BuildingReport.pbiLocation == null || BuildingReport.pbiLocation!.isEmpty) {
-      missingData += 'PBI Location, ';
+      missingItems.add('PBI Location');
+    }
+    if (BuildingReport.imageTestDeSignal == null) {
+      missingItems.add('Image Test de Signal');
     }
     if (BuildingReport.splitere == null) {
-      missingData += 'Splitere, ';
+      missingItems.add('Splitere');
     }
     if (BuildingReport.imagesPBO.isEmpty) {
-      missingData += 'PBO Images, ';
+      missingItems.add('PBO Images');
     }
 
-    if (missingData.isNotEmpty) {
-
-      missingData = missingData.substring(0, missingData.length - 2);
+    if (missingItems.isNotEmpty) {
+      String missingData = missingItems.join('\n- ');
 
       showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
             title: const Text('Données manquantes'),
-            content: Text('Veuillez fournir les informations suivantes: $missingData'),
+            content: Text('Veuillez fournir les informations suivantes:\n- $missingData'),
             actions: <Widget>[
               TextButton(
                 child: const Text('OK'),
@@ -97,6 +108,7 @@ class _BuildingState extends State<Building> {
       );
     }
   }
+
 
 
   Future<File> _pickImage(ImageSource source) async {
