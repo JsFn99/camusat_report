@@ -77,7 +77,7 @@ class _ExcelsState extends State<Excels> {
       _selectedIndex = index;
     });
     _navigateWithFadeTransition(context,
-        index == 1 ? '/Reports' : 'Excels');
+        index == 1 ? '/Reports' : '/Excels');
   }
 
   void _navigateWithFadeTransition(BuildContext context, String routeName) {

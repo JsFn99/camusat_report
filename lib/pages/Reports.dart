@@ -129,7 +129,7 @@ class _ReportsState extends State<Reports> {
         itemCount: reportTitles.length,
         itemBuilder: (context, index) {
           return ListTile(
-            leading: Icon(Icons.insert_drive_file, size: 30),
+            leading: Icon(Icons.insert_drive_file, size: 30, color: Colors.blueGrey,),
             title: Row(
               children: [
                 Expanded(
