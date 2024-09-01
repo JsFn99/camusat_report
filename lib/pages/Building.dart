@@ -6,6 +6,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import '../../models/BuildingReport.dart';
+import '../main.dart';
+import 'LoadingPage.dart';
 
 class Building extends StatefulWidget {
   const Building({super.key});
@@ -93,8 +95,20 @@ class _BuildingState extends State<Building> {
         },
       );
     } else {
+      // Navigate to the loading page
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => LoadingPageWait(),
+        ),
+      );
+
+      // Generate the report
       await reportGenerator.generate();
       var data = await reportGenerator.getPdf();
+
+      // Return to the previous page and show the PDF preview
+      Navigator.pop(context); // Remove the loading page
       Navigator.push(
         context,
         MaterialPageRoute(

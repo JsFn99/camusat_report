@@ -1,3 +1,4 @@
+import 'package:camusat_report/pages/LoadingPage.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';  // Import this for the timer
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
         "/loadImages": (context) => LoadImages(),
         "/generateSchema": (context) => GenerateSchema(),
         "/Reports": (context) => Reports(),
+        "/LoadingPageWait": (context) => LoadingPageWait(),
       },
       home: LoadingPage(),
     );
