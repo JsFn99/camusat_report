@@ -167,28 +167,29 @@ class _BuildingState extends State<Building> {
             Text(
               'Immeuble: ${BuildingReport.nomPlaque}',
               style: const TextStyle(
-                fontSize: 16,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
               ),
             ),
             const SizedBox(height: 8.0),
             Text(
               'Nom de Plaque: ${BuildingReport.nomPlaque}',
               style: const TextStyle(
-                fontSize: 16,
+                fontSize: 14,
               ),
             ),
             const SizedBox(height: 8.0),
             Text(
               'Adresse: ${BuildingReport.adresse}',
               style: const TextStyle(
-                fontSize: 16,
+                fontSize: 14,
               ),
             ),
             const SizedBox(height: 8.0),
             Text(
               'Coordonnées: ${BuildingReport.coordonnees}',
               style: const TextStyle(
-                fontSize: 16,
+                fontSize: 14,
               ),
             ),
             const SizedBox(height: 8.0),
@@ -393,9 +394,10 @@ class _BuildingState extends State<Building> {
                 ElevatedButton(
                   onPressed: () async => previewPdf(),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Theme.of(context).badgeTheme.backgroundColor,
+                    backgroundColor: Colors.redAccent,
                   ),
                   child: const Text('Generer Rapport'),
+
                 ),
               ],
             ),
