@@ -24,11 +24,13 @@ class Reportgenerator {
 
   Future<void> generate() async {
     pdf = pw.Document();
-    final ByteData camusatLogoData =
-        await rootBundle.load('images/camusat.png');
+    final ByteData camusatLogoData = await rootBundle.load('images/camusat.png');
     final ByteData orangeLogoData = await rootBundle.load('images/orange.png');
+    final ByteData legendData = await rootBundle.load('images/legend.png');
     final camusatLogo = pw.MemoryImage(camusatLogoData.buffer.asUint8List());
     final orangeLogo = pw.MemoryImage(orangeLogoData.buffer.asUint8List());
+    final legend = pw.MemoryImage(legendData.buffer.asUint8List());
+
 
     // Report header
     pw.Widget Header() {
@@ -187,7 +189,11 @@ class Reportgenerator {
           children: [
             titleBorder(title: "SITUATION GEOGRAPHIQUE"),
             spacing(20),
+            titleBorder(title: "${BuildingReport.nomPlaque}", width: 300, background: PdfColors.green300),
+            spacing(20),
             placeImage(BuildingReport.screenSituationGeographique!, width: 400, height: 500),
+            spacing(20),
+            pw.Image(legend, width: 200, height: 100),
           ],
         ),
       );
