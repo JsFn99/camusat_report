@@ -5,7 +5,7 @@ import 'dart:async';  // Import this for the timer
 
 import 'pages/Building.dart';
 import 'pages/Excels.dart';
-import 'pages/Home.dart';
+import 'pages/ListingBuildings.dart';
 import 'pages/LoadImages.dart';
 import 'pages/Reports.dart';
 import 'pages/generateSchema.dart';
@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
       darkTheme: FlexThemeData.dark(scheme: FlexScheme.hippieBlue),
       themeMode: ThemeMode.system,
       routes: {
-        "/home": (context) => Home(),
+        "/home": (context) => ListingBuildings(),
         "/Excels": (context) => Excels(),
         "/building": (context) => const Building(),
         "/loadImages": (context) => LoadImages(),

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:camusat_report/pages/LoadingPage.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:path_provider/path_provider.dart';
@@ -6,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../data/DataProviderImpl.dart';
 import '../data/IDataProvider.dart';
 import '../widgets/BottomNavBar.dart';
-import 'Home.dart';
+import 'ListingBuildings.dart';
 import 'Reports.dart';
 
 class Excels extends StatefulWidget {
@@ -119,6 +120,7 @@ class _ExcelsState extends State<Excels> {
                       onTap: () async {
                         List<Map<String, String>> data =
                         await _dataProvider.loadExcel(regions[index]);
+                        Navigator.pop(context); // Remove the loading page
                         Navigator.pushNamed(
                           context,
                           '/home',
@@ -194,7 +196,7 @@ class _ExcelsState extends State<Excels> {
 }
 
 final Map<String, WidgetBuilder> routes = {
-  '/home': (context) => Home(),
+  '/home': (context) => ListingBuildings(),
   '/Excels': (context) => Excels(),
   '/Reports': (context) => Reports(),
 };

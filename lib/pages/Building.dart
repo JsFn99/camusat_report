@@ -43,13 +43,13 @@ class _BuildingState extends State<Building> {
   void previewPdf() async {
     List<String> missingItems = [];
 
-    if (BuildingReport.nomPlaque == null || BuildingReport.nomPlaque!.isEmpty) {
+    if (BuildingReport.nomPlaque.isEmpty) {
       missingItems.add('Nom de Plaque');
     }
-    if (BuildingReport.adresse == null || BuildingReport.adresse!.isEmpty) {
+    if (BuildingReport.adresse.isEmpty) {
       missingItems.add('Adresse');
     }
-    if (BuildingReport.coordonnees == null || BuildingReport.coordonnees!.isEmpty) {
+    if (BuildingReport.coordonnees.isEmpty) {
       missingItems.add('Coordonnées');
     }
     if (BuildingReport.imageImmeuble == null) {
@@ -64,13 +64,13 @@ class _BuildingState extends State<Building> {
     if (BuildingReport.imagePBI == null) {
       missingItems.add('Image PBI');
     }
-    if (BuildingReport.pbiLocation == null || BuildingReport.pbiLocation!.isEmpty) {
+    if (BuildingReport.pbiLocation!.isEmpty) {
       missingItems.add('PBI Location');
     }
     if (BuildingReport.imageTestDeSignal == null) {
       missingItems.add('Image Test de Signal');
     }
-    if (BuildingReport.splitere == null) {
+    if (BuildingReport.splitere == -1) {
       missingItems.add('Splitere');
     }
 
@@ -99,7 +99,7 @@ class _BuildingState extends State<Building> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => LoadingPageWait(),
+          builder: (context) => const LoadingPageWait(),
         ),
       );
 
@@ -119,8 +119,6 @@ class _BuildingState extends State<Building> {
       );
     }
   }
-
-
 
   Future<File> _pickImage(ImageSource source) async {
     final image = await _picker.pickImage(source: source);

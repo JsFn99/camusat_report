@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class Home extends StatefulWidget {
+class ListingBuildings extends StatefulWidget {
   @override
-  _HomeState createState() => _HomeState();
+  _ListingBuildingsState createState() => _ListingBuildingsState();
 }
 
-class _HomeState extends State<Home> {
+class _ListingBuildingsState extends State<ListingBuildings> {
   List<Map<String, String>> data = [];
   List<Map<String, String>> filteredData = [];
 

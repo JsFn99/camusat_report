@@ -12,6 +12,6 @@ class BuildingReport {
   static File? imagePBI;                   // Image PBI
   static Map<String, File> imagesPBO = {};            // Images PBO
   static File? imageTestDeSignal;          // Image test de signal
-  static int splitere = 0;                    // Splitere
+  static int splitere = -1;                    // Splitere
   static String pbiLocation = "";              // PBI Location
 }

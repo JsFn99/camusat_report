@@ -1,9 +1,11 @@
 import 'package:camusat_report/models/BuildingReport.dart';
+import 'package:camusat_report/pages/PdfPreviewer.dart';
 import 'package:flutter/material.dart';
 import 'package:camusat_report/models/schema.dart';
 import 'package:camusat_report/utils/SchemaGenerator.dart';
+import 'package:pdf/pdf.dart';
 import 'dart:typed_data';
-import 'package:printing/printing.dart';
+import 'package:pdf/widgets.dart' as pw;
 
 class GenerateSchema extends StatefulWidget {
   @override
@@ -149,6 +151,51 @@ class _GenerateSchemaState extends State<GenerateSchema> {
                     schema.cablePbo = int.tryParse(value) ?? 1;
                   });
                 },
+              ),
+              const SizedBox(height: 16.0),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 15.0),
+                ),
+                onPressed: () async {
+                  schema.b2bLocations = {for (int i = 0; i < _b2bLocations.length; i++) i + 1: _b2bLocations[i]};
+                  schema.pboLocations = {for (int i = 0; i < _pboLocations.length; i++) i + 1: _pboLocations[i]};
+                  if (!schema.isValid()) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Veuillez remplir tous les champs requis .')),
+                    );
+                    return;
+                  }
+                  BuildingReport.schema = await SchemaGenerator().generateSchema(schema);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Le schéma a été généré .')),
+                  );
+                  final schemaPage = pw.Document();
+                  schemaPage.addPage(
+                    pw.Page(
+                      pageFormat: PdfPageFormat.a4,
+                      build: (pw.Context context) {
+                        return pw.Center(child: BuildingReport.schema!);
+                      },
+                    ),
+                  );
+                  final preview = await schemaPage.save();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => PdfPreviewer(
+                        pdfBytes: preview,
+                        nomPlaque: BuildingReport.nomPlaque,
+                      ),
+                    ),
+                  );
+                },
+                child: const Text(
+                  'Aperçu schéma',
+                  style: TextStyle(
+                    fontSize: 16,
+                  ),
+                ),
               ),
               const SizedBox(height: 16.0),
               ElevatedButton(
