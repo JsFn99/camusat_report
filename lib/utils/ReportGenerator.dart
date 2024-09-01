@@ -210,27 +210,58 @@ class Reportgenerator {
 
     pw.Widget widgetListPBO() {
       var listPbo = BuildingReport.imagesPBO.entries;
+
+      String getPboLabel(int key) {
+        switch (key) {
+          case 0:
+            return 'PBO "RDC"';
+          case 1:
+            return 'PBO "1er"';
+          case 2:
+            return 'PBO "2eme"';
+          case 3:
+            return 'PBO "3eme"';
+          case 4:
+            return 'PBO "4eme"';
+          case 5:
+            return 'PBO "5eme"';
+          case 6:
+            return 'PBO "6eme"';
+          default:
+            return 'PBO "${key}eme"';
+        }
+      }
+
       return pw.GridView(
         crossAxisCount: BuildingReport.imagesPBO.length > 3 ? 3 : BuildingReport.imagesPBO.length,
         crossAxisSpacing: 5,
         mainAxisSpacing: 5,
         childAspectRatio: 1,
         children: listPbo.map((entry) {
+          // Use the function to get the PBO label
+          final label = getPboLabel(int.parse(entry.key));
+
           return pw.Container(
             alignment: pw.Alignment.center,
             padding: const pw.EdgeInsets.all(4),
             child: pw.Column(
               mainAxisAlignment: pw.MainAxisAlignment.center,
               children: [
-                titleBorder(title: entry.key, padding: 2, width: 80),
-                spacing(5),
-                placeImage(entry.value, width: 80, height: 100),
+                titleBorder(
+                    title: label,
+                    padding: 2,
+                    width: 100,
+                    background: PdfColors.grey300
+                ),
+                spacing(10),
+                placeImage(entry.value, width: 100, height: 120),
               ],
             ),
           );
         }).toList(),
       );
     }
+
 
     // VERTICALITE
     pw.Widget pageVerticalite() {
@@ -246,7 +277,7 @@ class Reportgenerator {
               padding: 2,
             ),
             spacing(10),
-            placeImage(BuildingReport.imagePBI!, width: 80, height: 100),
+            placeImage(BuildingReport.imagePBI!, width: 100, height: 120),
             spacing(10),
             pw.Center(child: widgetListPBO()),
           ],
