@@ -32,7 +32,7 @@ class _ListingBuildingsState extends State<ListingBuildings> {
 
   @override
   Widget build(BuildContext context) {
-    BuildingReport.reset();
+    // BuildingReport.reset();
     return Scaffold(
       appBar: AppBar(
         title: Text('Immeubles', style: TextStyle(color: Theme.of(context).indicatorColor)),

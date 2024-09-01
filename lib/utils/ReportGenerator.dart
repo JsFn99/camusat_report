@@ -239,18 +239,17 @@ class Reportgenerator {
                 titleBorder(
                     title: label,
                     padding: 2,
-                    width: 160,
+                    width: 100,
                     background: PdfColors.grey300
                 ),
-                spacing(10),
-                placeImage(entry.value, width: 160, height: 180),
+                spacing(5),
+                placeImage(entry.value, width: 110, height: 140),
               ],
             ),
           );
         }).toList(),
       );
     }
-
 
     // VERTICALITE
     pw.Widget pageVerticalite() {
@@ -266,7 +265,7 @@ class Reportgenerator {
               padding: 2,
             ),
             spacing(10),
-            placeImage(BuildingReport.imagePBI!, width: 180, height: 200),
+            placeImage(BuildingReport.imagePBI!, width: 110, height: 140),
             spacing(10),
             pw.Center(child: widgetListPBO()),
           ],
