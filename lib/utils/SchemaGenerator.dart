@@ -48,28 +48,35 @@ class SchemaGenerator {
             3: const pw.FlexColumnWidth(2),
           },
           children: [
-            // Iterate over the floors from top to bottom
-            for (int i = totalFloors - 1; i >= 0; i--)
+            // Iterate over the floors from top (highest) to bottom (RDC)
+            for (int i = 0; i < totalFloors; i++)
               pw.TableRow(
                 children: [
                   // First column: Floor number with ordinal suffix
                   pw.Padding(
                     padding: const pw.EdgeInsets.all(8.0),
-                    child: pw.Text(
-                      getOrdinalSuffix(i),
-                      style: const pw.TextStyle(fontSize: 12),
+                    child: pw.Center(
+                      child: pw.Text(
+                        getOrdinalSuffix(totalFloors - 1 - i),
+                        style: const pw.TextStyle(
+                          fontSize: 12,
+                          color: PdfColors.red,
+                        ),
+                      ),
                     ),
                   ),
 
                   // Second column: Nature of the floor (B2B or House)
                   pw.Padding(
                     padding: const pw.EdgeInsets.all(8.0),
-                    child: pw.Image(
-                      schema.b2bLocations.containsKey(i)
-                          ? companyImg
-                          : houseImg,
-                      width: 40,
-                      height: 40,
+                    child: pw.Center(
+                      child: pw.Image(
+                        schema.b2bLocations.containsKey(totalFloors - 1 - i)
+                            ? companyImg
+                            : houseImg,
+                        width: schema.b2bLocations.containsKey(totalFloors - 1 - i) ? 30 : 40,
+                        height: schema.b2bLocations.containsKey(totalFloors - 1 - i) ? 30 : 40,
+                      ),
                     ),
                   ),
 
@@ -80,13 +87,13 @@ class SchemaGenerator {
                     child: pw.Stack(
                       alignment: pw.Alignment.center,
                       children: [
-                        if (schema.pbiLocation == i)
+                        if (schema.pbiLocation == totalFloors - 1 - i)
                           pw.Image(
                             circleImg,
                             width: 15,
                             height: 15,
                           ),
-                        if (schema.pboLocations.containsKey(i))
+                        if (schema.pboLocations.containsKey(totalFloors - 1 - i))
                           pw.Image(
                             triangleImg,
                             width: 20,
@@ -99,12 +106,14 @@ class SchemaGenerator {
                   // Fourth column: Same as second, includes B2B or House location
                   pw.Padding(
                     padding: const pw.EdgeInsets.all(8.0),
-                    child: pw.Image(
-                      schema.b2bLocations.containsKey(i)
-                          ? companyImg
-                          : houseImg,
-                      width: 40,
-                      height: 40,
+                    child: pw.Center(
+                      child: pw.Image(
+                        schema.b2bLocations.containsKey(totalFloors - 1 - i)
+                            ? companyImg
+                            : houseImg,
+                        width: schema.b2bLocations.containsKey(totalFloors - 1 - i) ? 30 : 40,
+                        height: schema.b2bLocations.containsKey(totalFloors - 1 - i) ? 30 : 40,
+                      ),
                     ),
                   ),
                 ],

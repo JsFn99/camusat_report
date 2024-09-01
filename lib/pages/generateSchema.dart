@@ -26,6 +26,16 @@ class _GenerateSchemaState extends State<GenerateSchema> {
   late Schema schema = Schema();
   Uint8List? _pdfBytes;
 
+  void _logSchemaData() {
+    print("Nombre d'étages: $_nombreEtages");
+    print("Emplacement des B2B: $_b2bLocations");
+    print("Emplacement PBO: $_pboLocations");
+    print("Emplacement PBI: $_selectedPbiLocation");
+    print("Câbles PBO: $_cablesPbo");
+    print("B2B Locations Map: ${schema.b2bLocations}");
+    print("PBO Locations Map: ${schema.pboLocations}");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -160,16 +170,22 @@ class _GenerateSchemaState extends State<GenerateSchema> {
                 onPressed: () async {
                   schema.b2bLocations = {for (int i = 0; i < _b2bLocations.length; i++) i + 1: _b2bLocations[i]};
                   schema.pboLocations = {for (int i = 0; i < _pboLocations.length; i++) i + 1: _pboLocations[i]};
+
+                  // Log the data to the console
+                  _logSchemaData();
+
                   if (!schema.isValid()) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('Veuillez remplir tous les champs requis .')),
                     );
                     return;
                   }
+
                   BuildingReport.schema = await SchemaGenerator().generateSchema(schema);
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text('Le schéma a été généré .')),
                   );
+
                   final schemaPage = pw.Document();
                   schemaPage.addPage(
                     pw.Page(
@@ -204,19 +220,48 @@ class _GenerateSchemaState extends State<GenerateSchema> {
                   backgroundColor: Colors.green[400],
                 ),
                 onPressed: () async {
-                  schema.b2bLocations = {for (int i = 0; i < _b2bLocations.length; i++) i + 1: _b2bLocations[i]};
-                  schema.pboLocations = {for (int i = 0; i < _pboLocations.length; i++) i + 1: _pboLocations[i]};
+                  schema.b2bLocations = {
+                    for (var location in _b2bLocations) _b2b.indexOf(location): location
+                  };
+                  schema.pboLocations = {
+                    for (var location in _pboLocations) _pboOptions.indexOf(location): location
+                  };
+
+                  // Log the data to the console
+                  _logSchemaData();
+
                   if (!schema.isValid()) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Veuillez remplir tous les champs requis .')),
+                      const SnackBar(content: Text('Veuillez remplir tous les champs requis.')),
                     );
                     return;
                   }
+
                   BuildingReport.schema = await SchemaGenerator().generateSchema(schema);
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Le schéma a été généré .')),
+                    const SnackBar(content: Text('Le schéma a été généré.')),
                   );
-                  Navigator.pop(context);
+
+                  final schemaPage = pw.Document();
+                  schemaPage.addPage(
+                    pw.Page(
+                      pageFormat: PdfPageFormat.a4,
+                      build: (pw.Context context) {
+                        return pw.Center(child: BuildingReport.schema!);
+                      },
+                    ),
+                  );
+
+                  final preview = await schemaPage.save();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => PdfPreviewer(
+                        pdfBytes: preview,
+                        nomPlaque: BuildingReport.nomPlaque,
+                      ),
+                    ),
+                  );
                 },
                 child: const Text(
                   'Générer schéma',
