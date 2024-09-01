@@ -187,7 +187,7 @@ class Reportgenerator {
           children: [
             titleBorder(title: "SITUATION GEOGRAPHIQUE"),
             spacing(20),
-            placeImage(BuildingReport.screenSituationGeographique!),
+            placeImage(BuildingReport.screenSituationGeographique!, width: 400, height: 500),
           ],
         ),
       );
