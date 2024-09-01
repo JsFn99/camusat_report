@@ -79,7 +79,7 @@ class _LoadImagesState extends State<LoadImages> {
                 },
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                  backgroundColor: colorScheme.primary,
+                  backgroundColor: Colors.green[400],
                 ),
                 child: const Text('Valider'),
               ),

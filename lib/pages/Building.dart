@@ -218,9 +218,6 @@ class _BuildingState extends State<Building> {
                     onPressed: _openMap,
                     icon: const Icon(Icons.location_on),
                     label: const Text('Ouvrir Plan'),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blueAccent,
-                    ),
                   ),
                 ),
                 const SizedBox(width: 10),
@@ -238,7 +235,7 @@ class _BuildingState extends State<Building> {
                     icon: const Icon(Icons.photo_library),
                     label: const Text('Charger Image plan'),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: (imageLoaded['plan'] ?? false ) ? Colors.greenAccent : Colors.blueAccent,
+                      backgroundColor: (imageLoaded['plan'] ?? false ) ? Colors.green[300]: colorScheme.primary,
                     ),
                   ),
                 )
@@ -252,7 +249,7 @@ class _BuildingState extends State<Building> {
               icon: const Icon(Icons.draw),
               label: const Text('Parametrage du schéma'),
               style: ElevatedButton.styleFrom(
-                backgroundColor: (imageLoaded['schema'] ?? false ) ? Colors.greenAccent : Colors.blueAccent,
+                backgroundColor: (imageLoaded['schema'] ?? false ) ? Colors.green[300]: colorScheme.primary,
               ),
             ),
             const SizedBox(height: 8.0),
@@ -395,7 +392,7 @@ class _BuildingState extends State<Building> {
                 ElevatedButton(
                   onPressed: () async => previewPdf(),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: colorScheme.secondary,
+                    backgroundColor: Colors.green[400],
                   ),
                   child: const Text('Generer Rapport'),
 
