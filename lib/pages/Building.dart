@@ -187,7 +187,7 @@ class _BuildingState extends State<Building> {
                           },
                         ),
                         const SizedBox(height: 16.0),
-                        floor == "" ? const Text("ZEBI") :
+                        floor == "" ? const Text("Veuillez entrer un étage valide") :
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
