@@ -34,6 +34,12 @@ class _ListingBuildingsState extends State<ListingBuildings> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Immeubles', style: TextStyle(color: Theme.of(context).indicatorColor)),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pushReplacementNamed(context, "/Excels");
+          },
+        ),
       ),
       body: Column(
         children: [
@@ -41,10 +47,9 @@ class _ListingBuildingsState extends State<ListingBuildings> {
             padding: const EdgeInsets.all(16.0),
             child: TextField(
               decoration: const InputDecoration(
-                  labelText: 'Rechercher',
-                  labelStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                labelText: 'Rechercher',
+                labelStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
               ),
-
               onChanged: _filterData,
             ),
           ),
