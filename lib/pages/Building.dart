@@ -154,6 +154,7 @@ class _BuildingState extends State<Building> {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -204,7 +205,7 @@ class _BuildingState extends State<Building> {
               icon: const Icon(Icons.add_a_photo),
               label: const Text('Ajouter Photos (Immeuble, ...)'),
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blueAccent,
+                backgroundColor: colorScheme.primaryFixedDim,
               ),
             ),
             const SizedBox(height: 10),
@@ -394,7 +395,7 @@ class _BuildingState extends State<Building> {
                 ElevatedButton(
                   onPressed: () async => previewPdf(),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.redAccent,
+                    backgroundColor: colorScheme.secondary,
                   ),
                   child: const Text('Generer Rapport'),
 
