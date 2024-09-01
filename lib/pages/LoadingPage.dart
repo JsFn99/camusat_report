@@ -11,7 +11,7 @@ class LoadingPageWait extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset('images/file.gif', width: 250),
+            Image.asset('images/file.gif', width: 450),
             const SizedBox(height: 20),
             const CircularProgressIndicator(),
             const SizedBox(height: 20),
