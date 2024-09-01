@@ -202,7 +202,6 @@ class Reportgenerator {
             titleBorder(title: "SITUATION DE CABLAGE"),
             spacing(20),
             BuildingReport.schema!,
-            // TODO : Render schema ;
           ],
         ),
       );
