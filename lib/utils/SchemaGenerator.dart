@@ -83,8 +83,8 @@ class SchemaGenerator {
                         if (schema.pbiLocation == i)
                           pw.Image(
                             circleImg,
-                            width: 20,
-                            height: 20,
+                            width: 15,
+                            height: 15,
                           ),
                         if (schema.pboLocations.containsKey(i))
                           pw.Image(

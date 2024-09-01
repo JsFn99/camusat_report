@@ -71,9 +71,6 @@ class _BuildingState extends State<Building> {
     if (BuildingReport.splitere == null) {
       missingItems.add('Splitere');
     }
-    if (BuildingReport.imagesPBO.isEmpty) {
-      missingItems.add('PBO Images');
-    }
 
     if (missingItems.isNotEmpty) {
       String missingData = missingItems.join('\n- ');
