@@ -182,9 +182,6 @@ class _GenerateSchemaState extends State<GenerateSchema> {
                   }
 
                   BuildingReport.schema = await SchemaGenerator().generateSchema(schema);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Le schéma a été généré .')),
-                  );
 
                   final schemaPage = pw.Document();
                   schemaPage.addPage(
@@ -241,27 +238,7 @@ class _GenerateSchemaState extends State<GenerateSchema> {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text('Le schéma a été généré.')),
                   );
-
-                  final schemaPage = pw.Document();
-                  schemaPage.addPage(
-                    pw.Page(
-                      pageFormat: PdfPageFormat.a4,
-                      build: (pw.Context context) {
-                        return pw.Center(child: BuildingReport.schema!);
-                      },
-                    ),
-                  );
-
-                  final preview = await schemaPage.save();
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => PdfPreviewer(
-                        pdfBytes: preview,
-                        nomPlaque: BuildingReport.nomPlaque,
-                      ),
-                    ),
-                  );
+                  Navigator.pop(context);
                 },
                 child: const Text(
                   'Générer schéma',

@@ -4,7 +4,7 @@ class Schema{
   int nbrEtages = 1;
   Map<int , String> b2bLocations = {};
   Map<int, String> pboLocations = {};
-  int pbiLocation = -2;
+  int pbiLocation = 0;
   int cablePbo = -2;
 
   bool isValid() {
