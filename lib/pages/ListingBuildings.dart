@@ -1,3 +1,4 @@
+import 'package:camusat_report/models/BuildingReport.dart';
 import 'package:flutter/material.dart';
 
 class ListingBuildings extends StatefulWidget {
@@ -31,6 +32,7 @@ class _ListingBuildingsState extends State<ListingBuildings> {
 
   @override
   Widget build(BuildContext context) {
+    BuildingReport.reset();
     return Scaffold(
       appBar: AppBar(
         title: Text('Immeubles', style: TextStyle(color: Theme.of(context).indicatorColor)),

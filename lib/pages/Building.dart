@@ -29,7 +29,7 @@ class _BuildingState extends State<Building> {
   };
 
   final ImagePicker _picker = ImagePicker();
-  List<String> selectedFloors = [];
+  String floor = "";
 
   @override
   void didChangeDependencies() {
@@ -150,6 +150,80 @@ class _BuildingState extends State<Building> {
 
     launchUrlString(
         'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude');
+  }
+
+  void showPboDialog(BuildContext context) {
+    floor = "";
+    File? img;
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text("Ajouter un PBO"),
+            content: StatefulBuilder(
+                builder: (BuildContext context, StateSetter setState) {
+                  return Container(
+                    height: 300,
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        TextField(
+                          decoration: const InputDecoration(labelText: 'PBO Etage : '),
+                          keyboardType: TextInputType.number,
+                          onChanged: (value) {
+                            setState(() {
+                              if (value.isEmpty) {
+                                floor = ""; // Reset floor if input is empty
+                              } else {
+                                try {
+                                  int floorNumber = int.parse(value);
+                                  floor = floorNumber == 0 ? "RDC" : value;
+                                } catch (e) {
+                                  floor = ""; // Handle parsing error
+                                }
+                              }
+                            });
+                          },
+                        ),
+                        const SizedBox(height: 16.0),
+                        floor == "" ? const Text("ZEBI") :
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            ElevatedButton.icon(
+                              onPressed: () async {
+                                BuildingReport.imagesPBO[floor] = await _pickPBOImage(ImageSource.camera);
+                              },
+                              icon: const Icon(Icons.camera_alt),
+                              label: const Text('Prendre Photo'),
+                            ),
+                            const Text(
+                              'OU',
+                              style: TextStyle(fontSize: 14.0),
+                            ),
+                            const SizedBox(width: 8),
+                            ElevatedButton.icon(
+                              onPressed: () async {
+                                BuildingReport.imagesPBO[floor] = await _pickPBOImage(ImageSource.gallery);
+                              },
+                              icon: const Icon(Icons.photo_library),
+                              label: const Text('Charger Image'),
+                            ),
+                            const SizedBox(height: 20),
+                            ElevatedButton(
+                                onPressed: () => Navigator.pop(context),
+                                style: ElevatedButton.styleFrom(backgroundColor: Colors.green[400]),
+                                child: const Text("Confirmer"),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  );
+          }),
+          );
+        });
   }
 
   @override
@@ -286,96 +360,11 @@ class _BuildingState extends State<Building> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 const Text('PBO:'),
-                Switch(
-                  value: isPBOToggled,
-                  onChanged: (value) {
-                    setState(() {
-                      isPBOToggled = value;
-                      if (!value) {
-                        pboImages.clear();
-                        selectedFloors.clear();
-                      }
-                    });
-                  },
+                ElevatedButton(
+                    onPressed: () => showPboDialog(context),
+                    child: const Text('Ajouter PBO'),
                 ),
-              ],
-            ),
-
-            if (isPBOToggled) ...[
-              const Text('Sélectionnez les étages:'),
-              DropdownButtonFormField<String>(
-                value: null,
-                hint: const Text("Choisir les étages"),
-                items: [
-                  'Sous-sol',
-                  'RDC',
-                  '1',
-                  '2',
-                  '3',
-                  '4',
-                  '5',
-                  '6',
-                  '7',
-                  '8',
-                  '9',
-                  '10'
-                ].map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-                onChanged: (String? newValue) {
-                  if (newValue != null && !selectedFloors.contains(newValue)) {
-                    setState(() {
-                      selectedFloors.add(newValue);
-                    });
-                  }
-                },
-                onSaved: (value) {
-                  if (value != null && !selectedFloors.contains(value)) {
-                    setState(() {
-                      selectedFloors.add(value);
-                    });
-                  }
-                },
-              ),
-              const SizedBox(height: 16.0),
-              for (var floor in selectedFloors)
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Étage: $floor'),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        ElevatedButton.icon(
-                          onPressed: () async {
-                            BuildingReport.imagesPBO[floor] = await _pickPBOImage(ImageSource.camera);
-                          },
-                          icon: const Icon(Icons.camera_alt),
-                          label: const Text('Prendre Photo'),
-                        ),
-                        const Text(
-                          'OU',
-                          style: TextStyle(fontSize: 14.0),
-                        ),
-                        const SizedBox(width: 8),
-                        ElevatedButton.icon(
-                          onPressed: () async {
-                            BuildingReport.imagesPBO[floor] = await _pickPBOImage(ImageSource.gallery);
-                          },
-                          icon: const Icon(Icons.photo_library),
-                          label: const Text('Charger Image'),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-            ],
-
             const SizedBox(height: 16.0),
-
             TextField(
               decoration: const InputDecoration(labelText: 'Splitere'),
               keyboardType: TextInputType.number,

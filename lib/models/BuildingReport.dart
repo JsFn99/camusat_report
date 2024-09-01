@@ -14,4 +14,18 @@ class BuildingReport {
   static File? imageTestDeSignal;          // Image test de signal
   static int splitere = -1;                    // Splitere
   static String pbiLocation = "";              // PBI Location
+
+  static void reset() {
+    nomPlaque = "";                // NOM DE LA PLAQUE
+    adresse = "";                  // Adresse
+    coordonnees = "";              // Coordonnées de l'immeuble
+    imageImmeuble = null;              // Image immeuble
+    screenSituationGeographique;// Screen situation géographique
+    schema = null;                     // Schema
+    imagePBI = null;                   // Image PBI
+    imagesPBO = {};            // Images PBO
+    imageTestDeSignal = null;          // Image test de signal
+    splitere = -1;                    // Splitere
+    pbiLocation = "";              // PBI Location
+  }
 }
