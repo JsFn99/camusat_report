@@ -212,24 +212,8 @@ class Reportgenerator {
       var listPbo = BuildingReport.imagesPBO.entries;
 
       String getPboLabel(int key) {
-        switch (key) {
-          case 0:
-            return 'PBO "RDC"';
-          case 1:
-            return 'PBO "1er"';
-          case 2:
-            return 'PBO "2eme"';
-          case 3:
-            return 'PBO "3eme"';
-          case 4:
-            return 'PBO "4eme"';
-          case 5:
-            return 'PBO "5eme"';
-          case 6:
-            return 'PBO "6eme"';
-          default:
-            return 'PBO "${key}eme"';
-        }
+          return key == 0 ? 'PBO "RDC"' :
+          'PBO "Etage $key"';
       }
 
       return pw.GridView(
