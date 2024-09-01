@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:camusat_report/models/BuildingReport.dart';
-import 'package:camusat_report/pages/Building.dart';
 import 'package:flutter/services.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -212,7 +211,7 @@ class Reportgenerator {
     pw.Widget widgetListPBO() {
       var listPbo = BuildingReport.imagesPBO.entries;
       return pw.GridView(
-        crossAxisCount: 3,
+        crossAxisCount: BuildingReport.imagesPBO.length > 3 ? 3 : BuildingReport.imagesPBO.length,
         crossAxisSpacing: 5,
         mainAxisSpacing: 5,
         childAspectRatio: 1,
