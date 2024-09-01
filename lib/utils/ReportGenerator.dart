@@ -250,11 +250,11 @@ class Reportgenerator {
                 titleBorder(
                     title: label,
                     padding: 2,
-                    width: 100,
+                    width: 160,
                     background: PdfColors.grey300
                 ),
                 spacing(10),
-                placeImage(entry.value, width: 100, height: 120),
+                placeImage(entry.value, width: 160, height: 180),
               ],
             ),
           );
@@ -277,7 +277,7 @@ class Reportgenerator {
               padding: 2,
             ),
             spacing(10),
-            placeImage(BuildingReport.imagePBI!, width: 100, height: 120),
+            placeImage(BuildingReport.imagePBI!, width: 180, height: 200),
             spacing(10),
             pw.Center(child: widgetListPBO()),
           ],
