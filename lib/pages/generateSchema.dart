@@ -201,6 +201,7 @@ class _GenerateSchemaState extends State<GenerateSchema> {
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 15.0),
+                  backgroundColor: Colors.green[400],
                 ),
                 onPressed: () async {
                   schema.b2bLocations = {for (int i = 0; i < _b2bLocations.length; i++) i + 1: _b2bLocations[i]};
