@@ -2,7 +2,6 @@ import 'package:camusat_report/models/BuildingReport.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
-
 import 'package:path_provider/path_provider.dart';
 
 class LoadImages extends StatefulWidget {
@@ -44,111 +43,93 @@ class _LoadImagesState extends State<LoadImages> {
 
   @override
   Widget build(BuildContext context) {
+    bool allDataLoaded = imageLoaded.values.every((loaded) => loaded);
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Ajouter des Photos',
-        ),
+        title: Text('Ajouter des Photos'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: ListView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Text(
-              'Photo de l\'immeuble',
-              style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+            buildSection(
+              title: 'Photo de l\'immeuble',
+              section: 'building',
+              imageLoaded: imageLoaded['building']!,
             ),
-            const SizedBox(height: 8.0),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton.icon(
+            buildSection(
+              title: 'Verticalité PBI',
+              section: 'verticality',
+              imageLoaded: imageLoaded['verticality']!,
+            ),
+            buildSection(
+              title: 'Test de signal',
+              section: 'signal',
+              imageLoaded: imageLoaded['signal']!,
+            ),
+            SizedBox.fromSize(size: const Size.fromHeight(16.0)),
+            if (allDataLoaded)
+              Center(
+                child: ElevatedButton(
                   onPressed: () {
-                    _pickImage(ImageSource.camera, 'building');
+                    Navigator.pop(context, BuildingReport);
                   },
-                  icon: const Icon(Icons.camera_alt),
-                  label: const Text('Prendre Photo'),
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                  ),
+                  child: const Text('Valider'),
                 ),
-                const Text(
-                  'OU',
-                  style: TextStyle(fontSize: 14.0),
-                ),
-                ElevatedButton.icon(
-                  onPressed: () {
-                    _pickImage(ImageSource.gallery, 'building');
-                  },
-                  icon: const Icon(Icons.photo_library),
-                  label: const Text('Charger Image'),
-                ),
-              ],
-            ),
-            const SizedBox(height: 16.0),
-            const Text(
-              'Verticalité PBI',
-              style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8.0),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton.icon(
-                  onPressed: () {
-                    _pickImage(ImageSource.camera, 'verticality');
-                  },
-                  icon: const Icon(Icons.camera_alt),
-                  label: const Text('Prendre Photo'),
-                ),
-                const Text(
-                  'OU',
-                  style: TextStyle(fontSize: 14.0),
-                ),
-                ElevatedButton.icon(
-                  onPressed: () {
-                    _pickImage(ImageSource.gallery, 'verticality');
-                  },
-                  icon: const Icon(Icons.photo_library),
-                  label: const Text('Charger Image'),
-                ),
-              ],
-            ),
-            const SizedBox(height: 16.0),
-            const Text(
-              'Test de signal',
-              style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8.0),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton.icon(
-                  onPressed: () {
-                    _pickImage(ImageSource.camera, 'signal');
-                  },
-                  icon: const Icon(Icons.camera_alt),
-                  label: const Text('Prendre Photo'),
-                ),
-                const Text(
-                  'OU',
-                  style: TextStyle(fontSize: 14.0),
-                ),
-                ElevatedButton.icon(
-                  onPressed: () {
-                    _pickImage(ImageSource.gallery, 'signal');
-                  },
-                  icon: const Icon(Icons.photo_library),
-                  label: const Text('Charger Image'),
-                ),
-              ],
-            ),
-            const SizedBox(height: 32.0),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context, BuildingReport);
-              },
-              child: const Text('Valider'),
-            ),
+              ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget buildSection({
+    required String title,
+    required String section,
+    required bool imageLoaded,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 8.0),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              ElevatedButton.icon(
+                onPressed: () {
+                  _pickImage(ImageSource.camera, section);
+                },
+                icon: const Icon(Icons.camera_alt),
+                label: const Text('Prendre Photo'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: imageLoaded ? Colors.greenAccent : Colors.blueAccent,
+                ),
+              ),
+              const Text('OU', style: TextStyle(fontSize: 14.0)),
+              ElevatedButton.icon(
+                onPressed: () {
+                  _pickImage(ImageSource.gallery, section);
+                },
+                icon: const Icon(Icons.photo_library),
+                label: const Text('Charger Image'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: imageLoaded ? Colors.greenAccent : Colors.blueAccent,
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

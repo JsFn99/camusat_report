@@ -202,6 +202,9 @@ class _BuildingState extends State<Building> {
               },
               icon: const Icon(Icons.add_a_photo),
               label: const Text('Ajouter Photos (Immeuble, ...)'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blueAccent,
+              ),
             ),
             const SizedBox(height: 10),
             Row(
@@ -213,6 +216,9 @@ class _BuildingState extends State<Building> {
                     onPressed: _openMap,
                     icon: const Icon(Icons.location_on),
                     label: const Text('Ouvrir Plan'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blueAccent,
+                    ),
                   ),
                 ),
                 const SizedBox(width: 10),
@@ -229,6 +235,9 @@ class _BuildingState extends State<Building> {
                     },
                     icon: const Icon(Icons.photo_library),
                     label: const Text('Charger Image plan'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: (imageLoaded['plan'] ?? false ) ? Colors.greenAccent : Colors.blueAccent,
+                    ),
                   ),
                 )
               ],
@@ -240,6 +249,9 @@ class _BuildingState extends State<Building> {
               },
               icon: const Icon(Icons.draw),
               label: const Text('Parametrage du schéma'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: (imageLoaded['schema'] ?? false ) ? Colors.greenAccent : Colors.blueAccent,
+              ),
             ),
             const SizedBox(height: 8.0),
             const Divider(
