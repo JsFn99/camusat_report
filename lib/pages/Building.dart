@@ -364,7 +364,11 @@ class _BuildingState extends State<Building> {
                     onPressed: () => showPboDialog(context),
                     child: const Text('Ajouter PBO'),
                 ),
+              ],
+            ),
+
             const SizedBox(height: 16.0),
+
             TextField(
               decoration: const InputDecoration(labelText: 'Splitere'),
               keyboardType: TextInputType.number,
