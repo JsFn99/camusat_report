@@ -22,19 +22,7 @@ class _GenerateSchemaState extends State<GenerateSchema> {
   final List<String> _b2b = ['RDC', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
   final List<String> _pbiOptions = ['Sous-sol', 'Facade'];
   final List<String> _pboOptions = ['RDC', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
-
-  late Schema schema = Schema();
   Uint8List? _pdfBytes;
-
-  void _logSchemaData() {
-    print("Nombre d'étages: $_nombreEtages");
-    print("Emplacement des B2B: $_b2bLocations");
-    print("Emplacement PBO: $_pboLocations");
-    print("Emplacement PBI: $_selectedPbiLocation");
-    print("Câbles PBO: $_cablesPbo");
-    print("B2B Locations Map: ${schema.b2bLocations}");
-    print("PBO Locations Map: ${schema.pboLocations}");
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +49,7 @@ class _GenerateSchemaState extends State<GenerateSchema> {
                         onPressed: () {
                           setState(() {
                             if (_nombreEtages > 1) _nombreEtages--;
-                            schema.nbrEtages = _nombreEtages;
+                            Schema.nbrEtages = _nombreEtages;
                           });
                         },
                       ),
@@ -71,7 +59,7 @@ class _GenerateSchemaState extends State<GenerateSchema> {
                         onPressed: () {
                           setState(() {
                             _nombreEtages++;
-                            schema.nbrEtages = _nombreEtages;
+                            Schema.nbrEtages = _nombreEtages;
                           });
                         },
                       ),
@@ -144,7 +132,7 @@ class _GenerateSchemaState extends State<GenerateSchema> {
                 onChanged: (newValue) {
                   setState(() {
                     _selectedPbiLocation = newValue!;
-                    schema.pbiLocation = _pbiOptions.indexOf(_selectedPbiLocation);
+                    Schema.pbiLocation = _pbiOptions.indexOf(_selectedPbiLocation);
                   });
                 },
               ),
@@ -158,7 +146,7 @@ class _GenerateSchemaState extends State<GenerateSchema> {
                 onChanged: (value) {
                   setState(() {
                     _cablesPbo = int.tryParse(value) ?? 1;
-                    schema.cablePbo = int.tryParse(value) ?? 1;
+                    Schema.cablePbo = int.tryParse(value) ?? 1;
                   });
                 },
               ),
@@ -168,20 +156,17 @@ class _GenerateSchemaState extends State<GenerateSchema> {
                   padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 15.0),
                 ),
                 onPressed: () async {
-                  schema.b2bLocations = {for (int i = 0; i < _b2bLocations.length; i++) i + 1: _b2bLocations[i]};
-                  schema.pboLocations = {for (int i = 0; i < _pboLocations.length; i++) i + 1: _pboLocations[i]};
+                  Schema.b2bLocations = {for (int i = 0; i < _b2bLocations.length; i++) i + 1: _b2bLocations[i]};
+                  Schema.pboLocations = {for (int i = 0; i < _pboLocations.length; i++) i + 1: _pboLocations[i]};
 
-                  // Log the data to the console
-                  _logSchemaData();
-
-                  if (!schema.isValid()) {
+                  if (!Schema.isValid()) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('Veuillez remplir tous les champs requis .')),
                     );
                     return;
                   }
 
-                  BuildingReport.schema = await SchemaGenerator().generateSchema(schema);
+                  BuildingReport.schema = await SchemaGenerator().generateSchema();
 
                   final schemaPage = pw.Document();
                   schemaPage.addPage(
@@ -217,24 +202,21 @@ class _GenerateSchemaState extends State<GenerateSchema> {
                   backgroundColor: Colors.green[400],
                 ),
                 onPressed: () async {
-                  schema.b2bLocations = {
+                  Schema.b2bLocations = {
                     for (var location in _b2bLocations) _b2b.indexOf(location): location
                   };
-                  schema.pboLocations = {
+                  Schema.pboLocations = {
                     for (var location in _pboLocations) _pboOptions.indexOf(location): location
                   };
 
-                  // Log the data to the console
-                  _logSchemaData();
-
-                  if (!schema.isValid()) {
+                  if (!Schema.isValid()) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('Veuillez remplir tous les champs requis.')),
                     );
                     return;
                   }
 
-                  BuildingReport.schema = await SchemaGenerator().generateSchema(schema);
+                  BuildingReport.schema = await SchemaGenerator().generateSchema();
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text('Le schéma a été généré.')),
                   );

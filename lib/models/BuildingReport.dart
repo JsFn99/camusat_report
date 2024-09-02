@@ -28,4 +28,13 @@ class BuildingReport {
     splitere = -1;                    // Splitere
     pbiLocation = "Sous-Sol";              // PBI Location
   }
+
+  static bool areImagesLoaded() {
+    if (imageImmeuble == null || !imageImmeuble!.existsSync() ||
+    imagePBI == null || !imagePBI!.existsSync() ||
+    imageTestDeSignal == null || !imageTestDeSignal!.existsSync()) {
+      return false;
+    }
+    return true;
+  }
 }

@@ -279,7 +279,9 @@ class _BuildingState extends State<Building> {
               icon: const Icon(Icons.add_a_photo),
               label: const Text('Ajouter Photos (Immeuble, ...)'),
               style: ElevatedButton.styleFrom(
-                backgroundColor: colorScheme.primaryFixedDim,
+                backgroundColor: (BuildingReport.areImagesLoaded() == true)
+                    ? Colors.green[300]
+                    : colorScheme.primary,
               ),
             ),
             const SizedBox(height: 10),
@@ -323,7 +325,7 @@ class _BuildingState extends State<Building> {
               icon: const Icon(Icons.draw),
               label: const Text('Parametrage du schéma'),
               style: ElevatedButton.styleFrom(
-                backgroundColor: (imageLoaded['schema'] ?? false ) ? Colors.green[300]: colorScheme.primary,
+                backgroundColor: (BuildingReport.schema != null) ? Colors.green[300]: colorScheme.primary,
               ),
             ),
             const SizedBox(height: 8.0),

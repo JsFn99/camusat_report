@@ -5,7 +5,7 @@ import 'package:pdf/widgets.dart' as pw;
 import '../models/schema.dart';
 
 class SchemaGenerator {
-  Future<pw.Widget> generateSchema(Schema schema) async {
+  Future<pw.Widget> generateSchema() async {
     final companyImg = pw.MemoryImage(
       (await rootBundle.load('images/company.png')).buffer.asUint8List(),
     );
@@ -22,11 +22,7 @@ class SchemaGenerator {
       (await rootBundle.load('images/triangle.png')).buffer.asUint8List(),
     );
 
-    final pdf = pw.Document();
-
-    final pdfFormat = PdfPageFormat.a5.landscape;
-
-    int totalFloors = schema.nbrEtages! + 1;
+    int totalFloors = Schema.nbrEtages + 1;
 
     String getOrdinalSuffix(int number) {
       if (number == 0) return 'RDC';
@@ -71,11 +67,11 @@ class SchemaGenerator {
                     padding: const pw.EdgeInsets.all(8.0),
                     child: pw.Center(
                       child: pw.Image(
-                        schema.b2bLocations.containsKey(totalFloors - 1 - i)
+                        Schema.b2bLocations.containsKey(totalFloors - 1 - i)
                             ? companyImg
                             : houseImg,
-                        width: schema.b2bLocations.containsKey(totalFloors - 1 - i) ? 30 : 40,
-                        height: schema.b2bLocations.containsKey(totalFloors - 1 - i) ? 30 : 40,
+                        width: Schema.b2bLocations.containsKey(totalFloors - 1 - i) ? 30 : 40,
+                        height: Schema.b2bLocations.containsKey(totalFloors - 1 - i) ? 30 : 40,
                       ),
                     ),
                   ),
@@ -87,13 +83,13 @@ class SchemaGenerator {
                     child: pw.Stack(
                       alignment: pw.Alignment.center,
                       children: [
-                        if (schema.pbiLocation == totalFloors - 1 - i)
+                        if (Schema.pbiLocation == totalFloors - 1 - i)
                           pw.Image(
                             circleImg,
                             width: 15,
                             height: 15,
                           ),
-                        if (schema.pboLocations.containsKey(totalFloors - 1 - i))
+                        if (Schema.pboLocations.containsKey(totalFloors - 1 - i))
                           pw.Image(
                             triangleImg,
                             width: 20,
@@ -108,11 +104,11 @@ class SchemaGenerator {
                     padding: const pw.EdgeInsets.all(8.0),
                     child: pw.Center(
                       child: pw.Image(
-                        schema.b2bLocations.containsKey(totalFloors - 1 - i)
+                        Schema.b2bLocations.containsKey(totalFloors - 1 - i)
                             ? companyImg
                             : houseImg,
-                        width: schema.b2bLocations.containsKey(totalFloors - 1 - i) ? 30 : 40,
-                        height: schema.b2bLocations.containsKey(totalFloors - 1 - i) ? 30 : 40,
+                        width: Schema.b2bLocations.containsKey(totalFloors - 1 - i) ? 30 : 40,
+                        height: Schema.b2bLocations.containsKey(totalFloors - 1 - i) ? 30 : 40,
                       ),
                     ),
                   ),
