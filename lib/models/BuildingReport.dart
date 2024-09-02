@@ -18,7 +18,6 @@ class BuildingReport {
   static void reset() {
     nomPlaque = "";                // NOM DE LA PLAQUE
     adresse = "";                  // Adresse
-    coordonnees = "";              // Coordonnées de l'immeuble
     imageImmeuble = null;              // Image immeuble
     screenSituationGeographique = null;// Screen situation géographique
     schema = null;                     // Schema

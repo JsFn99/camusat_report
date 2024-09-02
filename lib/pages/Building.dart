@@ -144,7 +144,7 @@ class _BuildingState extends State<Building> {
     throw Null;
   }
 
-  Future<void> _openMap() async {
+  void _openMap() {
     final latitude = BuildingReport.coordonnees.split(', ')[0];
     final longitude = BuildingReport.coordonnees.split(', ')[1];
 
@@ -291,7 +291,7 @@ class _BuildingState extends State<Building> {
                 Expanded(
                   flex: 1,
                   child: ElevatedButton.icon(
-                    onPressed: _openMap,
+                    onPressed: () => _openMap(),
                     icon: const Icon(Icons.location_on),
                     label: const Text('Ouvrir Plan'),
                   ),
