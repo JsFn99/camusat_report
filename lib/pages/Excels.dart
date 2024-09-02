@@ -31,11 +31,34 @@ class _ExcelsState extends State<Excels> {
     setState(() {
       regions = prefs.getStringList('filePaths') ?? [];
     });
+    await _removeEmptyFiles();
   }
 
   Future<void> _saveFilePaths() async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setStringList('filePaths', regions);
+  }
+
+  Future<void> _removeEmptyFiles() async {
+    List<String> nonEmptyFiles = [];
+
+    for (String filePath in regions) {
+      List<Map<String, String>> data = await _dataProvider.loadExcel(filePath);
+      if (data.isNotEmpty) {
+        nonEmptyFiles.add(filePath);
+      } else {
+        final file = File(filePath);
+        if (await file.exists()) {
+          await file.delete();
+        }
+      }
+    }
+
+    setState(() {
+      regions = nonEmptyFiles;
+    });
+
+    await _saveFilePaths();
   }
 
   Future<void> _showDeleteConfirmationDialog(String filePath, int index) async {
@@ -45,7 +68,7 @@ class _ExcelsState extends State<Excels> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Confirmation'),
-          content: const Text('Etes vous sur de vouloir supprimer le fichier?'),
+          content: const Text('Êtes-vous sûr de vouloir supprimer ce fichier?'),
           actions: <Widget>[
             TextButton(
               child: const Text('Non'),
@@ -77,8 +100,8 @@ class _ExcelsState extends State<Excels> {
     setState(() {
       _selectedIndex = index;
     });
-    _navigateWithFadeTransition(context,
-        index == 1 ? '/Reports' : '/Excels');
+    _navigateWithFadeTransition(
+        context, index == 1 ? '/Reports' : '/Excels');
   }
 
   void _navigateWithFadeTransition(BuildContext context, String routeName) {
@@ -97,9 +120,7 @@ class _ExcelsState extends State<Excels> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          "Regions",
-        ),
+        title: const Text("Régions"),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -120,12 +141,20 @@ class _ExcelsState extends State<Excels> {
                       onTap: () async {
                         List<Map<String, String>> data =
                         await _dataProvider.loadExcel(regions[index]);
-                        Navigator.pop(context); // Remove the loading page
-                        Navigator.pushNamed(
-                          context,
-                          '/home',
-                          arguments: data,
-                        );
+                        if (data.isNotEmpty) {
+                          Navigator.pop(context);
+                          Navigator.pushNamed(
+                            context,
+                            '/home',
+                            arguments: data,
+                          );
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text('Le fichier est vide!')
+                            ),
+                          );
+                        }
                       },
                       child: Container(
                         height: 100,
@@ -179,10 +208,19 @@ class _ExcelsState extends State<Excels> {
             final file = File(filePath);
             await file.copy(newFilePath);
 
-            setState(() {
-              regions.add(newFilePath);
-            });
-            await _saveFilePaths();
+            List<Map<String, String>> data =
+            await _dataProvider.loadExcel(newFilePath);
+
+            if (data.isNotEmpty) {
+              setState(() {
+                regions.add(newFilePath);
+              });
+              await _saveFilePaths();
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Le fichier est vide!')),
+              );
+            }
           }
         },
         child: const Icon(Icons.add),
