@@ -25,8 +25,8 @@ class _ReportsState extends State<Reports> {
   Future<void> _loadReports() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
-      reportTitles = prefs.getStringList('reportTitles') ?? [];
-      reportDates = prefs.getStringList('reportDates') ?? [];
+      reportTitles = (prefs.getStringList('reportTitles') ?? []).reversed.toList();
+      reportDates = (prefs.getStringList('reportDates') ?? []).reversed.toList();
     });
   }
 
@@ -122,44 +122,73 @@ class _ReportsState extends State<Reports> {
       appBar: AppBar(
         title: Text(
           "Rapports",
+          style: TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
         ),
       ),
-      body: ListView.builder(
+      body: ListView.separated(
         padding: const EdgeInsets.all(12.0),
         itemCount: reportTitles.length,
         itemBuilder: (context, index) {
-          return ListTile(
-            leading: Icon(Icons.insert_drive_file, size: 30, color: Colors.blueGrey,),
-            title: Row(
-              children: [
-                Expanded(
-                  child: Text(reportTitles[index]),
-                ),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.email, color: Colors.blue),
-                      onPressed: () {
-                        _sendReportViaEmail(reportTitles[index]);
-                      },
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.delete, color: Colors.red),
-                      onPressed: () {
-                        _deleteReport(index);
-                      },
-                    ),
-                  ],
+          return Container(
+            decoration: BoxDecoration(
+              color: Colors.white70,
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.3),
+                  spreadRadius: 2,
+                  blurRadius: 5,
+                  offset: Offset(0, 3),
                 ),
               ],
             ),
-            subtitle: Text(reportDates[index]),
-            onTap: () {
-              _openReport(reportTitles[index]);
-            },
+            child: ListTile(
+              leading: Icon(Icons.insert_drive_file, size: 30, color: Colors.blueAccent),
+              title: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      reportTitles[index],
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black87,
+                      ),
+                    ),
+                  ),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.email, color: Colors.blue),
+                        onPressed: () {
+                          _sendReportViaEmail(reportTitles[index]);
+                        },
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.delete, color: Colors.red),
+                        onPressed: () {
+                          _deleteReport(index);
+                        },
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              subtitle: Text(
+                reportDates[index],
+                style: TextStyle(color: Colors.grey[600]),
+              ),
+              onTap: () {
+                _openReport(reportTitles[index]);
+              },
+            ),
           );
         },
+        separatorBuilder: (context, index) => const SizedBox(height: 10),
       ),
       bottomNavigationBar: BottomNavBar(
         selectedIndex: _selectedIndex,
