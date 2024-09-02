@@ -7,6 +7,14 @@ class Schema{
   static int pbiLocation = 0;
   static int cablePbo = -2;
 
+  static void reset() {
+    nbrEtages = 1;
+    b2bLocations = {};
+    pboLocations = {};
+    pbiLocation = 0;
+    cablePbo = -2;
+  }
+
   static bool isValid() {
     if (pboLocations.isEmpty ||
         pbiLocation == -2 ||
