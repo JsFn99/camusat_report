@@ -361,16 +361,25 @@ class _BuildingState extends State<Building> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text('PBO:'),
+                const Text('Liste PBO:'),
                 ElevatedButton(
                     onPressed: () => showPboDialog(context),
                     child: const Text('Ajouter PBO'),
                 ),
               ],
             ),
-
             const SizedBox(height: 16.0),
-
+            Column(
+              children: [
+                ...BuildingReport.imagesPBO.entries.map((item) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: Text(item.key),
+                    );
+                }),
+              ],
+            ),
+            const SizedBox(height: 16.0),
             TextField(
               decoration: const InputDecoration(labelText: 'Splitere'),
               keyboardType: TextInputType.number,
