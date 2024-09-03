@@ -48,18 +48,16 @@ class _GenerateSchemaState extends State<GenerateSchema> {
                         icon: const Icon(Icons.remove),
                         onPressed: () {
                           setState(() {
-                            if (_nombreEtages > 1) _nombreEtages--;
-                            Schema.nbrEtages = _nombreEtages;
+                            if (Schema.nbrEtages > 1) Schema.nbrEtages--;
                           });
                         },
                       ),
-                      Text('$_nombreEtages'),
+                      Text('${Schema.nbrEtages}'),
                       IconButton(
                         icon: const Icon(Icons.add),
                         onPressed: () {
                           setState(() {
-                            _nombreEtages++;
-                            Schema.nbrEtages = _nombreEtages;
+                            Schema.nbrEtages++;
                           });
                         },
                       ),
@@ -68,11 +66,8 @@ class _GenerateSchemaState extends State<GenerateSchema> {
                 ],
               ),
               const SizedBox(height: 16.0),
-
               const Text('Emplacement des B2B :'),
-
               const SizedBox(height: 16.0),
-
               Wrap(
                 children: _b2b.map((option) {
                   bool isSelected = _b2bLocations.contains(option);
@@ -122,8 +117,8 @@ class _GenerateSchemaState extends State<GenerateSchema> {
 
               DropdownButton<String>(
                 hint: const Text('Sélectionner emplacement PBI '),
-                value: _selectedPbiLocation,
-                items: _pbiOptions.map((String value) {
+                value: Schema.pbiLocation,
+                items: _pbiOptions.map((value) {
                   return DropdownMenuItem<String>(
                     value: value,
                     child: Text(value),
@@ -131,25 +126,11 @@ class _GenerateSchemaState extends State<GenerateSchema> {
                 }).toList(),
                 onChanged: (newValue) {
                   setState(() {
-                    _selectedPbiLocation = newValue!;
-                    Schema.pbiLocation = _pbiOptions.indexOf(_selectedPbiLocation);
+                    Schema.pbiLocation = newValue!;
                   });
                 },
               ),
               const SizedBox(height: 16.0),
-              TextField(
-                decoration: const InputDecoration(
-                  labelText: 'Câbles PBO',
-                  border: OutlineInputBorder(),
-                ),
-                keyboardType: TextInputType.number,
-                onChanged: (value) {
-                  setState(() {
-                    _cablesPbo = int.tryParse(value) ?? 1;
-                    Schema.cablePbo = int.tryParse(value) ?? 1;
-                  });
-                },
-              ),
               const SizedBox(height: 16.0),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(

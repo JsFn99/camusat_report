@@ -114,6 +114,29 @@ class SchemaGenerator {
                   ),
                 ],
               ),
+            if (Schema.pbiLocation == "Sous-sol")
+              pw.TableRow(
+                children: [
+                  pw.Padding(
+                    padding: const pw.EdgeInsets.all(8.0),
+                    child: pw.Center(
+                      child: pw.Text(
+                        'Sous-sol',
+                        style: const pw.TextStyle(
+                          fontSize: 12,
+                          color: PdfColors.red,
+                        ),
+                      ),
+                    ),
+                  ),
+                  pw.Padding(
+                    padding: const pw.EdgeInsets.all(8.0),
+                    child: pw.Center(
+                      child: pw.Text(""),
+                    ),
+                  ),
+                ],
+              ),
           ],
         ),
       ],

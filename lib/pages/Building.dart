@@ -35,7 +35,7 @@ class _BuildingState extends State<Building> {
     super.didChangeDependencies();
     final buildingData = ModalRoute.of(context)!.settings.arguments as Map<String, String>;
     BuildingReport.coordonnees = '${buildingData['lat']}, ${buildingData['long']}';
-    BuildingReport.nomPlaque = buildingData['name']!;
+    BuildingReport.nomPlaque = buildingData['nomPlaque']!;
     BuildingReport.adresse = buildingData['adresse']!;
     BuildingReport.nom = buildingData['name']!;
   }
@@ -247,12 +247,12 @@ class _BuildingState extends State<Building> {
               ),
             ),
             const SizedBox(height: 8.0),
-            // Text(
-            //   'Nom de Plaque: ${BuildingReport.nomPlaque}',
-            //   style: const TextStyle(
-            //     fontSize: 14,
-            //   ),
-            // ),
+            Text(
+              'Nom de Plaque: ${BuildingReport.nomPlaque}',
+              style: const TextStyle(
+                fontSize: 14,
+              ),
+            ),
             const SizedBox(height: 8.0),
             Text(
               'Adresse: ${BuildingReport.adresse}',
