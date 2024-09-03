@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:pdf/widgets.dart' as pw;
 
 class BuildingReport {
+  static String nom= "";                      // Nom
   static String nomPlaque = "";                // NOM DE LA PLAQUE
   static String adresse = "";                  // Adresse
   static String coordonnees = "";              // Coordonnées de l'immeuble

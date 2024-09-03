@@ -38,6 +38,7 @@ class _BuildingState extends State<Building> {
     BuildingReport.coordonnees = '${buildingData['lat']}, ${buildingData['long']}';
     BuildingReport.nomPlaque = buildingData['nomPlaque']!;
     BuildingReport.adresse = buildingData['adresse']!;
+    BuildingReport.nom = buildingData['name']!;
   }
 
   void previewPdf() async {
@@ -240,7 +241,7 @@ class _BuildingState extends State<Building> {
         child: ListView(
           children: [
             Text(
-              'Immeuble: ${BuildingReport.nomPlaque}',
+              'Immeuble: ${BuildingReport.nom}',
               style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
