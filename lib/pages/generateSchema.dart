@@ -94,16 +94,16 @@ class _GenerateSchemaState extends State<GenerateSchema> {
 
               Wrap(
                 children: _pboOptions.map((option) {
-                  bool isSelected = _pboLocations.contains(option);
+                  bool isSelected = Schema.pboLocations.contains(option == "RDC" ? 0 : int.parse(option));
                   return ChoiceChip(
                     label: Text(option),
                     selected: isSelected,
                     onSelected: (selected) {
                       setState(() {
                         if (isSelected) {
-                          _pboLocations.remove(option);
+                          Schema.pboLocations.remove(option == "RDC" ? 0 : int.parse(option));
                         } else {
-                          _pboLocations.add(option);
+                          Schema.pboLocations.add(option == "RDC" ? 0 : int.parse(option));
                         }
                       });
                     },
@@ -138,14 +138,7 @@ class _GenerateSchemaState extends State<GenerateSchema> {
                 ),
                 onPressed: () async {
                   Schema.b2bLocations = {for (int i = 0; i < _b2bLocations.length; i++) i + 1: _b2bLocations[i]};
-                  Schema.pboLocations = {for (int i = 0; i < _pboLocations.length; i++) i + 1: _pboLocations[i]};
-
-                  if (!Schema.isValid()) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Veuillez remplir tous les champs requis .')),
-                    );
-                    return;
-                  }
+                  // Schema.pboLocations = {for (int i = 0; i < _pboLocations.length; i++) i + 1: _pboLocations[i]};
 
                   BuildingReport.schema = await SchemaGenerator().generateSchema();
 
@@ -186,16 +179,9 @@ class _GenerateSchemaState extends State<GenerateSchema> {
                   Schema.b2bLocations = {
                     for (var location in _b2bLocations) _b2b.indexOf(location): location
                   };
-                  Schema.pboLocations = {
-                    for (var location in _pboLocations) _pboOptions.indexOf(location): location
-                  };
-
-                  if (!Schema.isValid()) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Veuillez remplir tous les champs requis.')),
-                    );
-                    return;
-                  }
+                  // Schema.pboLocations = {
+                  //   for (var location in _pboLocations) _pboOptions.indexOf(location): location
+                  // };
 
                   BuildingReport.schema = await SchemaGenerator().generateSchema();
                   ScaffoldMessenger.of(context).showSnackBar(

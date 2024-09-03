@@ -1,3 +1,4 @@
+import 'package:excel/excel.dart';
 import 'package:flutter/services.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -22,7 +23,12 @@ class SchemaGenerator {
       (await rootBundle.load('images/triangle.png')).buffer.asUint8List(),
     );
 
+    final redLineImg = pw.MemoryImage(
+      (await rootBundle.load('images/redLine.png')).buffer.asUint8List(),
+    );
+
     int totalFloors = Schema.nbrEtages + 1;
+    int maxPboFloor = Schema.pboLocations.reduce((a, b) => a > b ? a : b);
 
     String getOrdinalSuffix(int number) {
       if (number == 0) return 'RDC';
@@ -45,7 +51,7 @@ class SchemaGenerator {
           },
           children: [
             // Iterate over the floors from top (highest) to bottom (RDC)
-            for (int i = 0; i < totalFloors; i++)
+            for (int i = totalFloors - 1; i >= 0 ; i--)
               pw.TableRow(
                 children: [
                   // First column: Floor number with ordinal suffix
@@ -53,7 +59,8 @@ class SchemaGenerator {
                     padding: const pw.EdgeInsets.all(8.0),
                     child: pw.Center(
                       child: pw.Text(
-                        getOrdinalSuffix(totalFloors - 1 - i),
+                        // getOrdinalSuffix(i),
+                        getOrdinalSuffix(i),
                         style: const pw.TextStyle(
                           fontSize: 12,
                           color: PdfColors.red,
@@ -67,11 +74,11 @@ class SchemaGenerator {
                     padding: const pw.EdgeInsets.all(8.0),
                     child: pw.Center(
                       child: pw.Image(
-                        Schema.b2bLocations.containsKey(totalFloors - 1 - i)
+                        Schema.b2bLocations.containsKey(i)
                             ? companyImg
                             : houseImg,
-                        width: Schema.b2bLocations.containsKey(totalFloors - 1 - i) ? 30 : 40,
-                        height: Schema.b2bLocations.containsKey(totalFloors - 1 - i) ? 30 : 40,
+                        width: Schema.b2bLocations.containsKey(i) ? 30 : 40,
+                        height: Schema.b2bLocations.containsKey(i) ? 30 : 40,
                       ),
                     ),
                   ),
@@ -83,13 +90,17 @@ class SchemaGenerator {
                     child: pw.Stack(
                       alignment: pw.Alignment.center,
                       children: [
-                        if (Schema.pbiLocation == totalFloors - 1 - i)
+                        if (maxPboFloor >= i)
+                          pw.Image(
+                            redLineImg,
+                          ),
+                        if (Schema.pbiLocation == 'Facade' && i == 0)
                           pw.Image(
                             circleImg,
                             width: 15,
                             height: 15,
                           ),
-                        if (Schema.pboLocations.containsKey(totalFloors - 1 - i))
+                        if (Schema.pboLocations.contains(i))
                           pw.Image(
                             triangleImg,
                             width: 20,
@@ -104,11 +115,11 @@ class SchemaGenerator {
                     padding: const pw.EdgeInsets.all(8.0),
                     child: pw.Center(
                       child: pw.Image(
-                        Schema.b2bLocations.containsKey(totalFloors - 1 - i)
+                        Schema.b2bLocations.containsKey(i)
                             ? companyImg
                             : houseImg,
-                        width: Schema.b2bLocations.containsKey(totalFloors - 1 - i) ? 30 : 40,
-                        height: Schema.b2bLocations.containsKey(totalFloors - 1 - i) ? 30 : 40,
+                        width: Schema.b2bLocations.containsKey(i) ? 30 : 40,
+                        height: Schema.b2bLocations.containsKey(i) ? 30 : 40,
                       ),
                     ),
                   ),
@@ -133,6 +144,16 @@ class SchemaGenerator {
                     padding: const pw.EdgeInsets.all(8.0),
                     child: pw.Center(
                       child: pw.Text(""),
+                    ),
+                  ),
+                  pw.Padding(
+                    padding: const pw.EdgeInsets.all(8.0),
+                    child: pw.Center(
+                      child: pw.Image(
+                        circleImg,
+                        width: 15,
+                        height: 15,
+                      ),
                     ),
                   ),
                 ],
