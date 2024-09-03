@@ -5,8 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher_string.dart';
-import '../../models/BuildingReport.dart';
-import '../main.dart';
+import 'package:camusat_report/models/BuildingReport.dart';
 import 'LoadingPage.dart';
 
 class Building extends StatefulWidget {
@@ -36,7 +35,7 @@ class _BuildingState extends State<Building> {
     super.didChangeDependencies();
     final buildingData = ModalRoute.of(context)!.settings.arguments as Map<String, String>;
     BuildingReport.coordonnees = '${buildingData['lat']}, ${buildingData['long']}';
-    BuildingReport.nomPlaque = buildingData['nomPlaque']!;
+    BuildingReport.nomPlaque = buildingData['name']!;
     BuildingReport.adresse = buildingData['adresse']!;
   }
 
@@ -247,12 +246,12 @@ class _BuildingState extends State<Building> {
               ),
             ),
             const SizedBox(height: 8.0),
-            Text(
-              'Nom de Plaque: ${BuildingReport.nomPlaque}',
-              style: const TextStyle(
-                fontSize: 14,
-              ),
-            ),
+            // Text(
+            //   'Nom de Plaque: ${BuildingReport.nomPlaque}',
+            //   style: const TextStyle(
+            //     fontSize: 14,
+            //   ),
+            // ),
             const SizedBox(height: 8.0),
             Text(
               'Adresse: ${BuildingReport.adresse}',
