@@ -7,7 +7,7 @@ class BuildingReport {
   static String nomPlaque = "";                // NOM DE LA PLAQUE
   static String adresse = "";                  // Adresse
   static String coordonnees = "";              // Coordonnées de l'immeuble
-  static File? imageImmeuble;              // Image immeuble
+  static File? imageImmeuble;// Image immeuble
   static File? screenSituationGeographique;// Screen situation géographique
   static pw.Widget? schema;                     // Schema
   static File? imagePBI;                   // Image PBI
@@ -15,7 +15,7 @@ class BuildingReport {
   static File? imageTestDeSignal;          // Image test de signal
   static int splitere = -1;                    // Splitere
   static String pbiLocation = "Sous-Sol";              // PBI Location
-
+  static int nbrCablesPBO = 0;                // Nombre de câbles PBO
   static void reset() {
     nomPlaque = "";                // NOM DE LA PLAQUE
     adresse = "";                  // Adresse

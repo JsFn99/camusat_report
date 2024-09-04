@@ -131,6 +131,17 @@ class _GenerateSchemaState extends State<GenerateSchema> {
                 },
               ),
               const SizedBox(height: 16.0),
+              const Text('Nombre de câbles PBO:'),
+              const SizedBox(height: 16.0),
+              TextField(
+                decoration: const InputDecoration(labelText: 'Cable pbo'),
+                keyboardType: TextInputType.number,
+                onChanged: (value) {
+                  setState(() {
+                    BuildingReport.nbrCablesPBO = int.parse(value);
+                  });
+                },
+              ),
               const SizedBox(height: 16.0),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(

@@ -164,3 +164,5 @@ class SchemaGenerator {
     );
   }
 }
+
+// cables pbo if cable pbo == 1 => 12FO else == 2 => 24FO else >= 3 => 48FO
