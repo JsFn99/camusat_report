@@ -166,3 +166,5 @@ class SchemaGenerator {
 }
 
 // cables pbo if cable pbo == 1 => 12FO else == 2 => 24FO else >= 3 => 48FO
+// show the cable pbo under the table
+// show the legend image under the table images/legend.png

@@ -134,7 +134,7 @@ class _GenerateSchemaState extends State<GenerateSchema> {
               const Text('Nombre de câbles PBO:'),
               const SizedBox(height: 16.0),
               TextField(
-                decoration: const InputDecoration(labelText: 'Cable pbo'),
+                decoration: const InputDecoration(labelText: 'Câbles pbo'),
                 keyboardType: TextInputType.number,
                 onChanged: (value) {
                   setState(() {
