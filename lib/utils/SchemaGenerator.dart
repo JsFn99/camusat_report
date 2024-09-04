@@ -30,13 +30,21 @@ class SchemaGenerator {
       (await rootBundle.load('images/redLine.png')).buffer.asUint8List(),
     );
 
+    final blackLineImg = pw.MemoryImage(
+      (await rootBundle.load('images/blackLine.png')).buffer.asUint8List(),
+    );
+
+    final cableImg = pw.MemoryImage(
+      (await rootBundle.load('images/cable.png')).buffer.asUint8List(),
+    );
+
     int totalFloors = Schema.nbrEtages + 1;
     int maxPboFloor = Schema.pboLocations.reduce((a, b) => a > b ? a : b);
 
     String getOrdinalSuffix(int number) {
       if (number == 0) return 'RDC';
       if (number == 1) return '1er';
-      return '$numberème';
+      return '${number}ème';
     }
 
     // Create the table
@@ -56,20 +64,30 @@ class SchemaGenerator {
               },
               children: [
                 // Iterate over the floors from top (highest) to bottom (RDC)
-                for (int i = totalFloors - 1; i >= 0 ; i--)
+                for (int i = totalFloors - 1; i >= 0; i--)
                   pw.TableRow(
                     children: [
                       // First column: Floor number with ordinal suffix
                       pw.Padding(
                         padding: const pw.EdgeInsets.all(8.0),
                         child: pw.Center(
-                          child: pw.Text(
-                            // getOrdinalSuffix(i),
-                            getOrdinalSuffix(i),
-                            style: const pw.TextStyle(
-                              fontSize: 12,
-                              color: PdfColors.red,
-                            ),
+                          child: pw.Column(
+                            children: [
+                              pw.Text(
+                                getOrdinalSuffix(i),
+                                style: const pw.TextStyle(
+                                  fontSize: 10,
+                                  color: PdfColors.red,
+                                ),
+                              ),
+                              if (getOrdinalSuffix(i) == 'RDC')
+                                pw.Image(
+                                  cableImg,
+                                  width: 25,
+                                  height: 25,
+                                  fit: pw.BoxFit.contain,
+                                ),
+                            ],
                           ),
                         ),
                       ),
@@ -82,8 +100,10 @@ class SchemaGenerator {
                             Schema.b2bLocations.containsKey(i)
                                 ? companyImg
                                 : houseImg,
-                            width: Schema.b2bLocations.containsKey(i) ? 25 : 35,
-                            height: Schema.b2bLocations.containsKey(i) ? 25 : 35,
+                            width:
+                            Schema.b2bLocations.containsKey(i) ? 25 : 35,
+                            height:
+                            Schema.b2bLocations.containsKey(i) ? 25 : 35,
                             fit: pw.BoxFit.contain,
                           ),
                         ),
@@ -91,7 +111,7 @@ class SchemaGenerator {
 
                       // Third column: Grey background with circle and triangle images
                       pw.Container(
-                        height: 40,
+                        height: 50,
                         color: PdfColors.grey,
                         child: pw.Stack(
                           alignment: pw.Alignment.center,
@@ -99,18 +119,14 @@ class SchemaGenerator {
                             if (maxPboFloor >= i)
                               pw.Image(
                                 redLineImg,
-                              ),
-                            if (Schema.pbiLocation == 'Facade' && i == 0)
-                              pw.Image(
-                                circleImg,
-                                width: 15,
-                                height: 15,
+                                fit: pw.BoxFit.contain,
                               ),
                             if (Schema.pboLocations.contains(i))
                               pw.Image(
                                 triangleImg,
                                 width: 20,
                                 height: 20,
+                                fit: pw.BoxFit.contain,
                               ),
                           ],
                         ),
@@ -124,14 +140,56 @@ class SchemaGenerator {
                             Schema.b2bLocations.containsKey(i)
                                 ? companyImg
                                 : houseImg,
-                            width: Schema.b2bLocations.containsKey(i) ? 25 : 35,
-                            height: Schema.b2bLocations.containsKey(i) ? 25 : 35,
+                            width:
+                            Schema.b2bLocations.containsKey(i) ? 25 : 35,
+                            height:
+                            Schema.b2bLocations.containsKey(i) ? 25 : 35,
                             fit: pw.BoxFit.contain,
                           ),
                         ),
                       ),
                     ],
                   ),
+                pw.TableRow(
+                  children: [
+                    pw.Padding(
+                      padding: const pw.EdgeInsets.all(8.0),
+                      child: pw.Center(
+                        child: pw.Text(
+                          '',
+                          style: const pw.TextStyle(
+                            fontSize: 12,
+                            color: PdfColors.red,
+                          ),
+                        ),
+                      ),
+                    ),
+                    pw.Container(
+                      height: 40,
+                      color: PdfColors.grey,
+                      child: pw.Center(
+                        child: pw.Image(
+                          blackLineImg,
+                          fit: pw.BoxFit.contain,
+                        ),
+                      ),
+                    ),
+                    pw.Padding(
+                      padding: const pw.EdgeInsets.all(8.0),
+                      child: pw.Center(
+                        child: Schema.pbiLocation == "Facade"
+                            ? pw.Image(
+                          circleImg,
+                          width: 20,
+                          height: 20,
+                          fit: pw.BoxFit.contain,
+                        )
+                            : pw.SizedBox.shrink(),
+                      ),
+                    ),
+                    pw.SizedBox.shrink(),
+                  ],
+                ),
                 if (Schema.pbiLocation == "Sous-sol")
                   pw.TableRow(
                     children: [
@@ -147,12 +205,7 @@ class SchemaGenerator {
                           ),
                         ),
                       ),
-                      pw.Padding(
-                        padding: const pw.EdgeInsets.all(8.0),
-                        child: pw.Center(
-                          child: pw.Text(""),
-                        ),
-                      ),
+                      pw.SizedBox.shrink(),
                       pw.Padding(
                         padding: const pw.EdgeInsets.all(8.0),
                         child: pw.Center(
@@ -164,6 +217,7 @@ class SchemaGenerator {
                           ),
                         ),
                       ),
+                      pw.SizedBox.shrink(),
                     ],
                   ),
               ],
@@ -171,22 +225,33 @@ class SchemaGenerator {
           ],
         ),
         pw.SizedBox(height: 15),
-        if (Schema.nbrCablesPbo > 0)
-          pw.Container(
-              padding: const pw.EdgeInsets.all(5),
-              decoration: pw.BoxDecoration(
-                color: PdfColors.amber300,
-                border: pw.Border.all(color: PdfColors.black, width: 1),
+        pw.Row(
+          mainAxisAlignment: pw.MainAxisAlignment.start,
+          crossAxisAlignment: pw.CrossAxisAlignment.start,
+          children: [
+            if (Schema.nbrCablesPbo > 0)
+              pw.Container(
+                padding: const pw.EdgeInsets.all(5),
+                decoration: pw.BoxDecoration(
+                  color: PdfColors.amber300,
+                  border: pw.Border.all(color: PdfColors.black, width: 1),
+                ),
+                child: pw.Text(
+                  Schema.nbrCablesPbo >= 3 ? "Cable 48FO" : "Cable ${Schema.nbrCablesPbo * 12}FO",
+                  style: const pw.TextStyle(
+                    fontSize: 12,
+                    color: PdfColors.black,
+                  ),
+                ),
               ),
-              child: Schema.nbrCablesPbo >= 3
-            ? pw.Text("Cable 48FO")
-            : pw.Text("Cable ${Schema.nbrCablesPbo * 12}FO"),
-          ),
-        pw.SizedBox(height: 15),
-        pw.Image(
-          legendImg,
-          width: 200,
-          height: 150,
+            pw.SizedBox(width: 15),
+            pw.Image(
+              legendImg,
+              width: 200,
+              height: 150,
+              fit: pw.BoxFit.contain,
+            ),
+          ],
         ),
       ],
     );
