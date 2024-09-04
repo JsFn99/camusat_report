@@ -18,6 +18,10 @@ class SchemaGenerator {
       (await rootBundle.load('images/circle.png')).buffer.asUint8List(),
     );
 
+    final legendImg = pw.MemoryImage(
+      (await rootBundle.load('images/legend.png')).buffer.asUint8List(),
+    );
+
     final triangleImg = pw.MemoryImage(
       (await rootBundle.load('images/triangle.png')).buffer.asUint8List(),
     );
@@ -36,134 +40,155 @@ class SchemaGenerator {
     }
 
     // Create the table
-    return pw.Stack(
-      // alignment: pw.Alignment.center,
+    return pw.Column(
       children: [
-        // Table with rows and content
-        pw.Table(
-          border: pw.TableBorder.all(width: 0),
-          columnWidths: {
-            0: const pw.FlexColumnWidth(1),
-            1: const pw.FlexColumnWidth(2),
-            2: const pw.FlexColumnWidth(1),
-            3: const pw.FlexColumnWidth(2),
-          },
+        pw.Stack(
+          alignment: pw.Alignment.center,
           children: [
-            // Iterate over the floors from top (highest) to bottom (RDC)
-            for (int i = totalFloors - 1; i >= 0 ; i--)
-              pw.TableRow(
-                children: [
-                  // First column: Floor number with ordinal suffix
-                  pw.Padding(
-                    padding: const pw.EdgeInsets.all(8.0),
-                    child: pw.Center(
-                      child: pw.Text(
-                        // getOrdinalSuffix(i),
-                        getOrdinalSuffix(i),
-                        style: const pw.TextStyle(
-                          fontSize: 12,
-                          color: PdfColors.red,
+            // Table with rows and content
+            pw.Table(
+              border: pw.TableBorder.all(width: 0),
+              columnWidths: {
+                0: const pw.FlexColumnWidth(1),
+                1: const pw.FlexColumnWidth(2),
+                2: const pw.FlexColumnWidth(1),
+                3: const pw.FlexColumnWidth(2),
+              },
+              children: [
+                // Iterate over the floors from top (highest) to bottom (RDC)
+                for (int i = totalFloors - 1; i >= 0 ; i--)
+                  pw.TableRow(
+                    children: [
+                      // First column: Floor number with ordinal suffix
+                      pw.Padding(
+                        padding: const pw.EdgeInsets.all(8.0),
+                        child: pw.Center(
+                          child: pw.Text(
+                            // getOrdinalSuffix(i),
+                            getOrdinalSuffix(i),
+                            style: const pw.TextStyle(
+                              fontSize: 12,
+                              color: PdfColors.red,
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ),
 
-                  // Second column: Nature of the floor (B2B or House)
-                  pw.Padding(
-                    padding: const pw.EdgeInsets.all(8.0),
-                    child: pw.Center(
-                      child: pw.Image(
-                        Schema.b2bLocations.containsKey(i)
-                            ? companyImg
-                            : houseImg,
-                        width: Schema.b2bLocations.containsKey(i) ? 25 : 35,
-                        height: Schema.b2bLocations.containsKey(i) ? 25 : 35,
-                      ),
-                    ),
-                  ),
-
-                  // Third column: Grey background with circle and triangle images
-                  pw.Container(
-                    height: 40,
-                    color: PdfColors.grey,
-                    child: pw.Stack(
-                      alignment: pw.Alignment.center,
-                      children: [
-                        if (maxPboFloor >= i)
-                          pw.Image(
-                            redLineImg,
+                      // Second column: Nature of the floor (B2B or House)
+                      pw.Padding(
+                        padding: const pw.EdgeInsets.all(8.0),
+                        child: pw.Center(
+                          child: pw.Image(
+                            Schema.b2bLocations.containsKey(i)
+                                ? companyImg
+                                : houseImg,
+                            width: Schema.b2bLocations.containsKey(i) ? 25 : 35,
+                            height: Schema.b2bLocations.containsKey(i) ? 25 : 35,
+                            fit: pw.BoxFit.contain,
                           ),
-                        if (Schema.pbiLocation == 'Facade' && i == 0)
-                          pw.Image(
+                        ),
+                      ),
+
+                      // Third column: Grey background with circle and triangle images
+                      pw.Container(
+                        height: 40,
+                        color: PdfColors.grey,
+                        child: pw.Stack(
+                          alignment: pw.Alignment.center,
+                          children: [
+                            if (maxPboFloor >= i)
+                              pw.Image(
+                                redLineImg,
+                              ),
+                            if (Schema.pbiLocation == 'Facade' && i == 0)
+                              pw.Image(
+                                circleImg,
+                                width: 15,
+                                height: 15,
+                              ),
+                            if (Schema.pboLocations.contains(i))
+                              pw.Image(
+                                triangleImg,
+                                width: 20,
+                                height: 20,
+                              ),
+                          ],
+                        ),
+                      ),
+
+                      // Fourth column: Same as second, includes B2B or House location
+                      pw.Padding(
+                        padding: const pw.EdgeInsets.all(8.0),
+                        child: pw.Center(
+                          child: pw.Image(
+                            Schema.b2bLocations.containsKey(i)
+                                ? companyImg
+                                : houseImg,
+                            width: Schema.b2bLocations.containsKey(i) ? 25 : 35,
+                            height: Schema.b2bLocations.containsKey(i) ? 25 : 35,
+                            fit: pw.BoxFit.contain,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                if (Schema.pbiLocation == "Sous-sol")
+                  pw.TableRow(
+                    children: [
+                      pw.Padding(
+                        padding: const pw.EdgeInsets.all(8.0),
+                        child: pw.Center(
+                          child: pw.Text(
+                            'Sous-sol',
+                            style: const pw.TextStyle(
+                              fontSize: 12,
+                              color: PdfColors.red,
+                            ),
+                          ),
+                        ),
+                      ),
+                      pw.Padding(
+                        padding: const pw.EdgeInsets.all(8.0),
+                        child: pw.Center(
+                          child: pw.Text(""),
+                        ),
+                      ),
+                      pw.Padding(
+                        padding: const pw.EdgeInsets.all(8.0),
+                        child: pw.Center(
+                          child: pw.Image(
                             circleImg,
                             width: 15,
                             height: 15,
+                            fit: pw.BoxFit.contain,
                           ),
-                        if (Schema.pboLocations.contains(i))
-                          pw.Image(
-                            triangleImg,
-                            width: 20,
-                            height: 20,
-                          ),
-                      ],
-                    ),
-                  ),
-
-                  // Fourth column: Same as second, includes B2B or House location
-                  pw.Padding(
-                    padding: const pw.EdgeInsets.all(8.0),
-                    child: pw.Center(
-                      child: pw.Image(
-                        Schema.b2bLocations.containsKey(i)
-                            ? companyImg
-                            : houseImg,
-                        width: Schema.b2bLocations.containsKey(i) ? 25 : 35,
-                        height: Schema.b2bLocations.containsKey(i) ? 25 : 35,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            if (Schema.pbiLocation == "Sous-sol")
-              pw.TableRow(
-                children: [
-                  pw.Padding(
-                    padding: const pw.EdgeInsets.all(8.0),
-                    child: pw.Center(
-                      child: pw.Text(
-                        'Sous-sol',
-                        style: const pw.TextStyle(
-                          fontSize: 12,
-                          color: PdfColors.red,
                         ),
                       ),
-                    ),
+                    ],
                   ),
-                  pw.Padding(
-                    padding: const pw.EdgeInsets.all(8.0),
-                    child: pw.Center(
-                      child: pw.Text(""),
-                    ),
-                  ),
-                  pw.Padding(
-                    padding: const pw.EdgeInsets.all(8.0),
-                    child: pw.Center(
-                      child: pw.Image(
-                        circleImg,
-                        width: 15,
-                        height: 15,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              ],
+            ),
           ],
+        ),
+        pw.SizedBox(height: 15),
+        if (Schema.nbrCablesPbo > 0)
+          pw.Container(
+              padding: const pw.EdgeInsets.all(5),
+              decoration: pw.BoxDecoration(
+                color: PdfColors.amber300,
+                border: pw.Border.all(color: PdfColors.black, width: 1),
+              ),
+              child: Schema.nbrCablesPbo >= 3
+            ? pw.Text("Cable 48FO")
+            : pw.Text("Cable ${Schema.nbrCablesPbo * 12}FO"),
+          ),
+        pw.SizedBox(height: 15),
+        pw.Image(
+          legendImg,
+          width: 200,
+          height: 150,
         ),
       ],
     );
   }
 }
-
-// cables pbo if cable pbo == 1 => 12FO else == 2 => 24FO else >= 3 => 48FO
-// show the cable pbo under the table
-// show the legend image under the table images/legend.png
