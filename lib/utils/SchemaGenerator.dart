@@ -77,8 +77,8 @@ class SchemaGenerator {
                         Schema.b2bLocations.containsKey(i)
                             ? companyImg
                             : houseImg,
-                        width: Schema.b2bLocations.containsKey(i) ? 30 : 40,
-                        height: Schema.b2bLocations.containsKey(i) ? 30 : 40,
+                        width: Schema.b2bLocations.containsKey(i) ? 25 : 35,
+                        height: Schema.b2bLocations.containsKey(i) ? 25 : 35,
                       ),
                     ),
                   ),
@@ -118,8 +118,8 @@ class SchemaGenerator {
                         Schema.b2bLocations.containsKey(i)
                             ? companyImg
                             : houseImg,
-                        width: Schema.b2bLocations.containsKey(i) ? 30 : 40,
-                        height: Schema.b2bLocations.containsKey(i) ? 30 : 40,
+                        width: Schema.b2bLocations.containsKey(i) ? 25 : 35,
+                        height: Schema.b2bLocations.containsKey(i) ? 25 : 35,
                       ),
                     ),
                   ),
