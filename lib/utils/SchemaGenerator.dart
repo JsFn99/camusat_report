@@ -53,7 +53,6 @@ class SchemaGenerator {
         pw.Stack(
           alignment: pw.Alignment.center,
           children: [
-            // Table with rows and content
             pw.Table(
               border: pw.TableBorder.all(width: 0),
               columnWidths: {
@@ -63,11 +62,9 @@ class SchemaGenerator {
                 3: const pw.FlexColumnWidth(2),
               },
               children: [
-                // Iterate over the floors from top (highest) to bottom (RDC)
                 for (int i = totalFloors - 1; i >= 0; i--)
                   pw.TableRow(
                     children: [
-                      // First column: Floor number with ordinal suffix
                       pw.Padding(
                         padding: const pw.EdgeInsets.all(8.0),
                         child: pw.Center(
@@ -80,19 +77,10 @@ class SchemaGenerator {
                                   color: PdfColors.red,
                                 ),
                               ),
-                              if (getOrdinalSuffix(i) == 'RDC')
-                                pw.Image(
-                                  cableImg,
-                                  width: 25,
-                                  height: 25,
-                                  fit: pw.BoxFit.contain,
-                                ),
                             ],
                           ),
                         ),
                       ),
-
-                      // Second column: Nature of the floor (B2B or House)
                       pw.Padding(
                         padding: const pw.EdgeInsets.all(8.0),
                         child: pw.Center(
@@ -100,16 +88,12 @@ class SchemaGenerator {
                             Schema.b2bLocations.containsKey(i)
                                 ? companyImg
                                 : houseImg,
-                            width:
-                            Schema.b2bLocations.containsKey(i) ? 25 : 35,
-                            height:
-                            Schema.b2bLocations.containsKey(i) ? 25 : 35,
+                            width: Schema.b2bLocations.containsKey(i) ? 25 : 35,
+                            height: Schema.b2bLocations.containsKey(i) ? 25 : 35,
                             fit: pw.BoxFit.contain,
                           ),
                         ),
                       ),
-
-                      // Third column: Grey background with circle and triangle images
                       pw.Container(
                         height: 50,
                         color: PdfColors.grey,
@@ -131,8 +115,6 @@ class SchemaGenerator {
                           ],
                         ),
                       ),
-
-                      // Fourth column: Same as second, includes B2B or House location
                       pw.Padding(
                         padding: const pw.EdgeInsets.all(8.0),
                         child: pw.Center(
@@ -140,10 +122,8 @@ class SchemaGenerator {
                             Schema.b2bLocations.containsKey(i)
                                 ? companyImg
                                 : houseImg,
-                            width:
-                            Schema.b2bLocations.containsKey(i) ? 25 : 35,
-                            height:
-                            Schema.b2bLocations.containsKey(i) ? 25 : 35,
+                            width: Schema.b2bLocations.containsKey(i) ? 25 : 35,
+                            height: Schema.b2bLocations.containsKey(i) ? 25 : 35,
                             fit: pw.BoxFit.contain,
                           ),
                         ),
@@ -155,12 +135,11 @@ class SchemaGenerator {
                     pw.Padding(
                       padding: const pw.EdgeInsets.all(8.0),
                       child: pw.Center(
-                        child: pw.Text(
-                          '',
-                          style: const pw.TextStyle(
-                            fontSize: 12,
-                            color: PdfColors.red,
-                          ),
+                        child: pw.Image(
+                          cableImg,
+                          width: 30,
+                          height: 30,
+                          fit: pw.BoxFit.contain,
                         ),
                       ),
                     ),
