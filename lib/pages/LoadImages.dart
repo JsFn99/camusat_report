@@ -43,9 +43,6 @@ class _LoadImagesState extends State<LoadImages> {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-    bool allDataLoaded = imageLoaded.values.every((loaded) => loaded);
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Ajouter des Photos'),

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:camusat_report/models/schema.dart';
 import 'package:camusat_report/utils/SchemaGenerator.dart';
 import 'package:pdf/pdf.dart';
-import 'dart:typed_data';
 import 'package:pdf/widgets.dart' as pw;
 
 class GenerateSchema extends StatefulWidget {
@@ -13,16 +12,11 @@ class GenerateSchema extends StatefulWidget {
 }
 
 class _GenerateSchemaState extends State<GenerateSchema> {
-  int _nombreEtages = 1;
-  List<String> _pboLocations = [];
   List<String> _b2bLocations = [];
-  String _selectedPbiLocation = "Facade";
-  int _cablesPbo = 1;
 
   final List<String> _b2b = ['RDC', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
   final List<String> _pbiOptions = ['Sous-sol', 'Facade'];
   final List<String> _pboOptions = ['RDC', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
-  Uint8List? _pdfBytes;
 
   @override
   Widget build(BuildContext context) {
@@ -86,12 +80,9 @@ class _GenerateSchemaState extends State<GenerateSchema> {
                   );
                 }).toList(),
               ),
-              const SizedBox(height: 16.0),
-
+              const SizedBox(height: 17.0),
               const Text('Emplacement PBO :'),
-
               const SizedBox(height: 16.0),
-
               Wrap(
                 children: _pboOptions.map((option) {
                   bool isSelected = Schema.pboLocations.contains(option == "RDC" ? 0 : int.parse(option));
@@ -138,7 +129,7 @@ class _GenerateSchemaState extends State<GenerateSchema> {
                 keyboardType: TextInputType.number,
                 onChanged: (value) {
                   setState(() {
-                    BuildingReport.nbrCablesPBO = int.parse(value);
+                    Schema.nbrCablesPbo = int.parse(value);
                   });
                 },
               ),
@@ -190,9 +181,6 @@ class _GenerateSchemaState extends State<GenerateSchema> {
                   Schema.b2bLocations = {
                     for (var location in _b2bLocations) _b2b.indexOf(location): location
                   };
-                  // Schema.pboLocations = {
-                  //   for (var location in _pboLocations) _pboOptions.indexOf(location): location
-                  // };
 
                   BuildingReport.schema = await SchemaGenerator().generateSchema();
                   ScaffoldMessenger.of(context).showSnackBar(

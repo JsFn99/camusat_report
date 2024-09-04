@@ -64,7 +64,7 @@ class _BuildingState extends State<Building> {
     if (BuildingReport.imagePBI == null) {
       missingItems.add('Image PBI');
     }
-    if (BuildingReport.pbiLocation!.isEmpty) {
+    if (BuildingReport.pbiLocation.isEmpty) {
       missingItems.add('PBI Location');
     }
     if (BuildingReport.imageTestDeSignal == null) {
@@ -154,7 +154,6 @@ class _BuildingState extends State<Building> {
 
   void showPboDialog(BuildContext context) {
     floor = "";
-    File? img;
     showDialog(
         context: context,
         builder: (BuildContext context) {

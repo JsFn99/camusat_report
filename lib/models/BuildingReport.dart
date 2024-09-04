@@ -15,7 +15,7 @@ class BuildingReport {
   static File? imageTestDeSignal;          // Image test de signal
   static int splitere = -1;                    // Splitere
   static String pbiLocation = "Sous-Sol";              // PBI Location
-  static int nbrCablesPBO = 0;                // Nombre de câbles PBO
+
   static void reset() {
     nomPlaque = "";                // NOM DE LA PLAQUE
     adresse = "";                  // Adresse
