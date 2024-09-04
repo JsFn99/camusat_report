@@ -233,7 +233,7 @@ class SchemaGenerator {
               pw.Container(
                 padding: const pw.EdgeInsets.all(5),
                 decoration: pw.BoxDecoration(
-                  color: PdfColors.amber300,
+                  color: PdfColors.amber50,
                   border: pw.Border.all(color: PdfColors.black, width: 1),
                 ),
                 child: pw.Text(
