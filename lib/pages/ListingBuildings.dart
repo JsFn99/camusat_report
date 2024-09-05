@@ -3,6 +3,8 @@ import 'package:camusat_report/models/schema.dart';
 import 'package:flutter/material.dart';
 
 class ListingBuildings extends StatefulWidget {
+  const ListingBuildings({super.key});
+
   @override
   _ListingBuildingsState createState() => _ListingBuildingsState();
 }

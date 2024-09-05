@@ -113,7 +113,7 @@ class _BuildingState extends State<Building> {
         context,
         MaterialPageRoute(
           builder: (context) => PdfPreviewer(
-            pdfBytes: data, nomPlaque: '${BuildingReport.nom}',
+            pdfBytes: data, nomPlaque: BuildingReport.nom,
           ),
         ),
       );

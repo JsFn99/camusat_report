@@ -24,20 +24,22 @@ class MyApp extends StatelessWidget {
       darkTheme: FlexThemeData.dark(scheme: FlexScheme.hippieBlue),
       themeMode: ThemeMode.system,
       routes: {
-        "/home": (context) => ListingBuildings(),
-        "/Excels": (context) => Excels(),
+        "/home": (context) => const ListingBuildings(),
+        "/Excels": (context) => const Excels(),
         "/building": (context) => const Building(),
-        "/loadImages": (context) => LoadImages(),
-        "/generateSchema": (context) => GenerateSchema(),
-        "/Reports": (context) => Reports(),
-        "/LoadingPageWait": (context) => LoadingPageWait(),
+        "/loadImages": (context) => const LoadImages(),
+        "/generateSchema": (context) => const GenerateSchema(),
+        "/Reports": (context) => const Reports(),
+        "/LoadingPageWait": (context) => const LoadingPageWait(),
       },
-      home: LoadingPage(),
+      home: const LoadingPage(),
     );
   }
 }
 
 class LoadingPage extends StatefulWidget {
+  const LoadingPage({super.key});
+
   @override
   _LoadingPageState createState() => _LoadingPageState();
 }

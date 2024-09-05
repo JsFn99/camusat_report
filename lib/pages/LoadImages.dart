@@ -5,6 +5,8 @@ import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 
 class LoadImages extends StatefulWidget {
+  const LoadImages({super.key});
+
   @override
   _LoadImagesState createState() => _LoadImagesState();
 }

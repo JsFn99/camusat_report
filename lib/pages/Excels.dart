@@ -10,6 +10,8 @@ import 'ListingBuildings.dart';
 import 'Reports.dart';
 
 class Excels extends StatefulWidget {
+  const Excels({super.key});
+
   @override
   _ExcelsState createState() => _ExcelsState();
 }
@@ -233,7 +235,7 @@ class _ExcelsState extends State<Excels> {
 }
 
 final Map<String, WidgetBuilder> routes = {
-  '/home': (context) => ListingBuildings(),
-  '/Excels': (context) => Excels(),
-  '/Reports': (context) => Reports(),
+  '/home': (context) => const ListingBuildings(),
+  '/Excels': (context) => const Excels(),
+  '/Reports': (context) => const Reports(),
 };

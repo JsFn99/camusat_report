@@ -34,6 +34,7 @@ class DataProviderImpl implements IDataProvider {
     }
   }
 
+  @override
   Future<void> deleteFile(String filePath) async {
     try {
       File file = File(filePath);

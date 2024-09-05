@@ -189,7 +189,7 @@ class Reportgenerator {
           children: [
             titleBorder(title: "SITUATION GEOGRAPHIQUE"),
             spacing(20),
-            titleBorder(title: "${BuildingReport.nomPlaque}", width: 300, background: PdfColors.green300),
+            titleBorder(title: BuildingReport.nomPlaque, width: 300, background: PdfColors.green300),
             spacing(20),
             placeImage(BuildingReport.screenSituationGeographique!, width: 400, height: 500),
             spacing(20),

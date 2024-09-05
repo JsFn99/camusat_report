@@ -44,7 +44,7 @@ class SchemaGenerator {
     String getOrdinalSuffix(int number) {
       if (number == 0) return 'RDC';
       if (number == 1) return '1er';
-      return '${number}ème';
+      return '$numberème';
     }
 
     // Create the table

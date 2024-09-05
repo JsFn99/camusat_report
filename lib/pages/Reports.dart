@@ -7,6 +7,8 @@ import 'package:flutter_pdfview/flutter_pdfview.dart';
 import '../widgets/BottomNavBar.dart';
 
 class Reports extends StatefulWidget {
+  const Reports({super.key});
+
   @override
   _ReportsState createState() => _ReportsState();
 }
@@ -120,7 +122,7 @@ class _ReportsState extends State<Reports> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           "Rapports",
           style: TextStyle(
             fontSize: 22,
@@ -142,18 +144,18 @@ class _ReportsState extends State<Reports> {
                   color: Colors.grey.withOpacity(0.3),
                   spreadRadius: 2,
                   blurRadius: 5,
-                  offset: Offset(0, 3),
+                  offset: const Offset(0, 3),
                 ),
               ],
             ),
             child: ListTile(
-              leading: Icon(Icons.insert_drive_file, size: 30, color: Colors.blueAccent),
+              leading: const Icon(Icons.insert_drive_file, size: 30, color: Colors.blueAccent),
               title: Row(
                 children: [
                   Expanded(
                     child: Text(
                       reportTitles[index],
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.black87,
                       ),

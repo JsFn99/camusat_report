@@ -7,12 +7,14 @@ import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 
 class GenerateSchema extends StatefulWidget {
+  const GenerateSchema({super.key});
+
   @override
   _GenerateSchemaState createState() => _GenerateSchemaState();
 }
 
 class _GenerateSchemaState extends State<GenerateSchema> {
-  List<String> _b2bLocations = [];
+  final List<String> _b2bLocations = [];
 
   final List<String> _b2b = ['RDC', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
   final List<String> _pbiOptions = ['Sous-sol', 'Facade'];
