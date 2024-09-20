@@ -24,11 +24,13 @@ class Reportgenerator {
 
   Future<void> generate() async {
     pdf = pw.Document();
-    final ByteData camusatLogoData =
-        await rootBundle.load('images/camusat.png');
+    final ByteData camusatLogoData = await rootBundle.load('images/camusat.png');
     final ByteData orangeLogoData = await rootBundle.load('images/orange.png');
+    final ByteData legendData = await rootBundle.load('images/legend.png');
     final camusatLogo = pw.MemoryImage(camusatLogoData.buffer.asUint8List());
     final orangeLogo = pw.MemoryImage(orangeLogoData.buffer.asUint8List());
+    final legend = pw.MemoryImage(legendData.buffer.asUint8List());
+
 
     // Report header
     pw.Widget Header() {
@@ -187,7 +189,11 @@ class Reportgenerator {
           children: [
             titleBorder(title: "SITUATION GEOGRAPHIQUE"),
             spacing(20),
-            placeImage(BuildingReport.screenSituationGeographique!),
+            titleBorder(title: BuildingReport.nomPlaque, width: 300, background: PdfColors.green300),
+            spacing(20),
+            placeImage(BuildingReport.screenSituationGeographique!, width: 400, height: 500),
+            spacing(20),
+            pw.Image(legend, width: 200, height: 100),
           ],
         ),
       );
@@ -202,7 +208,6 @@ class Reportgenerator {
             titleBorder(title: "SITUATION DE CABLAGE"),
             spacing(20),
             BuildingReport.schema!,
-            // TODO : Render schema ;
           ],
         ),
       );
@@ -210,21 +215,35 @@ class Reportgenerator {
 
     pw.Widget widgetListPBO() {
       var listPbo = BuildingReport.imagesPBO.entries;
+
+      String getPboLabel(int key) {
+          return key == 0 ? 'PBO "RDC"' :
+          'PBO "Etage $key"';
+      }
+
       return pw.GridView(
         crossAxisCount: BuildingReport.imagesPBO.length > 3 ? 3 : BuildingReport.imagesPBO.length,
         crossAxisSpacing: 5,
         mainAxisSpacing: 5,
         childAspectRatio: 1,
         children: listPbo.map((entry) {
+          // Use the function to get the PBO label
+          final label = getPboLabel(int.parse(entry.key));
+
           return pw.Container(
             alignment: pw.Alignment.center,
             padding: const pw.EdgeInsets.all(4),
             child: pw.Column(
               mainAxisAlignment: pw.MainAxisAlignment.center,
               children: [
-                titleBorder(title: entry.key, padding: 2, width: 80),
+                titleBorder(
+                    title: label,
+                    padding: 2,
+                    width: 100,
+                    background: PdfColors.grey300
+                ),
                 spacing(5),
-                placeImage(entry.value, width: 80, height: 100),
+                placeImage(entry.value, width: 110, height: 140),
               ],
             ),
           );
@@ -246,7 +265,7 @@ class Reportgenerator {
               padding: 2,
             ),
             spacing(10),
-            placeImage(BuildingReport.imagePBI!, width: 80, height: 100),
+            placeImage(BuildingReport.imagePBI!, width: 110, height: 140),
             spacing(10),
             pw.Center(child: widgetListPBO()),
           ],

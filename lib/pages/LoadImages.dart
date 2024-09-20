@@ -5,6 +5,8 @@ import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 
 class LoadImages extends StatefulWidget {
+  const LoadImages({super.key});
+
   @override
   _LoadImagesState createState() => _LoadImagesState();
 }
@@ -43,11 +45,9 @@ class _LoadImagesState extends State<LoadImages> {
 
   @override
   Widget build(BuildContext context) {
-    bool allDataLoaded = imageLoaded.values.every((loaded) => loaded);
-
     return Scaffold(
       appBar: AppBar(
-        title: Text('Ajouter des Photos'),
+        title: const Text('Ajouter des Photos'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -57,32 +57,32 @@ class _LoadImagesState extends State<LoadImages> {
             buildSection(
               title: 'Photo de l\'immeuble',
               section: 'building',
-              imageLoaded: imageLoaded['building']!,
+              // imageLoaded: imageLoaded['building']!,
+              imageLoaded: BuildingReport.imageImmeuble != null,
             ),
             buildSection(
               title: 'Verticalité PBI',
               section: 'verticality',
-              imageLoaded: imageLoaded['verticality']!,
+              imageLoaded: BuildingReport.imagePBI != null,
             ),
             buildSection(
               title: 'Test de signal',
               section: 'signal',
-              imageLoaded: imageLoaded['signal']!,
+              imageLoaded: BuildingReport.imageTestDeSignal != null,
             ),
             SizedBox.fromSize(size: const Size.fromHeight(16.0)),
-            if (allDataLoaded)
-              Center(
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.pop(context, BuildingReport);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                    backgroundColor: Colors.redAccent,
-                  ),
-                  child: const Text('Valider'),
+            Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context, BuildingReport);
+                },
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                  backgroundColor: Colors.green[400],
                 ),
+                child: const Text('Valider'),
               ),
+            ),
           ],
         ),
       ),
@@ -94,6 +94,7 @@ class _LoadImagesState extends State<LoadImages> {
     required String section,
     required bool imageLoaded,
   }) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Padding(
       padding: const EdgeInsets.only(bottom: 16.0),
       child: Column(
@@ -114,7 +115,7 @@ class _LoadImagesState extends State<LoadImages> {
                 icon: const Icon(Icons.camera_alt),
                 label: const Text('Prendre Photo'),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: imageLoaded ? Colors.greenAccent : Colors.blueAccent,
+                  backgroundColor: imageLoaded ? Colors.green[300] : colorScheme.primary,
                 ),
               ),
               const Text('OU', style: TextStyle(fontSize: 14.0)),
@@ -125,7 +126,7 @@ class _LoadImagesState extends State<LoadImages> {
                 icon: const Icon(Icons.photo_library),
                 label: const Text('Charger Image'),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: imageLoaded ? Colors.greenAccent : Colors.blueAccent,
+                  backgroundColor: imageLoaded ? Colors.green[300] : colorScheme.primary,
                 ),
               ),
             ],

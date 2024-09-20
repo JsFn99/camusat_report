@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:excel/excel.dart';
-import 'package:path_provider/path_provider.dart';
 
 import 'IDataProvider.dart';
 
@@ -22,8 +21,7 @@ class DataProviderImpl implements IDataProvider {
             'name': row[5]?.value?.toString() ?? 'Unknown',
             'id': row[11]?.value?.toString() ?? 'Unknown',
             'nomPlaque': row[9]?.value?.toString() ?? 'Unknown',
-            'adresse':
-            "${row[2]?.value?.toString() ?? ''} ${row[5]?.value?.toString() ?? ''}",
+            'adresse': "${row[2]?.value?.toString() ?? ''} ${row[5]?.value?.toString() ?? ''}",
             'lat': row[7]?.value?.toString() ?? 'Unknown',
             'long': row[6]?.value?.toString() ?? 'Unknown',
           });
@@ -36,6 +34,7 @@ class DataProviderImpl implements IDataProvider {
     }
   }
 
+  @override
   Future<void> deleteFile(String filePath) async {
     try {
       File file = File(filePath);

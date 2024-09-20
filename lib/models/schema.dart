@@ -1,19 +1,16 @@
-import 'dart:io';
 
 class Schema{
-  int nbrEtages = 1;
-  Map<int , String> b2bLocations = {};
-  Map<int, String> pboLocations = {};
-  int pbiLocation = -2;
-  int cablePbo = -2;
+  static  int nbrEtages = 1;
+  static Map<int , String> b2bLocations = {};
+  static List<int> pboLocations = [];
+  static String pbiLocation = "Facade";
+  static int nbrCablesPbo = 0;
 
-  bool isValid() {
-    if (pboLocations.isEmpty ||
-        pbiLocation == -2 ||
-        cablePbo == -2
-    ) {
-      return false;
-    }
-    return true;
+  static void reset() {
+    nbrEtages = 1;
+    nbrCablesPbo = 0;
+    b2bLocations = {};
+    pboLocations = [];
+    pbiLocation = "Facade";
   }
 }

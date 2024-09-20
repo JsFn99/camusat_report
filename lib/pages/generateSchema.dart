@@ -4,27 +4,21 @@ import 'package:flutter/material.dart';
 import 'package:camusat_report/models/schema.dart';
 import 'package:camusat_report/utils/SchemaGenerator.dart';
 import 'package:pdf/pdf.dart';
-import 'dart:typed_data';
 import 'package:pdf/widgets.dart' as pw;
 
 class GenerateSchema extends StatefulWidget {
+  const GenerateSchema({super.key});
+
   @override
   _GenerateSchemaState createState() => _GenerateSchemaState();
 }
 
 class _GenerateSchemaState extends State<GenerateSchema> {
-  int _nombreEtages = 1;
-  List<String> _pboLocations = [];
-  List<String> _b2bLocations = [];
-  String _selectedPbiLocation = "Facade";
-  int _cablesPbo = 1;
+  final List<String> _b2bLocations = [];
 
   final List<String> _b2b = ['RDC', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
   final List<String> _pbiOptions = ['Sous-sol', 'Facade'];
   final List<String> _pboOptions = ['RDC', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
-
-  late Schema schema = Schema();
-  Uint8List? _pdfBytes;
 
   @override
   Widget build(BuildContext context) {
@@ -50,18 +44,16 @@ class _GenerateSchemaState extends State<GenerateSchema> {
                         icon: const Icon(Icons.remove),
                         onPressed: () {
                           setState(() {
-                            if (_nombreEtages > 1) _nombreEtages--;
-                            schema.nbrEtages = _nombreEtages;
+                            if (Schema.nbrEtages > 1) Schema.nbrEtages--;
                           });
                         },
                       ),
-                      Text('$_nombreEtages'),
+                      Text('${Schema.nbrEtages}'),
                       IconButton(
                         icon: const Icon(Icons.add),
                         onPressed: () {
                           setState(() {
-                            _nombreEtages++;
-                            schema.nbrEtages = _nombreEtages;
+                            Schema.nbrEtages++;
                           });
                         },
                       ),
@@ -70,11 +62,8 @@ class _GenerateSchemaState extends State<GenerateSchema> {
                 ],
               ),
               const SizedBox(height: 16.0),
-
               const Text('Emplacement des B2B :'),
-
               const SizedBox(height: 16.0),
-
               Wrap(
                 children: _b2b.map((option) {
                   bool isSelected = _b2bLocations.contains(option);
@@ -93,24 +82,21 @@ class _GenerateSchemaState extends State<GenerateSchema> {
                   );
                 }).toList(),
               ),
-              const SizedBox(height: 16.0),
-
+              const SizedBox(height: 17.0),
               const Text('Emplacement PBO :'),
-
               const SizedBox(height: 16.0),
-
               Wrap(
                 children: _pboOptions.map((option) {
-                  bool isSelected = _pboLocations.contains(option);
+                  bool isSelected = Schema.pboLocations.contains(option == "RDC" ? 0 : int.parse(option));
                   return ChoiceChip(
                     label: Text(option),
                     selected: isSelected,
                     onSelected: (selected) {
                       setState(() {
                         if (isSelected) {
-                          _pboLocations.remove(option);
+                          Schema.pboLocations.remove(option == "RDC" ? 0 : int.parse(option));
                         } else {
-                          _pboLocations.add(option);
+                          Schema.pboLocations.add(option == "RDC" ? 0 : int.parse(option));
                         }
                       });
                     },
@@ -124,8 +110,8 @@ class _GenerateSchemaState extends State<GenerateSchema> {
 
               DropdownButton<String>(
                 hint: const Text('Sélectionner emplacement PBI '),
-                value: _selectedPbiLocation,
-                items: _pbiOptions.map((String value) {
+                value: Schema.pbiLocation,
+                items: _pbiOptions.map((value) {
                   return DropdownMenuItem<String>(
                     value: value,
                     child: Text(value),
@@ -133,22 +119,19 @@ class _GenerateSchemaState extends State<GenerateSchema> {
                 }).toList(),
                 onChanged: (newValue) {
                   setState(() {
-                    _selectedPbiLocation = newValue!;
-                    schema.pbiLocation = _pbiOptions.indexOf(_selectedPbiLocation);
+                    Schema.pbiLocation = newValue!;
                   });
                 },
               ),
               const SizedBox(height: 16.0),
+              const Text('Nombre de câbles PBO:'),
+              const SizedBox(height: 16.0),
               TextField(
-                decoration: const InputDecoration(
-                  labelText: 'Câbles PBO',
-                  border: OutlineInputBorder(),
-                ),
+                decoration: const InputDecoration(labelText: 'Câbles pbo'),
                 keyboardType: TextInputType.number,
                 onChanged: (value) {
                   setState(() {
-                    _cablesPbo = int.tryParse(value) ?? 1;
-                    schema.cablePbo = int.tryParse(value) ?? 1;
+                    Schema.nbrCablesPbo = int.parse(value);
                   });
                 },
               ),
@@ -158,18 +141,11 @@ class _GenerateSchemaState extends State<GenerateSchema> {
                   padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 15.0),
                 ),
                 onPressed: () async {
-                  schema.b2bLocations = {for (int i = 0; i < _b2bLocations.length; i++) i + 1: _b2bLocations[i]};
-                  schema.pboLocations = {for (int i = 0; i < _pboLocations.length; i++) i + 1: _pboLocations[i]};
-                  if (!schema.isValid()) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Veuillez remplir tous les champs requis .')),
-                    );
-                    return;
-                  }
-                  BuildingReport.schema = await SchemaGenerator().generateSchema(schema);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Le schéma a été généré .')),
-                  );
+                  Schema.b2bLocations = {for (int i = 0; i < _b2bLocations.length; i++) i + 1: _b2bLocations[i]};
+                  // Schema.pboLocations = {for (int i = 0; i < _pboLocations.length; i++) i + 1: _pboLocations[i]};
+
+                  BuildingReport.schema = await SchemaGenerator().generateSchema();
+
                   final schemaPage = pw.Document();
                   schemaPage.addPage(
                     pw.Page(
@@ -201,19 +177,16 @@ class _GenerateSchemaState extends State<GenerateSchema> {
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 15.0),
+                  backgroundColor: Colors.green[400],
                 ),
                 onPressed: () async {
-                  schema.b2bLocations = {for (int i = 0; i < _b2bLocations.length; i++) i + 1: _b2bLocations[i]};
-                  schema.pboLocations = {for (int i = 0; i < _pboLocations.length; i++) i + 1: _pboLocations[i]};
-                  if (!schema.isValid()) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Veuillez remplir tous les champs requis .')),
-                    );
-                    return;
-                  }
-                  BuildingReport.schema = await SchemaGenerator().generateSchema(schema);
+                  Schema.b2bLocations = {
+                    for (var location in _b2bLocations) _b2b.indexOf(location): location
+                  };
+
+                  BuildingReport.schema = await SchemaGenerator().generateSchema();
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Le schéma a été généré .')),
+                    const SnackBar(content: Text('Le schéma a été généré.')),
                   );
                   Navigator.pop(context);
                 },
